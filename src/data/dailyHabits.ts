@@ -1,0 +1,88 @@
+import type { DailyHabit } from '../types/daily'
+
+export const dailyHabits: DailyHabit[] = [
+  {
+    id: 'morning-review',
+    label: 'Morning Review',
+    description: 'Review your top 3 priorities for today. No devices for the first 5 minutes.',
+    block: 'morning',
+    durationMin: 10,
+  },
+  {
+    id: 'deep-work-1',
+    label: 'Deep Work Block 1',
+    description: 'Uninterrupted focus on your highest-leverage task. Phone on DND.',
+    block: 'morning',
+    durationMin: 90,
+  },
+  {
+    id: 'content-creation',
+    label: 'Content Creation',
+    description: 'Write, record, or design one piece of content that attracts your ideal client.',
+    block: 'morning',
+    durationMin: 30,
+  },
+  {
+    id: 'outreach',
+    label: 'Outreach & Connections',
+    description: 'Send 5 genuine messages. DMs, emails, or comments. No mass blasting.',
+    block: 'morning',
+    durationMin: 20,
+  },
+  {
+    id: 'midday-check',
+    label: 'Midday Check-In',
+    description: 'Quick pulse on progress. Adjust afternoon priorities if needed.',
+    block: 'midday',
+    durationMin: 10,
+  },
+  {
+    id: 'deep-work-2',
+    label: 'Deep Work Block 2',
+    description: 'Second focused session. Tackle the task you avoided this morning.',
+    block: 'midday',
+    durationMin: 90,
+  },
+  {
+    id: 'learning',
+    label: 'Skill Sharpening',
+    description: 'Read, listen, or watch one thing that directly improves your craft.',
+    block: 'midday',
+    durationMin: 20,
+  },
+  {
+    id: 'admin',
+    label: 'Admin & Comms',
+    description: 'Process inbox, invoices, and follow-ups. Batched, not reactive.',
+    block: 'midday',
+    durationMin: 30,
+  },
+  {
+    id: 'evening-review',
+    label: 'Evening Review',
+    description: 'What moved the needle today? Log one win and one lesson.',
+    block: 'evening',
+    durationMin: 15,
+  },
+  {
+    id: 'strategy-time',
+    label: 'Strategy Block',
+    description: 'Work ON the business, not in it. Planning, systems, or big-picture thinking.',
+    block: 'evening',
+    durationMin: 30,
+  },
+  {
+    id: 'wind-down',
+    label: 'Wind Down',
+    description: 'No screens 30 min before bed. Prep tomorrow\'s top 3.',
+    block: 'evening',
+    durationMin: 30,
+  },
+  {
+    id: 'gratitude',
+    label: 'Gratitude & Vision',
+    description: 'Write 3 things you\'re grateful for. Read your vision statement.',
+    block: 'evening',
+    durationMin: 5,
+  },
+]
