@@ -15,7 +15,7 @@ export function StrategyItem({ task, completed, locked, onToggle }: StrategyItem
         locked ? 'opacity-30 pointer-events-none' : completed ? 'opacity-50' : 'opacity-100'
       }`}
     >
-      <Checkbox checked={completed} onChange={onToggle} disabled={locked} />
+      <Checkbox checked={completed} onChange={() => onToggle()} disabled={locked} label={task.label} />
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2">
           <span className={`text-sm font-display ${completed ? 'line-through text-muted' : 'text-text'}`}>

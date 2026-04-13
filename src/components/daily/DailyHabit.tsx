@@ -14,7 +14,7 @@ export function DailyHabit({ habit, completed, onToggle }: DailyHabitProps) {
         completed ? 'opacity-50' : 'opacity-100'
       }`}
     >
-      <Checkbox checked={completed} onChange={onToggle} />
+      <Checkbox checked={completed} onChange={() => onToggle()} label={habit.label} />
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2">
           <span className={`text-sm font-display ${completed ? 'line-through text-muted' : 'text-text'}`}>

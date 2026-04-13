@@ -1,27 +1,27 @@
 interface ProgressBarProps {
-  value: number
-  color?: 'gold' | 'green' | 'blue'
-  showLabel?: boolean
+  value: number        // 0-100
+  label?: string
+  color?: string       // Tailwind bg class, default gold
 }
 
-export function ProgressBar({ value, color = 'gold', showLabel = false }: ProgressBarProps) {
-  const pct = Math.min(100, Math.max(0, Math.round(value * 100)))
-  const colors = {
-    gold: 'bg-gold',
-    green: 'bg-green',
-    blue: 'bg-blue',
-  }
+export function ProgressBar({ value, label, color = 'bg-gold' }: ProgressBarProps) {
+  const clamped = Math.min(100, Math.max(0, value))
+
   return (
-    <div className="flex items-center gap-3">
-      <div className="flex-1 h-1 bg-dim rounded-full overflow-hidden">
+    <div className="w-full">
+      {label && (
+        <div className="flex justify-between items-center mb-1">
+          <span className="font-mono text-[10px] text-muted uppercase tracking-widest">{label}</span>
+          <span className="font-mono text-[10px] text-muted">{Math.round(clamped)}%</span>
+        </div>
+      )}
+      <div className="h-1 w-full bg-dim rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all duration-300 ${colors[color]}`}
-          style={{ width: `${pct}%` }}
+          data-testid="progress-fill"
+          className={['h-full rounded-full transition-all duration-500', color].join(' ')}
+          style={{ width: `${clamped}%` }}
         />
       </div>
-      {showLabel && (
-        <span className="font-mono text-xs text-muted w-8 text-right">{pct}%</span>
-      )}
     </div>
   )
 }
