@@ -14,7 +14,7 @@ export function NextStepCard({ milestone }: NextStepCardProps) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="font-mono text-xs text-gold uppercase tracking-widest">Next Milestone</span>
-            <Badge label={milestone.category} color="gold" />
+            <Badge label={milestone.category} variant="strategy" />
           </div>
           <p className="font-display text-text">{milestone.title}</p>
           <p className="text-xs text-muted mt-1 leading-relaxed">{milestone.description}</p>

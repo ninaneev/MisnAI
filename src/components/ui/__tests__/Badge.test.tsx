@@ -9,17 +9,17 @@ describe('Badge', () => {
   })
 
   it('applies daily variant styling', () => {
-    render(<Badge label="DAILY" color="blue" />)
+    render(<Badge label="DAILY" variant="daily" />)
     expect(screen.getByText('DAILY')).toHaveClass('text-blue')
   })
 
   it('applies strategy variant styling', () => {
-    render(<Badge label="STRATEGY" color="gold" />)
+    render(<Badge label="STRATEGY" variant="strategy" />)
     expect(screen.getByText('STRATEGY')).toHaveClass('text-gold')
   })
 
   it('applies milestone variant styling', () => {
-    render(<Badge label="MILESTONE" color="purple" />)
+    render(<Badge label="MILESTONE" variant="milestone" />)
     expect(screen.getByText('MILESTONE')).toHaveClass('text-purple')
   })
 })

@@ -4,11 +4,11 @@ import { Badge } from '../components/ui/Badge'
 import { useUserStore } from '../stores/userStore'
 import { useMilestones } from '../hooks/useMilestones'
 
-const categoryColor = {
-  income: 'gold',
-  lifestyle: 'green',
-  impact: 'purple',
-  freedom: 'blue',
+const categoryVariant = {
+  income: 'strategy',
+  lifestyle: 'life',
+  impact: 'milestone',
+  freedom: 'daily',
 } as const
 
 const categoryLabel = {
@@ -46,7 +46,7 @@ export default function VisionPage() {
           {profile.visionGoals.map((goal) => (
             <div key={goal.id} className="bg-bg-surface border border-border rounded-lg p-4">
               <div className="flex items-center gap-2 mb-1">
-                <Badge label={categoryLabel[goal.category]} color={categoryColor[goal.category]} />
+                <Badge label={categoryLabel[goal.category]} variant={categoryVariant[goal.category]} />
               </div>
               <p className="font-display text-text">{goal.label}</p>
               <p className="text-xs text-muted mt-1 leading-relaxed">{goal.description}</p>

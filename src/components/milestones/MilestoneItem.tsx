@@ -3,11 +3,11 @@ import { Button } from '../ui/Button'
 import { formatDate } from '../../utils/dateUtils'
 import type { Milestone } from '../../types/milestone'
 
-const categoryColor = {
-  revenue: 'gold',
-  audience: 'blue',
-  product: 'purple',
-  personal: 'green',
+const categoryVariant = {
+  revenue: 'strategy',
+  audience: 'daily',
+  product: 'milestone',
+  personal: 'life',
 } as const
 
 interface MilestoneItemProps {
@@ -32,7 +32,7 @@ export function MilestoneItem({ milestone, completed, completedAt, onComplete }:
               <span className={`font-display text-sm ${completed ? 'text-muted line-through' : 'text-text'}`}>
                 {milestone.title}
               </span>
-              <Badge label={milestone.category} color={categoryColor[milestone.category]} />
+              <Badge label={milestone.category} variant={categoryVariant[milestone.category]} />
             </div>
             <p className="text-xs text-muted leading-relaxed">{milestone.description}</p>
             {milestone.targetValue && (

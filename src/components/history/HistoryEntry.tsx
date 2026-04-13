@@ -2,10 +2,10 @@ import { Badge } from '../ui/Badge'
 import { formatTime } from '../../utils/dateUtils'
 import type { HistoryEvent } from '../../hooks/useHistory'
 
-const typeColor = {
-  daily: 'blue',
-  strategy: 'gold',
-  milestone: 'green',
+const typeVariant = {
+  daily: 'daily',
+  strategy: 'strategy',
+  milestone: 'muted',
 } as const
 
 interface HistoryEntryProps {
@@ -18,7 +18,7 @@ export function HistoryEntry({ event }: HistoryEntryProps) {
       <span className="font-mono text-xs text-muted w-14 flex-shrink-0">
         {formatTime(event.completedAt)}
       </span>
-      <Badge label={event.type} color={typeColor[event.type]} />
+      <Badge label={event.type} variant={typeVariant[event.type]} />
       <span className="text-sm text-text truncate">{event.label}</span>
     </div>
   )
