@@ -3,6 +3,7 @@ import { Check, ChevronDown } from 'lucide-react'
 import { Badge } from '../components/ui/Badge'
 import { Card } from '../components/ui/Card'
 import { useDaily } from '../hooks/useDaily'
+import { useDailyContext } from '../hooks/useDailyContext'
 import { usePersonality } from '../hooks/usePersonality'
 import { useStrategy } from '../hooks/useStrategy'
 import { todayKey } from '../utils/dateUtils'
@@ -31,7 +32,9 @@ const tagAccent: Record<DailyHabitTag, string> = {
 }
 
 export default function DailyPage() {
-  const { byBlock, toggle, isComplete, completedToday, totalHabits, allDone } = useDaily()
+  const { byBlock, toggle, isComplete, completedToday, totalHabits, allDone, toggleStep, isStepComplete } =
+    useDaily()
+  const contextSteps = useDailyContext()
   const { nextUnlockedTask } = useStrategy()
   const { adaptation } = usePersonality()
   const [expandedId, setExpandedId] = useState<string | null>(null)
@@ -76,16 +79,16 @@ export default function DailyPage() {
         <div className="px-5 py-4">
           {adaptation ? (
             <div className="rounded-xl border border-border bg-bg-surface/80 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">Personality Adaptation</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">Personality Mode</p>
               <p className="mt-2 text-sm leading-relaxed text-text">
                 <span className="font-mono text-gold">{adaptation.label}</span> · {adaptation.blockDescriptions.morning}
               </p>
             </div>
           ) : (
             <div className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Local-First Planning</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Execution Engine Active</p>
               <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">
-                Build the day around your real priorities: business growth, execution, recovery, and the life that sustains it.
+                Each block below tells you exactly what to do. Check steps as you go, then mark the block complete.
               </p>
             </div>
           )}
@@ -102,11 +105,10 @@ export default function DailyPage() {
       {allDone && (
         <Card className="mb-5 border-green/30 bg-green/5 px-4 py-4">
           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Today Complete</p>
-          <p className="mt-2 text-sm text-[#c8c4bc]">All daily blocks are complete. Nice work.</p>
-
+          <p className="mt-2 text-sm text-[#c8c4bc]">All daily blocks are done. Strong work.</p>
           {nextUnlockedTask && (
             <div className="mt-4 rounded-xl border border-gold/20 bg-bg-surface/80 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Bonus - Next Strategy Priority</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Bonus — Next Strategy Priority</p>
               <p className="mt-2 font-display text-lg text-text">{nextUnlockedTask.label}</p>
               <p className="mt-1 text-sm leading-relaxed text-muted">{nextUnlockedTask.description}</p>
             </div>
@@ -120,7 +122,7 @@ export default function DailyPage() {
             <div className="mb-3 flex items-center justify-between">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-dim">{blockLabels[block]}</p>
               <p className="font-mono text-[11px] text-muted">
-                {habits.filter((habit) => isComplete(habit.id)).length}/{habits.length}
+                {habits.filter((h) => isComplete(h.id)).length}/{habits.length}
               </p>
             </div>
 
@@ -129,6 +131,7 @@ export default function DailyPage() {
                 const completed = isComplete(habit.id)
                 const expanded = expandedId === habit.id
                 const tag = habit.tag ?? 'BUILD'
+                const steps = contextSteps[habit.id] ?? habit.steps ?? []
 
                 return (
                   <article
@@ -140,7 +143,7 @@ export default function DailyPage() {
                     ].join(' ')}
                   >
                     <div className="flex gap-3 px-4 py-4">
-                      <TaskCheckbox checked={completed} onToggle={() => toggle(habit.id)} accent={tag} />
+                      <HabitCheckbox checked={completed} onToggle={() => toggle(habit.id)} accent={tag} />
 
                       <button
                         type="button"
@@ -149,11 +152,15 @@ export default function DailyPage() {
                       >
                         <div className="min-w-0">
                           <div className="mb-2 flex flex-wrap items-center gap-2">
-                            {habit.timeLabel && <span className="font-mono text-[11px] text-muted">{habit.timeLabel}</span>}
+                            {habit.timeLabel && (
+                              <span className="font-mono text-[11px] text-muted">{habit.timeLabel}</span>
+                            )}
                             <Badge label={tag} variant={tagVariant[tag]} />
                             <span className="font-mono text-[11px] text-muted">{habit.durationMin} min</span>
                           </div>
-                          <h2 className={`font-mono text-xs uppercase tracking-[0.18em] ${completed ? 'text-muted line-through' : 'text-text'}`}>
+                          <h2
+                            className={`font-mono text-xs uppercase tracking-[0.18em] ${completed ? 'text-muted line-through' : 'text-text'}`}
+                          >
                             {habit.label}
                           </h2>
                           <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">{habit.description}</p>
@@ -169,16 +176,38 @@ export default function DailyPage() {
                     {expanded && (
                       <div className="border-t border-border px-4 pb-4 pt-3">
                         <div className="pl-11">
-                          {habit.steps?.length ? (
+                          {steps.length > 0 && (
                             <div className="space-y-2">
-                              {habit.steps.map((step) => (
-                                <div key={step} className="flex gap-2">
-                                  <span className="mt-1 font-mono text-xs text-gold">{'>'}</span>
-                                  <p className="text-sm leading-relaxed text-[#c8c4bc]">{step}</p>
-                                </div>
-                              ))}
+                              {steps.map((step, i) => {
+                                const done = isStepComplete(habit.id, i)
+                                return (
+                                  <button
+                                    key={i}
+                                    type="button"
+                                    onClick={() => toggleStep(habit.id, i)}
+                                    className="flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left transition-colors hover:border-border hover:bg-bg-surface2"
+                                  >
+                                    <span
+                                      className={`mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
+                                        done
+                                          ? 'border-gold bg-gold/20 text-gold'
+                                          : 'border-border text-transparent'
+                                      }`}
+                                    >
+                                      {done && <Check size={10} />}
+                                    </span>
+                                    <p
+                                      className={`text-sm leading-relaxed transition-colors ${
+                                        done ? 'text-muted line-through' : 'text-[#c8c4bc]'
+                                      }`}
+                                    >
+                                      {step}
+                                    </p>
+                                  </button>
+                                )
+                              })}
                             </div>
-                          ) : null}
+                          )}
 
                           {habit.why && (
                             <div className="mt-4 rounded-xl border border-border bg-bg-surface2 px-4 py-3">
@@ -204,7 +233,7 @@ export default function DailyPage() {
   )
 }
 
-function TaskCheckbox({
+function HabitCheckbox({
   checked,
   onToggle,
   accent,

@@ -1,5 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import App from './App'
+import { useUserStore } from './stores/userStore'
+
+beforeEach(() => {
+  // Business rule: tests run with onboarding already complete so the layout
+  // guard doesn't redirect every route test to /onboarding.
+  useUserStore.getState().updateProfile({ onboardingComplete: true })
+})
 
 describe('App routing', () => {
   it('renders Daily page at root', () => {

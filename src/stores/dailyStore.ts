@@ -6,16 +6,24 @@ import { todayKey } from '../utils/dateUtils'
 
 interface DailyState {
   completions: DailyCompletion[]
+  stepCompletions: Record<string, boolean>
   toggle: (habitId: string) => void
   isComplete: (habitId: string) => boolean
   todayCompletions: () => DailyCompletion[]
+  toggleStep: (habitId: string, stepIndex: number) => void
+  isStepComplete: (habitId: string, stepIndex: number) => boolean
   resetIfNewDay: () => void
+}
+
+function stepKey(habitId: string, stepIndex: number): string {
+  return `${todayKey()}:${habitId}:${stepIndex}`
 }
 
 export const useDailyStore = create<DailyState>()(
   persist(
     (set, get) => ({
       completions: [],
+      stepCompletions: {},
 
       toggle(habitId) {
         const today = todayKey()
@@ -48,12 +56,20 @@ export const useDailyStore = create<DailyState>()(
         return get().completions.filter((c) => c.date === today)
       },
 
-      // Business rule: daily completions reset at midnight local time.
-      // We never delete history — old completions stay for the history log.
-      resetIfNewDay() {
-        // No-op: completions are date-scoped, so yesterday's auto-expire from today's view.
-        // This hook exists as a future integration point for Supabase sync.
+      toggleStep(habitId, stepIndex) {
+        const key = stepKey(habitId, stepIndex)
+        set((s) => ({
+          stepCompletions: { ...s.stepCompletions, [key]: !s.stepCompletions[key] },
+        }))
       },
+
+      isStepComplete(habitId, stepIndex) {
+        return get().stepCompletions[stepKey(habitId, stepIndex)] ?? false
+      },
+
+      // Business rule: daily completions reset by local day.
+      // Step completions are date-scoped via key, so they expire automatically.
+      resetIfNewDay() {},
     }),
     { name: STORAGE_KEYS.DAILY_COMPLETIONS }
   )
