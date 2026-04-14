@@ -1,8 +1,9 @@
-import { Header } from '../components/layout/Header'
-import { Card } from '../components/ui/Card'
+import { useState } from 'react'
+import { Check, ChevronDown, ChevronRight } from 'lucide-react'
 import { Badge } from '../components/ui/Badge'
 import { useUserStore } from '../stores/userStore'
 import { useMilestones } from '../hooks/useMilestones'
+import { personalityAdaptations } from '../data/personalityMaps'
 
 const categoryVariant = {
   income: 'strategy',
@@ -18,71 +19,389 @@ const categoryLabel = {
   freedom: 'Freedom',
 } as const
 
-export default function VisionPage() {
-  const profile = useUserStore((s) => s.profile)
-  const { milestones, isComplete, completedCount } = useMilestones()
+const stageLabel = {
+  idea: 'Idea Stage',
+  launch: 'Launch Stage',
+  growth: 'Growth Stage',
+  scale: 'Scale Stage',
+} as const
 
-  const recentWins = milestones
-    .filter((m) => isComplete(m.id))
-    .slice(0, 3)
+// Context questions Mova generates to deepen your profile.
+// Answers feed into daily task generation via useDailyContext.
+const CONTEXT_QUESTIONS = [
+  'What is your single biggest current business bottleneck?',
+  'What does a successful next 30 days look like for your business?',
+  'What time of day do you do your best creative work?',
+  'What is one high-leverage task you keep avoiding?',
+  'What does your ideal week look like after relocating to Europe?',
+  'Who are your top 3 most important outreach targets right now?',
+  'What is the one thing that, if resolved, would unlock the most momentum?',
+]
+
+export default function VisionPage() {
+  const { profile, updateProfile, updateContextAnswer } = useUserStore()
+  const { milestones, isComplete, completedCount } = useMilestones()
+  const [openSection, setOpenSection] = useState<string | null>('vision')
+  const [editingField, setEditingField] = useState<string | null>(null)
+  const [fieldDraft, setFieldDraft] = useState('')
+  const [savingAnswer, setSavingAnswer] = useState<string | null>(null)
+  const [answerDrafts, setAnswerDrafts] = useState<Record<string, string>>({})
+
+  const adaptation = personalityAdaptations.find((t) => t.mbti === profile.mbti)
+  const recentWins = milestones.filter((m) => isComplete(m.id)).slice(0, 5)
+
+  function startEdit(field: string, current: string) {
+    setEditingField(field)
+    setFieldDraft(current)
+  }
+
+  function saveField(field: keyof typeof profile) {
+    updateProfile({ [field]: fieldDraft } as Parameters<typeof updateProfile>[0])
+    setEditingField(null)
+  }
+
+  function saveAnswer(question: string) {
+    const answer = answerDrafts[question] ?? ''
+    if (!answer.trim()) return
+    updateContextAnswer(question, answer.trim())
+    setSavingAnswer(question)
+    setTimeout(() => setSavingAnswer(null), 1500)
+  }
+
+  function toggleSection(id: string) {
+    setOpenSection((s) => (s === id ? null : id))
+  }
 
   return (
     <div>
-      <Header
-        title="Vision"
-        subtitle="Where you're going and why"
-      />
-
-      {profile.businessDescription && (
-        <Card className="mb-6">
-          <p className="font-mono text-xs text-muted uppercase tracking-widest mb-2">The Mission</p>
-          <p className="font-display text-text leading-relaxed">{profile.businessDescription}</p>
-        </Card>
-      )}
-
-      <div className="mb-8">
-        <p className="font-mono text-xs text-muted uppercase tracking-widest mb-4">Vision Goals</p>
-        <div className="space-y-3">
-          {profile.visionGoals.map((goal) => (
-            <div key={goal.id} className="bg-bg-surface border border-border rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-1">
-                <Badge label={categoryLabel[goal.category]} variant={categoryVariant[goal.category]} />
-              </div>
-              <p className="font-display text-text">{goal.label}</p>
-              <p className="text-xs text-muted mt-1 leading-relaxed">{goal.description}</p>
-            </div>
-          ))}
-        </div>
+      <div className="mb-6">
+        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova</p>
+        <h1 className="font-display text-3xl text-text">Context</h1>
+        <p className="mt-1 font-mono text-xs text-muted">Everything Mova knows about you. Modify anything to sharpen your daily tasks.</p>
       </div>
 
-      <div className="mb-8">
-        <div className="flex items-baseline justify-between mb-4">
-          <p className="font-mono text-xs text-muted uppercase tracking-widest">Milestones Achieved</p>
-          <span className="font-mono text-xs text-gold">{completedCount} unlocked</span>
-        </div>
-        {recentWins.length > 0 ? (
-          <div className="space-y-2">
-            {recentWins.map((m) => (
-              <div key={m.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
-                <div className="w-2 h-2 rounded-full bg-green flex-shrink-0" />
-                <span className="text-sm text-text">{m.title}</span>
+      <div className="space-y-3">
+        {/* Business Context */}
+        <ContextSection
+          id="business"
+          title="Business"
+          open={openSection === 'business'}
+          onToggle={() => toggleSection('business')}
+        >
+          <ContextField
+            label="What you're building"
+            value={profile.businessDescription}
+            editing={editingField === 'businessDescription'}
+            draft={fieldDraft}
+            onEdit={() => startEdit('businessDescription', profile.businessDescription)}
+            onDraftChange={setFieldDraft}
+            onSave={() => saveField('businessDescription')}
+            onCancel={() => setEditingField(null)}
+            multiline
+          />
+          <ContextField
+            label="Business goals"
+            value={profile.businessGoals}
+            editing={editingField === 'businessGoals'}
+            draft={fieldDraft}
+            onEdit={() => startEdit('businessGoals', profile.businessGoals)}
+            onDraftChange={setFieldDraft}
+            onSave={() => saveField('businessGoals')}
+            onCancel={() => setEditingField(null)}
+            multiline
+          />
+          <div className="mt-3 flex items-center gap-3">
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Stage</span>
+            <span className="rounded-md border border-gold/30 bg-gold/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-gold">
+              {stageLabel[profile.businessStage]}
+            </span>
+          </div>
+        </ContextSection>
+
+        {/* Life Context */}
+        <ContextSection
+          id="life"
+          title="Life & Goals"
+          open={openSection === 'life'}
+          onToggle={() => toggleSection('life')}
+        >
+          <ContextField
+            label="Life goals"
+            value={profile.lifeGoals}
+            editing={editingField === 'lifeGoals'}
+            draft={fieldDraft}
+            onEdit={() => startEdit('lifeGoals', profile.lifeGoals)}
+            onDraftChange={setFieldDraft}
+            onSave={() => saveField('lifeGoals')}
+            onCancel={() => setEditingField(null)}
+            multiline
+          />
+          <ContextField
+            label="Sports & exercise"
+            value={profile.sportsAndExercise}
+            editing={editingField === 'sportsAndExercise'}
+            draft={fieldDraft}
+            onEdit={() => startEdit('sportsAndExercise', profile.sportsAndExercise)}
+            onDraftChange={setFieldDraft}
+            onSave={() => saveField('sportsAndExercise')}
+            onCancel={() => setEditingField(null)}
+            multiline
+          />
+        </ContextSection>
+
+        {/* Vision Goals */}
+        <ContextSection
+          id="vision"
+          title="Vision Goals"
+          open={openSection === 'vision'}
+          onToggle={() => toggleSection('vision')}
+        >
+          <div className="space-y-3">
+            {profile.visionGoals.map((goal) => (
+              <div key={goal.id} className="rounded-xl border border-border bg-bg-surface2 px-4 py-3">
+                <div className="mb-1.5 flex items-center gap-2">
+                  <Badge label={categoryLabel[goal.category]} variant={categoryVariant[goal.category]} />
+                </div>
+                <p className="font-mono text-xs uppercase tracking-[0.15em] text-text">{goal.label}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{goal.description}</p>
               </div>
             ))}
           </div>
-        ) : (
-          <p className="font-mono text-xs text-muted">No milestones achieved yet. Keep building.</p>
+        </ContextSection>
+
+        {/* Personality */}
+        <ContextSection
+          id="personality"
+          title={`Personality${profile.mbti ? ` · ${profile.mbti}` : ''}`}
+          open={openSection === 'personality'}
+          onToggle={() => toggleSection('personality')}
+        >
+          {adaptation ? (
+            <div>
+              <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-gold">{adaptation.label}</p>
+              <p className="mb-4 text-sm leading-relaxed text-muted">{adaptation.blockDescriptions.morning}</p>
+              <div className="space-y-2">
+                {adaptation.strengths.map((s) => (
+                  <div key={s} className="flex items-center gap-2">
+                    <ChevronRight size={12} className="flex-shrink-0 text-gold" />
+                    <p className="text-sm text-[#c8c4bc]">{s}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-muted">No MBTI type set. Add it in Settings.</p>
+          )}
+        </ContextSection>
+
+        {/* Custom Strategic Context */}
+        <ContextSection
+          id="custom"
+          title="Strategic Context"
+          open={openSection === 'custom'}
+          onToggle={() => toggleSection('custom')}
+        >
+          <ContextField
+            label="Notes & context for task generation"
+            value={profile.customContext}
+            editing={editingField === 'customContext'}
+            draft={fieldDraft}
+            onEdit={() => startEdit('customContext', profile.customContext)}
+            onDraftChange={setFieldDraft}
+            onSave={() => saveField('customContext')}
+            onCancel={() => setEditingField(null)}
+            multiline
+          />
+        </ContextSection>
+
+        {/* Milestones Won */}
+        {recentWins.length > 0 && (
+          <ContextSection
+            id="wins"
+            title={`Milestones Achieved · ${completedCount}`}
+            open={openSection === 'wins'}
+            onToggle={() => toggleSection('wins')}
+          >
+            <div className="space-y-2">
+              {recentWins.map((m) => (
+                <div key={m.id} className="flex items-center gap-3 border-b border-border py-2 last:border-0">
+                  <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green" />
+                  <span className="text-sm text-text">{m.title}</span>
+                </div>
+              ))}
+            </div>
+          </ContextSection>
+        )}
+
+        {/* Context Q&A */}
+        <ContextSection
+          id="qa"
+          title="Context Q&A"
+          open={openSection === 'qa'}
+          onToggle={() => toggleSection('qa')}
+        >
+          <p className="mb-4 text-sm leading-relaxed text-muted">
+            Answer these questions to sharpen how Mova generates your daily tasks. Answers are stored and used directly in your execution blocks.
+          </p>
+          <div className="space-y-5">
+            {CONTEXT_QUESTIONS.map((q) => {
+              const saved = profile.contextAnswers.find((a) => a.question === q)
+              const draft = answerDrafts[q] ?? saved?.answer ?? ''
+              const isSaving = savingAnswer === q
+
+              return (
+                <div key={q}>
+                  <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-gold">{q}</p>
+                  <textarea
+                    value={draft}
+                    onChange={(e) =>
+                      setAnswerDrafts((prev) => ({ ...prev, [q]: e.target.value }))
+                    }
+                    rows={2}
+                    placeholder="Type your answer…"
+                    className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
+                  />
+                  <div className="mt-1.5 flex items-center justify-between">
+                    {saved && (
+                      <p className="font-mono text-[10px] text-muted">
+                        Last saved {new Date(saved.answeredAt).toLocaleDateString()}
+                      </p>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => saveAnswer(q)}
+                      disabled={!draft.trim() || draft.trim() === saved?.answer}
+                      className={`ml-auto flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] transition-all ${
+                        isSaving
+                          ? 'border-green/40 bg-green/10 text-green'
+                          : 'border-border text-muted hover:border-gold hover:text-gold disabled:opacity-30'
+                      }`}
+                    >
+                      {isSaving && <Check size={10} />}
+                      {isSaving ? 'Saved' : 'Save'}
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </ContextSection>
+      </div>
+    </div>
+  )
+}
+
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+function ContextSection({
+  id,
+  title,
+  open,
+  onToggle,
+  children,
+}: {
+  id: string
+  title: string
+  open: boolean
+  onToggle: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <div id={id} className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between px-5 py-4 text-left"
+      >
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-text">{title}</p>
+        <ChevronDown
+          size={16}
+          className={`flex-shrink-0 text-muted transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
+      {open && <div className="border-t border-border px-5 pb-5 pt-4">{children}</div>}
+    </div>
+  )
+}
+
+function ContextField({
+  label,
+  value,
+  editing,
+  draft,
+  onEdit,
+  onDraftChange,
+  onSave,
+  onCancel,
+  multiline = false,
+}: {
+  label: string
+  value: string
+  editing: boolean
+  draft: string
+  onEdit: () => void
+  onDraftChange: (v: string) => void
+  onSave: () => void
+  onCancel: () => void
+  multiline?: boolean
+}) {
+  return (
+    <div className="mb-4">
+      <div className="mb-1.5 flex items-center justify-between">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">{label}</p>
+        {!editing && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-gold"
+          >
+            Edit
+          </button>
         )}
       </div>
 
-      {profile.mbti && (
-        <Card>
-          <p className="font-mono text-xs text-muted uppercase tracking-widest mb-2">Personality</p>
-          <p className="font-display text-gold text-xl">{profile.mbti}</p>
-          <p className="font-mono text-xs text-muted mt-1">
-            Stage: <span className="text-text capitalize">{profile.businessStage}</span>
-          </p>
-        </Card>
+      {editing ? (
+        <div>
+          {multiline ? (
+            <textarea
+              value={draft}
+              onChange={(e) => onDraftChange(e.target.value)}
+              rows={4}
+              autoFocus
+              className="w-full resize-none rounded-xl border border-gold bg-bg-surface2 px-4 py-3 text-sm text-text outline-none"
+            />
+          ) : (
+            <input
+              type="text"
+              value={draft}
+              onChange={(e) => onDraftChange(e.target.value)}
+              autoFocus
+              className="w-full rounded-xl border border-gold bg-bg-surface2 px-4 py-3 text-sm text-text outline-none"
+            />
+          )}
+          <div className="mt-2 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onSave}
+              className="rounded-lg border border-gold bg-gold/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-text"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className={`text-sm leading-relaxed ${value ? 'text-[#c8c4bc]' : 'italic text-muted'}`}>
+          {value || 'Not set — click Edit to add context.'}
+        </p>
       )}
     </div>
   )
 }
+

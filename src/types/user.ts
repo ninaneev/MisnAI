@@ -9,11 +9,22 @@ export interface VisionGoal {
   description: string
 }
 
+export interface ContextAnswer {
+  question: string
+  answer: string
+  answeredAt: string
+}
+
 export interface UserProfile {
   name: string
   mbti: MBTIType | null
   businessStage: BusinessStage
   businessDescription: string
+  businessGoals: string
+  lifeGoals: string
+  sportsAndExercise: string
+  customContext: string
+  contextAnswers: ContextAnswer[]
   visionGoals: VisionGoal[]
   onboardingComplete: boolean
 }

@@ -8,9 +8,10 @@ function truncate(text: string, words = 10): string {
 }
 
 /**
- * Generates specific, actionable steps for each daily habit block based on the
- * user's current strategy tasks, business context, and vision goals.
- * Falls back to generic steps when no context exists (pre-onboarding).
+ * Generates specific, actionable steps for each daily habit block.
+ * Pulls from: current strategy tasks, business context, business goals,
+ * life goals, custom context, and vision goals. Falls back to generic
+ * steps when context is sparse (pre-onboarding or empty fields).
  */
 export function useDailyContext(): Record<string, string[]> {
   const { profile } = useUserStore()
@@ -27,9 +28,9 @@ export function useDailyContext(): Record<string, string[]> {
     const task3 = pendingTasks[2] ?? null
 
     const topGoal = profile.visionGoals[0] ?? null
-    const businessHint = profile.businessDescription
-      ? truncate(profile.businessDescription, 10)
-      : null
+    const businessHint = profile.businessDescription ? truncate(profile.businessDescription, 10) : null
+    const topBusinessGoal = profile.businessGoals ? truncate(profile.businessGoals, 12) : null
+    const topLifeGoal = profile.lifeGoals ? truncate(profile.lifeGoals, 10) : null
 
     return {
       'morning-review': [
@@ -38,7 +39,9 @@ export function useDailyContext(): Record<string, string[]> {
           : 'Open your strategy and identify the single most important task today.',
         topGoal
           ? `Vision check: "${topGoal.label}" — does today's plan move this forward?`
-          : 'Recall your primary vision goal and check alignment.',
+          : topBusinessGoal
+            ? `Business goal check: ${topBusinessGoal}`
+            : 'Recall your primary goal and check alignment.',
         'Commit to your one outcome before opening email or messages.',
       ],
 
@@ -56,7 +59,7 @@ export function useDailyContext(): Record<string, string[]> {
 
       'content-creation': [
         businessHint
-          ? `Angle: one honest insight about "${businessHint}" that your ideal client is struggling with right now.`
+          ? `Angle: one honest insight about "${businessHint}" your ideal client is struggling with right now.`
           : 'Teach one idea your ideal client struggles with — be specific.',
         'Write like an operator, not a marketer. Real language beats polished copy.',
         'Publish. Imperfect and visible beats perfect and hidden.',
@@ -125,7 +128,9 @@ export function useDailyContext(): Record<string, string[]> {
       'strategy-time': [
         task3
           ? `Strategic task: ${task3.label} — ${truncate(task3.description, 10)}`
-          : 'Review one strategic question, not ten.',
+          : topBusinessGoal
+            ? `Review: ${topBusinessGoal}`
+            : 'Review one strategic question, not ten.',
         businessHint
           ? `Refine your offer, positioning, or next step for "${businessHint}".`
           : 'Refine an offer, a positioning angle, a system, or a key decision.',
@@ -142,7 +147,9 @@ export function useDailyContext(): Record<string, string[]> {
         'Name three things that are already working — in business or life.',
         topGoal
           ? `Re-read your vision: "${topGoal.label} — ${truncate(topGoal.description, 10)}"`
-          : 'Re-read your vision goals slowly.',
+          : topLifeGoal
+            ? `Life goal check: ${topLifeGoal}`
+            : 'Re-read your vision goals slowly.',
         'End with perspective, not scarcity.',
       ],
     }

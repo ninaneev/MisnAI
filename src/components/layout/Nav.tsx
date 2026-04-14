@@ -4,7 +4,7 @@ import {
   CalendarDays,
   Target,
   Trophy,
-  Eye,
+  Layers,
   History,
   Settings,
 } from 'lucide-react'
@@ -19,7 +19,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/',            label: 'Today',      icon: CalendarDays },
   { to: '/strategy',   label: 'Strategy',   icon: Target },
   { to: '/milestones', label: 'Milestones', icon: Trophy },
-  { to: '/vision',     label: 'Vision',     icon: Eye },
+  { to: '/vision',     label: 'Context',    icon: Layers },
   { to: '/history',    label: 'History',    icon: History },
   { to: '/settings',   label: 'Settings',   icon: Settings },
 ]

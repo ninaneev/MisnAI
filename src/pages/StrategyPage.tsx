@@ -3,6 +3,7 @@ import { Check, ChevronDown, Lock } from 'lucide-react'
 import { Badge } from '../components/ui/Badge'
 import { Card } from '../components/ui/Card'
 import { useStrategy } from '../hooks/useStrategy'
+import { useUserStore } from '../stores/userStore'
 import type { StrategyTask } from '../types/strategy'
 
 const phaseColorClasses = [
@@ -14,7 +15,11 @@ const phaseColorClasses = [
 
 export default function StrategyPage() {
   const { phases, toggle, isComplete, phaseProgress, isPhaseUnlocked } = useStrategy()
+  const { profile, updateProfile } = useUserStore()
   const [openPhaseId, setOpenPhaseId] = useState<string | null>(phases[0]?.id ?? null)
+  const [contextDraft, setContextDraft] = useState(profile.customContext)
+  const [contextSaved, setContextSaved] = useState(false)
+  const [editingContext, setEditingContext] = useState(false)
 
   const activePhase = phases.find((phase) => phaseProgress(phase.id) < 1) ?? phases[phases.length - 1]
 
@@ -28,6 +33,13 @@ export default function StrategyPage() {
       })),
     [isComplete, isPhaseUnlocked, phaseProgress, phases]
   )
+
+  function saveContext() {
+    updateProfile({ customContext: contextDraft.trim() })
+    setContextSaved(true)
+    setEditingContext(false)
+    setTimeout(() => setContextSaved(false), 2000)
+  }
 
   return (
     <div>
@@ -54,9 +66,7 @@ export default function StrategyPage() {
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-dim">
                   <div className={`h-full rounded-full ${pct === 100 ? 'bg-green' : theme.fill}`} style={{ width: `${pct}%` }} />
                 </div>
-                <p className="mt-2 font-mono text-[11px] text-muted">
-                  {doneCount}/{phase.tasks.length} done
-                </p>
+                <p className="mt-2 font-mono text-[11px] text-muted">{doneCount}/{phase.tasks.length} done</p>
               </div>
             )
           })}
@@ -70,6 +80,67 @@ export default function StrategyPage() {
         </p>
         {activePhase?.target && <p className="mt-3 text-sm text-muted">Active target: {activePhase.target}</p>}
       </Card>
+
+      {/* Strategic Context — stored and used by daily task generation */}
+      <div className="mb-5 overflow-hidden rounded-2xl border border-border bg-bg-surface">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-text">Strategic Context</p>
+            <p className="mt-0.5 font-mono text-[10px] text-muted">Mova reads this to sharpen your daily tasks</p>
+          </div>
+          {!editingContext && (
+            <button
+              type="button"
+              onClick={() => { setContextDraft(profile.customContext); setEditingContext(true) }}
+              className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-gold"
+            >
+              {contextSaved ? (
+                <span className="flex items-center gap-1 text-green">
+                  <Check size={10} /> Saved
+                </span>
+              ) : 'Edit'}
+            </button>
+          )}
+        </div>
+
+        <div className="px-5 py-4">
+          {editingContext ? (
+            <div>
+              <textarea
+                value={contextDraft}
+                onChange={(e) => setContextDraft(e.target.value)}
+                rows={5}
+                autoFocus
+                placeholder="Add anything Mova should know to give you better daily tasks: current priorities, blockers, strategic bets, context on your market or stage…"
+                className="w-full resize-none rounded-xl border border-gold bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none"
+              />
+              <div className="mt-3 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={saveContext}
+                  className="rounded-xl border border-gold bg-gold/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20"
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingContext(false)}
+                  className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-text"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p
+              className={`cursor-pointer text-sm leading-relaxed ${profile.customContext ? 'text-[#c8c4bc]' : 'italic text-muted'}`}
+              onClick={() => { setContextDraft(profile.customContext); setEditingContext(true) }}
+            >
+              {profile.customContext || 'No context added yet — click to add strategic notes.'}
+            </p>
+          )}
+        </div>
+      </div>
 
       <div className="space-y-4">
         {summary.map(({ phase, unlocked, progress, doneCount }, index) => {
@@ -139,7 +210,9 @@ export default function StrategyPage() {
                                 <div key={task.id} className="flex gap-3 rounded-xl border border-border bg-bg-surface2 px-4 py-3">
                                   <TaskCheckbox checked={completed} onToggle={() => toggle(task.id)} />
                                   <div className="min-w-0 flex-1">
-                                    <p className={`font-display text-lg ${completed ? 'text-muted line-through' : 'text-text'}`}>{task.label}</p>
+                                    <p className={`font-display text-lg ${completed ? 'text-muted line-through' : 'text-text'}`}>
+                                      {task.label}
+                                    </p>
                                     <p className="mt-1 text-sm leading-relaxed text-muted">{task.description}</p>
                                   </div>
                                 </div>
@@ -152,7 +225,7 @@ export default function StrategyPage() {
 
                     {complete && phase.number < phases.length && (
                       <div className="mt-5 rounded-xl border border-green/30 bg-green/5 px-4 py-3">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Phase Complete - Next Up</p>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Phase Complete — Next Up</p>
                         <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">
                           Move into phase {phase.number + 1} once you are ready to trade stability for the next level of leverage.
                         </p>
@@ -171,14 +244,12 @@ export default function StrategyPage() {
 
 function groupTasksByCategory(tasks: StrategyTask[]) {
   const groups = new Map<string, StrategyTask[]>()
-
   for (const task of tasks) {
     const key = task.category ?? 'Tasks'
     const existing = groups.get(key) ?? []
     existing.push(task)
     groups.set(key, existing)
   }
-
   return Array.from(groups.entries())
 }
 
@@ -187,7 +258,7 @@ function TaskCheckbox({ checked, onToggle }: { checked: boolean; onToggle: () =>
     <button
       type="button"
       onClick={onToggle}
-      className={`mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-200 ${
+      className={`mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-150 ${
         checked ? 'border-gold bg-gold text-bg-base' : 'border-border text-gold'
       }`}
       aria-label={checked ? 'Mark incomplete' : 'Mark complete'}

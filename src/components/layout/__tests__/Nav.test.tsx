@@ -16,7 +16,7 @@ describe('Nav', () => {
     expect(screen.getByRole('link', { name: /today/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /strategy/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /milestones/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /vision/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /context/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /history/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument()
   })

@@ -1,10 +1,30 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useDailyStore } from '../stores/dailyStore'
 import { dailyHabits } from '../data/dailyHabits'
+import { todayKey } from '../utils/dateUtils'
 import type { TimeBlock } from '../types/daily'
 
 export function useDaily() {
-  const { toggle, isComplete, todayCompletions, toggleStep, isStepComplete } = useDailyStore()
+  const completions = useDailyStore((s) => s.completions)
+  const stepCompletions = useDailyStore((s) => s.stepCompletions)
+  const toggle = useDailyStore((s) => s.toggle)
+  const toggleStep = useDailyStore((s) => s.toggleStep)
+
+  const isComplete = useCallback(
+    (habitId: string) => {
+      const today = todayKey()
+      return completions.some((c) => c.habitId === habitId && c.date === today)
+    },
+    [completions]
+  )
+
+  const isStepComplete = useCallback(
+    (habitId: string, stepIndex: number) => {
+      const key = `${todayKey()}:${habitId}:${stepIndex}`
+      return stepCompletions[key] ?? false
+    },
+    [stepCompletions]
+  )
 
   const byBlock = useMemo(() => {
     const blocks: Record<TimeBlock, typeof dailyHabits> = {
@@ -16,17 +36,21 @@ export function useDaily() {
     return blocks
   }, [])
 
-  const completedToday = todayCompletions().length
+  const todayCompleted = useMemo(() => {
+    const today = todayKey()
+    return completions.filter((c) => c.date === today).length
+  }, [completions])
+
   const totalHabits = dailyHabits.length
-  const allDone = completedToday === totalHabits
-  const progressPct = Math.round((completedToday / totalHabits) * 100)
+  const allDone = todayCompleted === totalHabits
+  const progressPct = Math.round((todayCompleted / totalHabits) * 100)
 
   return {
     habits: dailyHabits,
     byBlock,
     toggle,
     isComplete,
-    completedToday,
+    completedToday: todayCompleted,
     totalHabits,
     allDone,
     progressPct,

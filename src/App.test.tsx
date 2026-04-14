@@ -27,10 +27,10 @@ describe('App routing', () => {
     expect(screen.getByText('Milestones')).toBeInTheDocument()
   })
 
-  it('renders Vision page at /vision', () => {
+  it('renders Context page at /vision', () => {
     window.history.pushState({}, '', '/vision')
     render(<App />)
-    expect(screen.getByText('Vision')).toBeInTheDocument()
+    expect(screen.getByText('Context')).toBeInTheDocument()
   })
 
   it('renders History page at /history', () => {

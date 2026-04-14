@@ -1,40 +1,60 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { UserProfile, VisionGoal } from '../types/user'
+import type { UserProfile, VisionGoal, ContextAnswer } from '../types/user'
 import { STORAGE_KEYS } from '../utils/constants'
 
+// Pre-loaded with the founder's context. New fields added to UserProfile are
+// always merged over any existing saved profile so no localStorage wipe is needed.
 const defaultProfile: UserProfile = {
-  name: '',
-  mbti: null,
-  businessStage: 'idea',
-  businessDescription: '',
+  name: 'Founder',
+  mbti: 'INTJ',
+  businessStage: 'launch',
+
+  businessDescription:
+    'Flowity AI — executive intelligence company building signal interpretation and decision support for B2B SaaS leadership teams. Products: Flowity Brain (intelligence engine), Executive Hub (client-facing dashboard), and Mova (open-source founder execution OS). ***REMOVED*** research track running in parallel with the commercial GTM.',
+
+  businessGoals:
+    'Close first 3 paying Flowity Brain clients at EUR 1,199/month. Complete ***REMOVED*** Phase 1 submission. Launch Mova publicly as open-source. Reach EUR 10k MRR before relocating to Europe. Own the executive intelligence category on LinkedIn.',
+
+  lifeGoals:
+    'Relocate abroad: France first (European base, cultural grounding), then Switzerland (long-term stability, proximity to international ecosystem). Build a fully location-independent operation before the move. Complete ***REMOVED*** milestones without sacrificing commercial GTM.',
+
+  sportsAndExercise:
+    'Daily morning physical practice — strength training and running. Consistency over intensity. Exercise is a cognitive performance lever, not optional.',
+
+  customContext:
+    'Currently in Brazil. The European move sets the urgency horizon for the business. ***REMOVED*** provides research validation and credibility that strengthens the commercial narrative. Dual track (research + commercial) requires sequencing: commercial proof points reinforce the PIPE application; PIPE outcomes reinforce the intelligence service positioning.',
+
+  contextAnswers: [],
+
   visionGoals: [
     {
       id: 'v1',
       category: 'income',
       label: 'Financial Freedom',
-      description: 'Earn enough to cover all living expenses through the business.',
+      description: 'Generate enough through Flowity AI to cover all living expenses and fund the European relocation.',
     },
     {
       id: 'v2',
-      category: 'lifestyle',
-      label: 'Time Sovereignty',
-      description: 'Work when you want, where you want, with whom you want.',
+      category: 'freedom',
+      label: 'Location Independence → Europe',
+      description: 'Relocate to France, then Switzerland. Run the business from anywhere.',
     },
     {
       id: 'v3',
       category: 'impact',
-      label: 'Meaningful Work',
-      description: 'Build something that genuinely helps people and leaves a mark.',
+      label: 'Meaningful Intelligence Work',
+      description: 'Build something that genuinely helps leadership teams make better decisions with signals they already have.',
     },
     {
       id: 'v4',
-      category: 'freedom',
-      label: 'Location Independence',
-      description: 'Run the business from anywhere in the world.',
+      category: 'lifestyle',
+      label: 'Research & Commercial in Parallel',
+      description: 'Sustain ***REMOVED*** without sacrificing GTM momentum. Both tracks reinforce each other.',
     },
   ],
-  onboardingComplete: false,
+
+  onboardingComplete: true,
 }
 
 interface UserState {
@@ -42,11 +62,13 @@ interface UserState {
   updateProfile: (partial: Partial<UserProfile>) => void
   addVisionGoal: (goal: VisionGoal) => void
   removeVisionGoal: (id: string) => void
+  addContextAnswer: (answer: ContextAnswer) => void
+  updateContextAnswer: (question: string, answer: string) => void
 }
 
 export const useUserStore = create<UserState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       profile: defaultProfile,
 
       updateProfile(partial) {
@@ -61,13 +83,53 @@ export const useUserStore = create<UserState>()(
 
       removeVisionGoal(id) {
         set((s) => ({
-          profile: {
-            ...s.profile,
-            visionGoals: s.profile.visionGoals.filter((g) => g.id !== id),
-          },
+          profile: { ...s.profile, visionGoals: s.profile.visionGoals.filter((g) => g.id !== id) },
         }))
       },
+
+      addContextAnswer(answer) {
+        set((s) => ({
+          profile: { ...s.profile, contextAnswers: [...s.profile.contextAnswers, answer] },
+        }))
+      },
+
+      updateContextAnswer(question, answer) {
+        const existing = get().profile.contextAnswers.find((a) => a.question === question)
+        if (existing) {
+          set((s) => ({
+            profile: {
+              ...s.profile,
+              contextAnswers: s.profile.contextAnswers.map((a) =>
+                a.question === question
+                  ? { ...a, answer, answeredAt: new Date().toISOString() }
+                  : a
+              ),
+            },
+          }))
+        } else {
+          set((s) => ({
+            profile: {
+              ...s.profile,
+              contextAnswers: [
+                ...s.profile.contextAnswers,
+                { question, answer, answeredAt: new Date().toISOString() },
+              ],
+            },
+          }))
+        }
+      },
     }),
-    { name: STORAGE_KEYS.USER_PROFILE }
+    {
+      name: STORAGE_KEYS.USER_PROFILE,
+      // Merge saved profile over defaults so new fields always have fallback values.
+      // This means adding a new field to UserProfile never requires clearing localStorage.
+      merge: (persisted, current) => {
+        const p = persisted as Partial<UserState>
+        return {
+          ...current,
+          profile: { ...current.profile, ...(p.profile ?? {}) },
+        }
+      },
+    }
   )
 )

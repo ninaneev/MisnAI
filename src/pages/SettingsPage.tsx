@@ -17,13 +17,24 @@ export default function SettingsPage() {
 
   const [name, setName] = useState(profile.name)
   const [businessDescription, setBusinessDescription] = useState(profile.businessDescription)
+  const [businessGoals, setBusinessGoals] = useState(profile.businessGoals)
+  const [lifeGoals, setLifeGoals] = useState(profile.lifeGoals)
+  const [sportsAndExercise, setSportsAndExercise] = useState(profile.sportsAndExercise)
   const [businessStage, setBusinessStage] = useState<BusinessStage>(profile.businessStage)
   const [mbti, setMbti] = useState<MBTIType | null>(profile.mbti)
   const [saved, setSaved] = useState(false)
   const [showReset, setShowReset] = useState(false)
 
   function save() {
-    updateProfile({ name: name.trim(), businessDescription: businessDescription.trim(), businessStage, mbti })
+    updateProfile({
+      name: name.trim(),
+      businessDescription: businessDescription.trim(),
+      businessGoals: businessGoals.trim(),
+      lifeGoals: lifeGoals.trim(),
+      sportsAndExercise: sportsAndExercise.trim(),
+      businessStage,
+      mbti,
+    })
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
@@ -43,112 +54,118 @@ export default function SettingsPage() {
         <p className="mt-1 font-mono text-xs text-muted">Profile & preferences</p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         {/* Identity */}
-        <section className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
-          <div className="border-b border-border px-5 py-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted">Identity</p>
-          </div>
-          <div className="space-y-4 px-5 py-5">
-            <label className="block">
-              <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Name</span>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
-              />
-            </label>
-          </div>
-        </section>
+        <SettingsSection title="Identity">
+          <Field label="Name">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+            />
+          </Field>
+        </SettingsSection>
 
-        {/* Business Context */}
-        <section className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
-          <div className="border-b border-border px-5 py-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted">Business Context</p>
-          </div>
-          <div className="space-y-5 px-5 py-5">
-            <label className="block">
-              <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-                What are you building?
-              </span>
-              <textarea
-                value={businessDescription}
-                onChange={(e) => setBusinessDescription(e.target.value)}
-                rows={4}
-                className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
-                placeholder="Describe your business in a few sentences…"
-              />
-            </label>
-
-            <div>
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Current stage</p>
-              <div className="grid grid-cols-2 gap-2">
-                {BUSINESS_STAGES.map((s) => (
-                  <button
-                    key={s.value}
-                    type="button"
-                    onClick={() => setBusinessStage(s.value)}
-                    className={`rounded-xl border px-4 py-3 text-left transition-colors ${
-                      businessStage === s.value
-                        ? 'border-gold bg-gold/10 text-gold'
-                        : 'border-border bg-bg-surface2 text-muted hover:border-border/60 hover:text-text'
-                    }`}
-                  >
-                    <p className="font-mono text-xs uppercase tracking-[0.15em]">{s.label}</p>
-                  </button>
-                ))}
-              </div>
+        {/* Business */}
+        <SettingsSection title="Business Context">
+          <Field label="What you're building">
+            <textarea
+              value={businessDescription}
+              onChange={(e) => setBusinessDescription(e.target.value)}
+              rows={4}
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              placeholder="Describe your business in a few sentences…"
+            />
+          </Field>
+          <Field label="Business goals">
+            <textarea
+              value={businessGoals}
+              onChange={(e) => setBusinessGoals(e.target.value)}
+              rows={3}
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              placeholder="Your key business targets for the next 90 days…"
+            />
+          </Field>
+          <Field label="Current stage">
+            <div className="grid grid-cols-2 gap-2">
+              {BUSINESS_STAGES.map((s) => (
+                <button
+                  key={s.value}
+                  type="button"
+                  onClick={() => setBusinessStage(s.value)}
+                  className={`rounded-xl border px-4 py-3 text-left transition-colors ${
+                    businessStage === s.value
+                      ? 'border-gold bg-gold/10 text-gold'
+                      : 'border-border bg-bg-surface2 text-muted hover:border-border/60 hover:text-text'
+                  }`}
+                >
+                  <p className="font-mono text-xs uppercase tracking-[0.15em]">{s.label}</p>
+                </button>
+              ))}
             </div>
-          </div>
-        </section>
+          </Field>
+        </SettingsSection>
+
+        {/* Life */}
+        <SettingsSection title="Life & Goals">
+          <Field label="Life goals">
+            <textarea
+              value={lifeGoals}
+              onChange={(e) => setLifeGoals(e.target.value)}
+              rows={3}
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              placeholder="Where you're heading outside of the business…"
+            />
+          </Field>
+          <Field label="Sports & exercise">
+            <textarea
+              value={sportsAndExercise}
+              onChange={(e) => setSportsAndExercise(e.target.value)}
+              rows={2}
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              placeholder="Your physical practice — type, frequency, preference…"
+            />
+          </Field>
+        </SettingsSection>
 
         {/* Personality */}
-        <section className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
-          <div className="border-b border-border px-5 py-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted">Personality Mode</p>
+        <SettingsSection title="Personality Mode">
+          <div className="mb-4 grid grid-cols-4 gap-2">
+            {personalityAdaptations.map((t) => {
+              const isSelected = mbti === t.mbti
+              return (
+                <button
+                  key={t.mbti}
+                  type="button"
+                  onClick={() => setMbti(isSelected ? null : t.mbti)}
+                  className={`rounded-xl border px-2 py-3 text-center transition-colors ${
+                    isSelected
+                      ? 'border-gold bg-gold/15 text-gold'
+                      : 'border-border bg-bg-surface2 text-muted hover:border-border/60 hover:text-text'
+                  }`}
+                >
+                  <p className="font-mono text-xs font-semibold tracking-wide">{t.mbti}</p>
+                  <p className="mt-0.5 font-mono text-[9px] leading-tight text-muted">
+                    {t.label.replace('The ', '')}
+                  </p>
+                </button>
+              )
+            })}
           </div>
-          <div className="px-5 py-5">
-            <div className="mb-4 grid grid-cols-4 gap-2">
-              {personalityAdaptations.map((t) => {
-                const isSelected = mbti === t.mbti
-                return (
-                  <button
-                    key={t.mbti}
-                    type="button"
-                    onClick={() => setMbti(isSelected ? null : t.mbti)}
-                    className={`rounded-xl border px-2 py-3 text-center transition-colors ${
-                      isSelected
-                        ? 'border-gold bg-gold/15 text-gold'
-                        : 'border-border bg-bg-surface2 text-muted hover:border-border/60 hover:text-text'
-                    }`}
-                  >
-                    <p className="font-mono text-xs font-semibold tracking-wide">{t.mbti}</p>
-                    <p className="mt-0.5 font-mono text-[9px] leading-tight text-muted">
-                      {t.label.replace('The ', '')}
-                    </p>
-                  </button>
-                )
-              })}
+          {adaptation && (
+            <div className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">{adaptation.label}</p>
+              <p className="mt-1 text-sm text-muted">{adaptation.blockDescriptions.morning}</p>
             </div>
-
-            {adaptation && (
-              <div className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3">
-                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">{adaptation.label}</p>
-                <p className="mt-1 text-sm text-muted">{adaptation.blockDescriptions.morning}</p>
-              </div>
-            )}
-          </div>
-        </section>
+          )}
+        </SettingsSection>
 
         {/* Vision Goals */}
-        <section className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
-          <div className="border-b border-border px-5 py-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted">Vision Goals</p>
-          </div>
+        <SettingsSection title="Vision Goals">
           <div className="divide-y divide-border">
             {profile.visionGoals.map((goal) => (
-              <div key={goal.id} className="flex items-start justify-between gap-3 px-5 py-4">
+              <div key={goal.id} className="flex items-start justify-between gap-3 py-3 first:pt-0 last:pb-0">
                 <div className="min-w-0">
                   <p className="font-mono text-xs uppercase tracking-[0.15em] text-text">{goal.label}</p>
                   <p className="mt-0.5 text-sm text-muted">{goal.description}</p>
@@ -164,10 +181,10 @@ export default function SettingsPage() {
               </div>
             ))}
             {profile.visionGoals.length === 0 && (
-              <p className="px-5 py-4 font-mono text-xs text-muted">No goals set. Complete onboarding to add goals.</p>
+              <p className="font-mono text-xs text-muted">No goals set. Visit Context to update.</p>
             )}
           </div>
-        </section>
+        </SettingsSection>
 
         {/* Save */}
         <button
@@ -184,43 +201,78 @@ export default function SettingsPage() {
         </button>
 
         {/* Danger Zone */}
-        <section className="overflow-hidden rounded-2xl border border-red/20 bg-bg-surface">
-          <div className="border-b border-red/20 px-5 py-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-red/70">Danger Zone</p>
-          </div>
-          <div className="px-5 py-5">
-            <p className="mb-4 text-sm text-muted">
-              Clearing all data resets Mova completely — profile, completions, strategy, history. This cannot be undone.
-            </p>
-            {!showReset ? (
+        <SettingsSection title="Danger Zone" accent="red">
+          <p className="mb-4 text-sm text-muted">
+            Clearing all data resets Mova completely — profile, completions, strategy, history. Cannot be undone.
+          </p>
+          {!showReset ? (
+            <button
+              type="button"
+              onClick={() => setShowReset(true)}
+              className="rounded-xl border border-red/30 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-red/70 transition-colors hover:border-red hover:text-red"
+            >
+              Reset All Data
+            </button>
+          ) : (
+            <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => setShowReset(true)}
-                className="rounded-xl border border-red/30 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-red/70 transition-colors hover:border-red hover:text-red"
+                onClick={resetAll}
+                className="rounded-xl border border-red bg-red/10 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-red transition-colors hover:bg-red/20"
               >
-                Reset All Data
+                Confirm Reset
               </button>
-            ) : (
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={resetAll}
-                  className="rounded-xl border border-red bg-red/10 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-red transition-colors hover:bg-red/20"
-                >
-                  Confirm Reset
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowReset(false)}
-                  className="font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-text"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-          </div>
-        </section>
+              <button
+                type="button"
+                onClick={() => setShowReset(false)}
+                className="font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-text"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </SettingsSection>
       </div>
+    </div>
+  )
+}
+
+function SettingsSection({
+  title,
+  accent,
+  children,
+}: {
+  title: string
+  accent?: 'red'
+  children: React.ReactNode
+}) {
+  return (
+    <div
+      className={`overflow-hidden rounded-2xl border bg-bg-surface ${
+        accent === 'red' ? 'border-red/20' : 'border-border'
+      }`}
+    >
+      <div
+        className={`border-b px-5 py-4 ${accent === 'red' ? 'border-red/20' : 'border-border'}`}
+      >
+        <p
+          className={`font-mono text-[11px] uppercase tracking-[0.25em] ${
+            accent === 'red' ? 'text-red/70' : 'text-muted'
+          }`}
+        >
+          {title}
+        </p>
+      </div>
+      <div className="space-y-4 px-5 py-5">{children}</div>
+    </div>
+  )
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">{label}</p>
+      {children}
     </div>
   )
 }
