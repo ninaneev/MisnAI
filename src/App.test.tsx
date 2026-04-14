@@ -5,7 +5,7 @@ describe('App routing', () => {
   it('renders Daily page at root', () => {
     window.history.pushState({}, '', '/')
     render(<App />)
-    expect(screen.getByText('Today')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Today' })).toBeInTheDocument()
   })
 
   it('renders Strategy page at /strategy', () => {

@@ -1,42 +1,198 @@
-import { Header } from '../components/layout/Header'
-import { PhaseCard } from '../components/strategy/PhaseCard'
-import { PhaseProgress } from '../components/strategy/PhaseProgress'
+import { useMemo, useState } from 'react'
+import { Check, ChevronDown, Lock } from 'lucide-react'
+import { Badge } from '../components/ui/Badge'
+import { Card } from '../components/ui/Card'
 import { useStrategy } from '../hooks/useStrategy'
+import type { StrategyTask } from '../types/strategy'
+
+const phaseColorClasses = [
+  { text: 'text-gold-dim', fill: 'bg-gold-dim' },
+  { text: 'text-gold', fill: 'bg-gold' },
+  { text: 'text-blue', fill: 'bg-blue' },
+  { text: 'text-green', fill: 'bg-green' },
+]
 
 export default function StrategyPage() {
   const { phases, toggle, isComplete, phaseProgress, isPhaseUnlocked } = useStrategy()
+  const [openPhaseId, setOpenPhaseId] = useState<string | null>(phases[0]?.id ?? null)
+
+  const activePhase = phases.find((phase) => phaseProgress(phase.id) < 1) ?? phases[phases.length - 1]
+
+  const summary = useMemo(
+    () =>
+      phases.map((phase) => ({
+        phase,
+        unlocked: isPhaseUnlocked(phase.id),
+        progress: phaseProgress(phase.id),
+        doneCount: phase.tasks.filter((task) => isComplete(task.id)).length,
+      })),
+    [isComplete, isPhaseUnlocked, phaseProgress, phases]
+  )
 
   return (
     <div>
-      <Header
-        title="Strategy"
-        subtitle="Phase-gated execution engine"
-      />
+      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
+        <div className="border-b border-border px-5 py-6">
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova · Strategic Engine</p>
+          <h1 className="font-display text-3xl text-text">Strategy</h1>
+          <p className="mt-1 font-mono text-xs text-muted">Phase-gated execution with visible next moves.</p>
+        </div>
 
-      <div className="space-y-2 mb-8">
-        {phases.map((phase) => (
-          <PhaseProgress
-            key={phase.id}
-            phaseNumber={phase.number}
-            title={phase.title}
-            progress={phaseProgress(phase.id)}
-            unlocked={isPhaseUnlocked(phase.id)}
-          />
-        ))}
-      </div>
+        <div className="grid gap-3 px-5 py-4 sm:grid-cols-2 xl:grid-cols-4">
+          {summary.map(({ phase, progress, unlocked, doneCount }, index) => {
+            const theme = phaseColorClasses[index] ?? phaseColorClasses[phaseColorClasses.length - 1]
+            const pct = Math.round(progress * 100)
 
-      <div className="space-y-6">
-        {phases.map((phase) => (
-          <PhaseCard
-            key={phase.id}
-            phase={phase}
-            unlocked={isPhaseUnlocked(phase.id)}
-            progress={phaseProgress(phase.id)}
-            isComplete={isComplete}
-            onToggle={toggle}
-          />
-        ))}
+            return (
+              <div key={phase.id} className="rounded-xl border border-border bg-bg-surface/80 px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <span className={`font-mono text-sm ${theme.text}`}>{String(phase.number).padStart(2, '0')}</span>
+                  {!unlocked && <Lock size={14} className="text-muted" />}
+                </div>
+                <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-text">{phase.title}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted">{phase.period ?? phase.subtitle}</p>
+                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-dim">
+                  <div className={`h-full rounded-full ${pct === 100 ? 'bg-green' : theme.fill}`} style={{ width: `${pct}%` }} />
+                </div>
+                <p className="mt-2 font-mono text-[11px] text-muted">
+                  {doneCount}/{phase.tasks.length} done
+                </p>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      <Card className="mb-5 border-gold/30 bg-gold/5 px-4 py-4">
+        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">The Current Aim</p>
+        <p className="mt-2 text-lg leading-relaxed text-text">
+          Build a business that is clear enough to sell, useful enough to keep, and calm enough to sustain.
+        </p>
+        {activePhase?.target && <p className="mt-3 text-sm text-muted">Active target: {activePhase.target}</p>}
+      </Card>
+
+      <div className="space-y-4">
+        {summary.map(({ phase, unlocked, progress, doneCount }, index) => {
+          const theme = phaseColorClasses[index] ?? phaseColorClasses[phaseColorClasses.length - 1]
+          const complete = progress === 1
+          const isOpen = openPhaseId === phase.id
+          const groupedTasks = groupTasksByCategory(phase.tasks)
+
+          return (
+            <article
+              key={phase.id}
+              className={[
+                'overflow-hidden rounded-2xl border bg-bg-surface transition-all duration-200',
+                unlocked ? 'border-border' : 'border-border/80 opacity-80',
+                complete ? 'border-green/30' : '',
+              ].join(' ')}
+            >
+              <button
+                type="button"
+                onClick={() => setOpenPhaseId(isOpen ? null : phase.id)}
+                className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left"
+              >
+                <div className="min-w-0">
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <span className={`font-mono text-sm ${complete ? 'text-green' : theme.text}`}>
+                      {complete ? '✓' : String(phase.number).padStart(2, '0')}
+                    </span>
+                    {!unlocked && <Badge label="Locked" variant="muted" />}
+                  </div>
+                  <h2 className={`font-mono text-xs uppercase tracking-[0.18em] ${complete ? 'text-muted line-through' : 'text-text'}`}>
+                    {phase.title}
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">{phase.subtitle}</p>
+                  {phase.target && <p className="mt-2 text-sm text-gold/80">Target: {phase.target}</p>}
+                  <p className="mt-2 font-mono text-[11px] text-muted">
+                    {phase.period ?? 'Current phase'} · {doneCount}/{phase.tasks.length} done
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-end gap-3">
+                  <span className={`font-mono text-xs ${complete ? 'text-green' : theme.text}`}>{Math.round(progress * 100)}%</span>
+                  <ChevronDown size={18} className={`text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                </div>
+              </button>
+
+              <div className="px-4 pb-4">
+                <div className="h-1.5 overflow-hidden rounded-full bg-dim">
+                  <div
+                    className={`h-full rounded-full ${complete ? 'bg-green' : theme.fill}`}
+                    style={{ width: `${Math.round(progress * 100)}%` }}
+                  />
+                </div>
+              </div>
+
+              {isOpen && (
+                <div className="border-t border-border px-4 pb-4 pt-4">
+                  <div className={!unlocked ? 'pointer-events-none opacity-40' : ''}>
+                    <div className="space-y-5">
+                      {groupedTasks.map(([category, tasks]) => (
+                        <div key={category}>
+                          <p className={`mb-3 font-mono text-[11px] uppercase tracking-[0.24em] ${theme.text}`}>{category}</p>
+                          <div className="space-y-3">
+                            {tasks.map((task) => {
+                              const completed = isComplete(task.id)
+
+                              return (
+                                <div key={task.id} className="flex gap-3 rounded-xl border border-border bg-bg-surface2 px-4 py-3">
+                                  <TaskCheckbox checked={completed} onToggle={() => toggle(task.id)} />
+                                  <div className="min-w-0 flex-1">
+                                    <p className={`font-display text-lg ${completed ? 'text-muted line-through' : 'text-text'}`}>{task.label}</p>
+                                    <p className="mt-1 text-sm leading-relaxed text-muted">{task.description}</p>
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {complete && phase.number < phases.length && (
+                      <div className="mt-5 rounded-xl border border-green/30 bg-green/5 px-4 py-3">
+                        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Phase Complete - Next Up</p>
+                        <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">
+                          Move into phase {phase.number + 1} once you are ready to trade stability for the next level of leverage.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </article>
+          )
+        })}
       </div>
     </div>
+  )
+}
+
+function groupTasksByCategory(tasks: StrategyTask[]) {
+  const groups = new Map<string, StrategyTask[]>()
+
+  for (const task of tasks) {
+    const key = task.category ?? 'Tasks'
+    const existing = groups.get(key) ?? []
+    existing.push(task)
+    groups.set(key, existing)
+  }
+
+  return Array.from(groups.entries())
+}
+
+function TaskCheckbox({ checked, onToggle }: { checked: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className={`mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-200 ${
+        checked ? 'border-gold bg-gold text-bg-base' : 'border-border text-gold'
+      }`}
+      aria-label={checked ? 'Mark incomplete' : 'Mark complete'}
+    >
+      {checked ? <Check size={12} /> : null}
+    </button>
   )
 }

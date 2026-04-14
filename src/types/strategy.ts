@@ -4,6 +4,7 @@ export interface StrategyTask {
   label: string
   description: string
   order: number
+  category?: string
 }
 
 export interface StrategyPhase {
@@ -11,6 +12,8 @@ export interface StrategyPhase {
   number: number
   title: string
   subtitle: string
+  period?: string
+  target?: string
   tasks: StrategyTask[]
 }
 

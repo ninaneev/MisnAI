@@ -5,6 +5,7 @@ export interface Milestone {
   category: 'revenue' | 'audience' | 'product' | 'personal'
   targetValue?: number
   unit?: string
+  nextStep?: string
 }
 
 export interface MilestoneCompletion {
