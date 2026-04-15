@@ -11,13 +11,14 @@ function renderWithRouter(initialPath = '/') {
 }
 
 describe('Nav', () => {
-  it('renders all 7 navigation links', () => {
+  it('renders all navigation links', () => {
     renderWithRouter()
     expect(screen.getByRole('link', { name: /today/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /strategy/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /milestones/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /context/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /decide/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /templates/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /history/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument()
   })

@@ -22,6 +22,7 @@ You bring your context: what you are building, your current stage, your goals, y
 | **History** | Durable progress memory across daily execution, strategy, milestones, and decisions. |
 | **Context** | Business description, goals, personality, Q&A answers, vision, and lifestyle priorities. |
 | **Decisions** | Weighted decision matrix for comparing options before committing. |
+| **Templates** | Local playbooks for validation, launch, weekly review, and founder life rhythm. |
 | **Settings** | Profile editing, context management, and reset controls. |
 
 ## Product Positioning
@@ -39,6 +40,14 @@ Taskoona should feel like an external brain: practical, personal, structured, an
 Flowity AI is a separate decision-intelligence business for product teams. Its core customer is a Series A developer-focused SaaS company with roughly EUR3M-EUR8M ARR, active customer/community feedback, and a fast product iteration cycle. Flowity AI helps Heads of Product, VPs of Product, and CTOs convert customer and business signals into executive decisions.
 
 Taskoona is different. It is a founder operating app for early execution, business context, daily momentum, and life-aware planning.
+
+## Open-Core Boundary
+
+The public Taskoona repo is the free local-first core. It includes deterministic task generation, templates, decision matrices, import/export backup, and all browser-based execution flows with no hosted AI and no server cost.
+
+The private `taskoona-cloud` repo is reserved for future paid infrastructure: hosted AI review, cloud-generated plans, sync, accounts, billing, teams, integrations, hosted backups, private prompts, evals, admin tools, and customer data handling.
+
+See [`docs/OPEN_CORE.md`](docs/OPEN_CORE.md) for the product boundary and [`docs/CPANEL_HOSTING.md`](docs/CPANEL_HOSTING.md) for the first no-cost cPanel deployment path.
 
 ## Design Principles
 
@@ -156,6 +165,9 @@ src/
 - [x] Milestone tracking
 - [x] History log
 - [x] Decision matrix
+- [x] Founder templates
+- [x] Import/export backup
+- [x] Local no-op cloud boundary
 - [ ] Stronger business-context onboarding
 - [ ] Life-task coordination
 - [ ] Supabase sync

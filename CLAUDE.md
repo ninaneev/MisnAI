@@ -1,4 +1,4 @@
-# CLAUDE.md - Flowity AI / Mova Context
+# AGENTS.md - Flowity AI / Taskoona Context
 
 ## What Flowity AI Is
 
@@ -7,19 +7,19 @@ The core thesis is that companies already produce the signals needed for better 
 but those signals are fragmented across customer feedback, support conversations,
 internal notes, product friction, and operational noise.
 
-Flowity AI turns those unstructured signals into:
+Flowity AI sells decision intelligence for product teams. It turns unstructured signals into:
 
 - executive insight
-- prioritised action
+- prioritised product and business decisions
 - clearer operating decisions
 
 This company should not be framed as a generic chatbot company, generic SaaS dashboard,
 or generic productivity app business.
-The category is closer to executive intelligence, signal interpretation, and decision support.
+The category is closer to decision intelligence, signal interpretation, and executive decision support for product organizations.
 
 ## Product Portfolio
 
-Flowity AI currently spans three connected product layers:
+Flowity AI currently spans separate products and apps:
 
 1. Flowity Brain
    - The intelligence engine.
@@ -30,16 +30,19 @@ Flowity AI currently spans three connected product layers:
    - The client-facing interface for the intelligence service.
    - Used for dashboards, briefs, chat, and organization-level visibility.
 
-3. Mova
-   - The founder execution layer in this repository.
-   - Designed as a local-first, open-source execution operating system for solopreneurs and founder-operators.
+3. Taskoona
+   - The local-first external-brain app in this repository.
+   - Designed as a practical execution operating system for solopreneurs, founder-operators, and early companies with no or little revenue.
    - Lets each user bring their own business context, personality, goals, and objectives into the system.
    - Focuses on daily execution, strategic sequencing, milestone tracking, and identity-aware planning.
 
 Important:
-Mova is part of the broader Flowity AI ecosystem, but it is not the same product as Flowity Brain.
-Mova is execution-facing.
-Flowity Brain is intelligence-facing.
+Taskoona is built by Flowity AI, but it is not the execution layer of Flowity AI and it is not where Flowity AI intelligence becomes action.
+Taskoona is a separate app that may become its own micro-SaaS product.
+Flowity Brain is a separate commercial decision-intelligence service.
+
+Open-core boundary:
+Taskoona's public repo contains the free, local-first core. The private `taskoona-cloud` repo is reserved for hosted AI, sync, accounts, billing, teams, integrations, hosted backups, private prompts, evals, admin tools, and customer data handling.
 
 ## Company Thesis
 
@@ -55,9 +58,9 @@ Flowity AI is built around a few core beliefs:
 
 ### Commercial Positioning
 
-Flowity AI should be positioned as a high-leverage intelligence service for leadership teams,
-especially in B2B SaaS and technology businesses that already generate meaningful customer
-and operational signals but do not have a strong interpretation layer.
+Flowity AI should be positioned as a decision-intelligence layer for product teams,
+especially Series A developer-focused SaaS companies that already generate meaningful customer,
+community, product, and business signals but do not have a strong interpretation layer.
 
 Preferred framing:
 
@@ -65,7 +68,8 @@ Preferred framing:
 - signal intelligence
 - decision intelligence
 - intelligence service
-- executive interpretation layer
+- product decision infrastructure
+- executive interpretation layer for product teams
 
 Avoid default framing like:
 
@@ -75,9 +79,9 @@ Avoid default framing like:
 - note summariser
 - productivity app
 
-### Mova Positioning
+### Taskoona Positioning
 
-Mova is not a basic to-do app.
+Taskoona is not a basic to-do app.
 It is a local-first execution engine for solopreneurs and founders.
 It should help users run their business and their life in one system.
 It combines:
@@ -104,49 +108,54 @@ based on who they are, what they are building, and what matters most right now."
 
 The main commercial ICP is:
 
-- B2B SaaS or software-enabled companies
-- usually Europe-focused or international
-- early growth through scale-up stage
-- enough customer/support/product signal volume to create pattern visibility
-- leadership teams that feel signal overload but insight scarcity
-- willing to pay for interpretation, not just data storage
+- Series A developer-focused SaaS companies
+- usually around EUR3M-EUR8M ARR
+- usually around 40-90 employees
+- active community feedback and fast product iteration cycles
+- enough customer, product, support, community, and business signal volume to create pattern visibility
+- product leadership teams that feel signal overload but insight scarcity
+- willing to pay for decision intelligence, not just data storage
 
 Typical indicators:
 
-- 15-300 employees
-- active support inbox or CX team
+- active GitHub, Discord, Slack, forum, support, or community feedback loops
 - product feedback arriving from several channels
-- churn, onboarding friction, support pain, pricing resistance, or internal misalignment
-- founder, COO, CS leader, or product leader who needs a clearer read on what is really happening
+- fast shipping cadence and frequent prioritisation tradeoffs
+- onboarding friction, support pain, roadmap tension, pricing resistance, or internal misalignment
+- Head of Product, VP Product, or CTO who needs a clearer read on what is really happening
 
 ### Buyer Personas
 
 Primary buyers:
 
-- founder / CEO
-- COO
-- VP Customer Success
 - Head of Product
-- strategy or operations lead
+- VP Product
+- CTO in smaller startups
 
 Secondary stakeholders:
 
 - support leader
-- RevOps
 - product operations
-- CX / research teams
+- customer success leader
+- founder / CEO
 
-### Mova ICP
+Fastest-fit verticals:
 
-Mova serves a different but related user:
+- Developer Tools SaaS, such as companies similar to Vercel, PostHog, and Snyk
+- AI SaaS tools, such as companies similar to Jasper and Runway
+- Product-led SaaS, such as companies similar to Notion and Linear
+
+### Taskoona ICP
+
+Taskoona serves a different user:
 
 - solo founder
 - solopreneur
 - independent operator
 - creator building a real business, not a hobby
-- high-agency person who needs sequencing and accountability more than inspiration
+- early company with no or little revenue that needs sequencing and accountability more than inspiration
 
-Mova is especially aligned with users who:
+Taskoona is especially aligned with users who:
 
 - struggle with prioritisation across growth and execution
 - want a system that merges life structure and business structure
@@ -308,10 +317,10 @@ At the company level, the architecture is:
 Privacy rule:
 Never send raw sensitive customer text to external LLMs when summarised or anonymised alternatives are sufficient.
 
-## Mova Repo Context
+## Taskoona Repo Context
 
-This repository is the Mova execution product.
-It is currently a React application focused on execution scaffolding for founder workflows.
+This repository is the Taskoona product.
+It is currently a React application focused on external-brain execution scaffolding for solopreneurs, founder workflows, and early companies with no or little revenue.
 
 ### Current Stack
 
@@ -332,6 +341,7 @@ It is currently a React application focused on execution scaffolding for founder
 - `src/stores/` handles local-first state for user, daily, strategy, and milestones.
 - `src/hooks/` contains execution logic for daily progress, history, milestones, personality, and strategy.
 - `src/data/` holds seeded habit, milestone, strategy, and personality mappings.
+- `src/lib/` holds local-first support utilities, deterministic generation, and no-op cloud adapter seams.
 - `src/utils/constants.ts` defines local storage keys used by the app.
 
 ### Storage Model
@@ -345,11 +355,11 @@ Storage keys indicate the operational model:
 - history log
 - user profile
 
-Supabase remains a planned next layer, not the current runtime dependency for core Mova flows.
+Supabase remains a planned next layer, not the current runtime dependency for core Taskoona flows.
 
 ### Product Input Model
 
-Mova should ultimately accept structured user context such as:
+Taskoona should ultimately accept structured user context such as:
 
 - business description
 - business model
@@ -363,6 +373,7 @@ That context should drive generated outputs such as:
 
 - business-priority tasks
 - daily action lists
+- deterministic local template recommendations
 - strategic sequencing
 - milestone suggestions
 - life tasks that support the business journey rather than compete with it
@@ -370,9 +381,9 @@ That context should drive generated outputs such as:
 The app should think in terms of an integrated founder operating system:
 business execution and life structure are coordinated, not treated as separate worlds.
 
-## Mova Business Rules
+## Taskoona Business Rules
 
-These rules are core to Mova and should not be casually changed:
+These rules are core to Taskoona and should not be casually changed:
 
 1. Daily completions reset by local day.
 2. Strategic progress persists until explicitly changed.
@@ -384,6 +395,8 @@ These rules are core to Mova and should not be casually changed:
 8. The app should remain useful even before advanced AI features are connected.
 9. User-supplied business context, goals, and life priorities should shape recommendations.
 10. Local-first usage is a core product value, not a temporary implementation detail.
+11. The public app must not require paid APIs, hosted AI, accounts, billing, or cloud services.
+12. Paid/private infrastructure belongs in `taskoona-cloud`, not the public core.
 
 ## Operating Goals
 
@@ -391,19 +404,19 @@ These rules are core to Mova and should not be casually changed:
 
 - Build a credible executive intelligence category around Flowity AI.
 - Convert insight quality into paid recurring relationships.
-- Create a defensible link between signal interpretation and executive action.
+- Create a defensible link between signal interpretation and better product decisions.
 - Develop research credibility without collapsing the commercial narrative into academic language.
 
-### Mova Goals
+### Taskoona Goals
 
 - Become a genuinely useful, open-source founder operating system, not a decorative planner.
 - Help users sustain daily action while moving through staged strategic progression.
 - Let users bring their own business context and receive structured priorities from it.
 - Balance business-building tasks with life tasks that support long-term execution.
 - Preserve psychological momentum through visible progress and milestone history.
-- Prepare the product for future integration with Flowity AI intelligence layers.
+- Keep the product separate from Flowity AI's commercial decision-intelligence service while sharing company ownership.
 
-### Near-Term Mova Product Goal
+### Near-Term Taskoona Product Goal
 
 Deliver a strong core execution experience with:
 
@@ -416,35 +429,39 @@ Deliver a strong core execution experience with:
 - milestones
 - history
 - onboarding and identity shaping
+- import/export backup
+- local templates
 
 before adding heavier backend or AI complexity.
 
-## Design Direction for Mova
+## Design Direction for Taskoona
 
-Use the existing Mova visual language rather than generic startup UI.
+Use the Taskoona visual language rather than Flowity AI's purple/cyan brand or generic startup UI.
 
 Design tokens:
 
-- bg-base: `#07070A`
-- bg-surface: `#0D0D12`
-- bg-surface2: `#111118`
-- border: `#1C1C28`
-- gold: `#C9A84C`
-- gold-dim: `#8A6E2F`
-- text: `#EDE8DF`
-- muted: `#6B6878`
-- dim: `#2A2A38`
-- red: `#C94C4C`
-- green: `#4CC97A`
-- blue: `#4C8EC9`
-- purple: `#8B4CC9`
+- ink: `#15191A`
+- coral: `#FF6548`
+- coral-dim: `#A53F31`
+- lime: `#A7F06D`
+- bg-base: `#0D1011`
+- bg-surface: `#171C1D`
+- bg-surface2: `#222829`
+- border: `#2B3334`
+- text: `#F7F4EF`
+- muted: `#9CA3A0`
+- dim: `#333B3C`
+- red: `#E45D5D`
+- green: `#A7F06D`
+- blue: `#6DAAF0`
+- purple: `#A982FF`
 
 Typography intent:
 
 - display tone: serif
 - labels and system details: monospace
 
-The experience should feel intentional, disciplined, and founder-grade, not playful or generic.
+The experience should feel clear, energetic, and founder-grade. Coral is for action, ink is for focus, and lime is for progress.
 
 ## Coding Rules for This Repo
 
@@ -458,7 +475,7 @@ The experience should feel intentional, disciplined, and founder-grade, not play
 
 ## What Not To Do
 
-- Do not turn Mova into a generic task list app.
+- Do not turn Taskoona into a generic task list app.
 - Do not describe Flowity AI as only a productivity brand.
 - Do not mix ***REMOVED*** academic language into commercial product copy.
 - Do not invent exact TAM numbers without a real source.

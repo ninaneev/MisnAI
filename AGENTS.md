@@ -41,6 +41,9 @@ Taskoona is built by Flowity AI, but it is not the execution layer of Flowity AI
 Taskoona is a separate app that may become its own micro-SaaS product.
 Flowity Brain is a separate commercial decision-intelligence service.
 
+Open-core boundary:
+Taskoona's public repo contains the free, local-first core. The private `taskoona-cloud` repo is reserved for hosted AI, sync, accounts, billing, teams, integrations, hosted backups, private prompts, evals, admin tools, and customer data handling.
+
 ## Company Thesis
 
 Flowity AI is built around a few core beliefs:
@@ -338,6 +341,7 @@ It is currently a React application focused on external-brain execution scaffold
 - `src/stores/` handles local-first state for user, daily, strategy, and milestones.
 - `src/hooks/` contains execution logic for daily progress, history, milestones, personality, and strategy.
 - `src/data/` holds seeded habit, milestone, strategy, and personality mappings.
+- `src/lib/` holds local-first support utilities, deterministic generation, and no-op cloud adapter seams.
 - `src/utils/constants.ts` defines local storage keys used by the app.
 
 ### Storage Model
@@ -369,6 +373,7 @@ That context should drive generated outputs such as:
 
 - business-priority tasks
 - daily action lists
+- deterministic local template recommendations
 - strategic sequencing
 - milestone suggestions
 - life tasks that support the business journey rather than compete with it
@@ -390,6 +395,8 @@ These rules are core to Taskoona and should not be casually changed:
 8. The app should remain useful even before advanced AI features are connected.
 9. User-supplied business context, goals, and life priorities should shape recommendations.
 10. Local-first usage is a core product value, not a temporary implementation detail.
+11. The public app must not require paid APIs, hosted AI, accounts, billing, or cloud services.
+12. Paid/private infrastructure belongs in `taskoona-cloud`, not the public core.
 
 ## Operating Goals
 
@@ -422,6 +429,8 @@ Deliver a strong core execution experience with:
 - milestones
 - history
 - onboarding and identity shaping
+- import/export backup
+- local templates
 
 before adding heavier backend or AI complexity.
 
