@@ -20,14 +20,14 @@ export function Checkbox({ checked, onChange, label, disabled = false }: Checkbo
         className={[
           'w-5 h-5 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-200',
           checked
-            ? 'bg-gold border-gold'
-            : 'bg-transparent border-border group-hover:border-gold/50',
+            ? 'bg-coral border-coral'
+            : 'bg-transparent border-border group-hover:border-coral/50',
           disabled ? 'opacity-40 cursor-not-allowed' : '',
         ].join(' ')}
       >
         {checked && (
           <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-            <path d="M1 4L3.5 6.5L9 1" stroke="#07070A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M1 4L3.5 6.5L9 1" stroke="#15191A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
       </span>

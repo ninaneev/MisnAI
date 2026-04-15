@@ -37,7 +37,7 @@ export default function MilestonesPage() {
     <div>
       <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
         <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova · Milestone Map</p>
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Milestone Map</p>
           <h1 className="font-display text-3xl text-text">Milestones</h1>
           <p className="mt-1 font-mono text-xs text-muted">
             {completedCount} of {milestones.length} achieved
@@ -46,8 +46,8 @@ export default function MilestonesPage() {
 
         <div className="px-5 py-4">
           {nextMilestone ? (
-            <div className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-4">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Next Target</p>
+            <div className="rounded-xl border border-coral/20 bg-coral/5 px-4 py-4">
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Next Target</p>
               <p className="mt-2 font-display text-xl text-text">{nextMilestone.title}</p>
               <p className="mt-1 text-sm leading-relaxed text-[#c8c4bc]">{nextMilestone.description}</p>
               {nextMilestone.nextStep && <p className="mt-3 text-sm text-muted">Once hit: {nextMilestone.nextStep}</p>}
@@ -69,7 +69,7 @@ export default function MilestonesPage() {
             onClick={() => setFilter(category)}
             className={`rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors duration-150 ${
               filter === category
-                ? 'border-gold bg-gold text-bg-base'
+                ? 'border-coral bg-coral text-bg-base'
                 : 'border-border text-muted hover:border-muted hover:text-text'
             }`}
           >
@@ -94,7 +94,7 @@ export default function MilestonesPage() {
                     completed
                       ? 'border-green bg-green/20 text-green'
                       : isNext
-                        ? 'border-gold bg-gold/10 text-gold'
+                        ? 'border-coral bg-coral/10 text-coral'
                         : 'border-border text-muted'
                   }`}
                   aria-label={completed ? 'Milestone completed' : 'Mark milestone as achieved'}
@@ -109,7 +109,7 @@ export default function MilestonesPage() {
                   completed
                     ? 'border-border bg-bg-surface opacity-60'
                     : isNext
-                      ? 'border-gold/30 bg-gold/5'
+                      ? 'border-coral/30 bg-coral/5'
                       : 'border-border bg-bg-surface'
                 }`}
               >
@@ -135,7 +135,7 @@ export default function MilestonesPage() {
 
                     {!completed && isNext && milestone.nextStep && (
                       <div className="mt-4 rounded-xl border border-border bg-bg-surface2 px-4 py-3">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">Once Done</p>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-coral">Once Done</p>
                         <p className="mt-2 text-sm leading-relaxed text-muted">{milestone.nextStep}</p>
                       </div>
                     )}

@@ -14,7 +14,7 @@ export function PhaseProgress({ phaseNumber, title, progress, unlocked }: PhaseP
         <span className="font-mono text-xs text-muted">Phase {phaseNumber} — {title}</span>
         <span className="font-mono text-xs text-muted">{Math.round(progress * 100)}%</span>
       </div>
-      <ProgressBar value={progress} color={progress === 1 ? 'green' : 'gold'} />
+      <ProgressBar value={progress} color={progress === 1 ? 'green' : 'coral'} />
     </div>
   )
 }

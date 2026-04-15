@@ -26,7 +26,7 @@ export function PhaseCard({ phase, unlocked, progress, isComplete, onToggle }: P
         <h2 className="font-display text-lg text-text">{phase.title}</h2>
         <p className="font-mono text-xs text-muted">{phase.subtitle}</p>
         <div className="mt-3">
-          <ProgressBar value={progress} color={done ? 'bg-green' : 'bg-gold'} />
+          <ProgressBar value={progress} color={done ? 'bg-green' : 'bg-coral'} />
         </div>
       </div>
       <div className={!unlocked ? 'opacity-40 pointer-events-none' : ''}>

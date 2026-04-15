@@ -13,7 +13,7 @@ const typeLabels: Record<HistoryEventType, string> = {
 
 const typeClasses: Record<HistoryEventType, string> = {
   daily: 'border-blue/30 bg-blue/5 text-blue',
-  strategy: 'border-gold/30 bg-gold/5 text-gold',
+  strategy: 'border-coral/30 bg-coral/5 text-coral',
   milestone: 'border-green/30 bg-green/5 text-green',
 }
 
@@ -46,7 +46,7 @@ export default function HistoryPage() {
     <div>
       <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
         <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova · Progress Memory</p>
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Progress Memory</p>
           <h1 className="font-display text-3xl text-text">History</h1>
           <p className="mt-1 font-mono text-xs text-muted">{totalEvents} recorded events</p>
         </div>
@@ -59,7 +59,7 @@ export default function HistoryPage() {
               onClick={() => setFilter(value)}
               className={`rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors duration-150 ${
                 filter === value
-                  ? 'border-gold bg-gold text-bg-base'
+                  ? 'border-coral bg-coral text-bg-base'
                   : 'border-border text-muted hover:border-muted hover:text-text'
               }`}
             >
@@ -89,7 +89,7 @@ export default function HistoryPage() {
           {filteredDates.map((date) => (
             <section key={date}>
               <div className="mb-3 flex items-center justify-between">
-                <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-gold">
+                <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-coral">
                   {formatDate(`${date}T00:00:00`)}
                 </p>
                 <p className="font-mono text-[11px] text-muted">{filteredGrouped[date].length} items</p>

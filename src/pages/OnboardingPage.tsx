@@ -68,11 +68,11 @@ export default function OnboardingPage() {
       <div className="mb-8">
         <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
           <span>Setup</span>
-          <span className="text-gold">{step}/{TOTAL_STEPS}</span>
+          <span className="text-coral">{step}/{TOTAL_STEPS}</span>
         </div>
         <div className="h-0.5 overflow-hidden rounded-full bg-dim">
           <div
-            className="h-full rounded-full bg-gold transition-all duration-500"
+            className="h-full rounded-full bg-coral transition-all duration-500"
             style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
           />
         </div>
@@ -110,7 +110,7 @@ export default function OnboardingPage() {
             type="button"
             onClick={goNext}
             disabled={step === 1 && !name.trim()}
-            className="rounded-xl border border-gold bg-gold/10 px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border border-coral bg-coral/10 px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Continue
           </button>
@@ -118,7 +118,7 @@ export default function OnboardingPage() {
           <button
             type="button"
             onClick={finish}
-            className="rounded-xl border border-gold bg-gold px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-bg-base transition-colors hover:bg-gold/90"
+            className="rounded-xl border border-coral bg-coral px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-bg-base transition-colors hover:bg-coral/90"
           >
             Start Executing
           </button>
@@ -131,10 +131,10 @@ export default function OnboardingPage() {
 function StepName({ name, onChange }: { name: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Step 1</p>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 1</p>
       <h1 className="mb-2 font-display text-3xl text-text">Who are you?</h1>
       <p className="mb-8 text-sm leading-relaxed text-muted">
-        Mova builds your daily execution plan around your context. Let's start with your name.
+        Taskoona builds your daily execution plan around your context. Let's start with your name.
       </p>
       <label className="block">
         <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Your name</span>
@@ -144,7 +144,7 @@ function StepName({ name, onChange }: { name: string; onChange: (v: string) => v
           onChange={(e) => onChange(e.target.value)}
           placeholder="e.g. Alex"
           autoFocus
-          className="w-full rounded-xl border border-border bg-bg-surface px-4 py-3 font-mono text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
+          className="w-full rounded-xl border border-border bg-bg-surface px-4 py-3 font-mono text-sm text-text placeholder-muted outline-none transition-colors focus:border-coral"
         />
       </label>
     </div>
@@ -164,10 +164,10 @@ function StepBusiness({
 }) {
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Step 2</p>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 2</p>
       <h1 className="mb-2 font-display text-3xl text-text">What are you building?</h1>
       <p className="mb-8 text-sm leading-relaxed text-muted">
-        This shapes your daily tasks and strategy blocks. Be specific — Mova uses this to tell you exactly what to work on.
+        This shapes your daily tasks and strategy blocks. Be specific — Taskoona uses this to tell you exactly what to work on.
       </p>
 
       <label className="mb-6 block">
@@ -177,7 +177,7 @@ function StepBusiness({
           onChange={(e) => onDescriptionChange(e.target.value)}
           placeholder="e.g. B2B SaaS helping European scale-ups interpret customer signals and turn them into executive decisions."
           rows={4}
-          className="w-full resize-none rounded-xl border border-border bg-bg-surface px-4 py-3 font-mono text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
+          className="w-full resize-none rounded-xl border border-border bg-bg-surface px-4 py-3 font-mono text-sm text-text placeholder-muted outline-none transition-colors focus:border-coral"
         />
       </label>
 
@@ -191,19 +191,19 @@ function StepBusiness({
               onClick={() => onStageChange(s.value)}
               className={`flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left transition-colors ${
                 stage === s.value
-                  ? 'border-gold bg-gold/10'
+                  ? 'border-coral bg-coral/10'
                   : 'border-border bg-bg-surface text-muted hover:border-border/60 hover:text-text'
               }`}
             >
               <span
                 className={`mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border transition-colors ${
-                  stage === s.value ? 'border-gold bg-gold text-bg-base' : 'border-border'
+                  stage === s.value ? 'border-coral bg-coral text-bg-base' : 'border-border'
                 }`}
               >
                 {stage === s.value && <Check size={9} />}
               </span>
               <div>
-                <p className={`font-mono text-xs uppercase tracking-[0.15em] ${stage === s.value ? 'text-gold' : ''}`}>
+                <p className={`font-mono text-xs uppercase tracking-[0.15em] ${stage === s.value ? 'text-coral' : ''}`}>
                   {s.label}
                 </p>
                 <p className="mt-0.5 text-xs text-muted">{s.description}</p>
@@ -221,10 +221,10 @@ function StepPersonality({ selected, onSelect }: { selected: MBTIType | null; on
 
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Step 3</p>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 3</p>
       <h1 className="mb-2 font-display text-3xl text-text">How do you operate?</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted">
-        Select your MBTI type if you know it — Mova uses this to frame your day. You can skip this.
+        Select your MBTI type if you know it — Taskoona uses this to frame your day. You can skip this.
       </p>
 
       <div className="mb-4 grid grid-cols-4 gap-2">
@@ -237,7 +237,7 @@ function StepPersonality({ selected, onSelect }: { selected: MBTIType | null; on
               onClick={() => onSelect(isSelected ? null : t.mbti)}
               className={`rounded-xl border px-2 py-3 text-center transition-colors ${
                 isSelected
-                  ? 'border-gold bg-gold/15 text-gold'
+                  ? 'border-coral bg-coral/15 text-coral'
                   : 'border-border bg-bg-surface text-muted hover:border-border/60 hover:text-text'
               }`}
             >
@@ -251,8 +251,8 @@ function StepPersonality({ selected, onSelect }: { selected: MBTIType | null; on
       </div>
 
       {adaptation && (
-        <div className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">{adaptation.label}</p>
+        <div className="rounded-xl border border-coral/20 bg-coral/5 px-4 py-3">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-coral">{adaptation.label}</p>
           <p className="mt-1 text-sm text-muted">{adaptation.blockDescriptions.morning}</p>
         </div>
       )}
@@ -271,10 +271,10 @@ function StepPersonality({ selected, onSelect }: { selected: MBTIType | null; on
 function StepGoals({ selected, onToggle }: { selected: Set<string>; onToggle: (id: string) => void }) {
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Step 4</p>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 4</p>
       <h1 className="mb-2 font-display text-3xl text-text">What are you building toward?</h1>
       <p className="mb-8 text-sm leading-relaxed text-muted">
-        Select the goals that resonate. These shape how Mova frames your vision and evening reviews.
+        Select the goals that resonate. These shape how Taskoona frames your vision and evening reviews.
       </p>
 
       <div className="space-y-3">
@@ -286,18 +286,18 @@ function StepGoals({ selected, onToggle }: { selected: Set<string>; onToggle: (i
               type="button"
               onClick={() => onToggle(goal.id)}
               className={`flex w-full items-start gap-3 rounded-xl border px-4 py-4 text-left transition-colors ${
-                isSelected ? 'border-gold bg-gold/10' : 'border-border bg-bg-surface hover:border-border/60'
+                isSelected ? 'border-coral bg-coral/10' : 'border-border bg-bg-surface hover:border-border/60'
               }`}
             >
               <span
                 className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors ${
-                  isSelected ? 'border-gold bg-gold/20 text-gold' : 'border-border'
+                  isSelected ? 'border-coral bg-coral/20 text-coral' : 'border-border'
                 }`}
               >
                 {isSelected && <Check size={11} />}
               </span>
               <div>
-                <p className={`font-mono text-xs uppercase tracking-[0.15em] ${isSelected ? 'text-gold' : 'text-text'}`}>
+                <p className={`font-mono text-xs uppercase tracking-[0.15em] ${isSelected ? 'text-coral' : 'text-text'}`}>
                   {goal.label}
                 </p>
                 <p className="mt-1 text-sm leading-relaxed text-muted">{goal.description}</p>

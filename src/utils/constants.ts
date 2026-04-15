@@ -1,10 +1,10 @@
 export const STORAGE_KEYS = {
-  DAILY_COMPLETIONS: 'mova:daily-completions',
-  STRATEGY_COMPLETIONS: 'mova:strategy-completions',
-  MILESTONE_COMPLETIONS: 'mova:milestone-completions',
-  HISTORY_LOG: 'mova:history-log',
-  USER_PROFILE: 'mova:user-profile',
-  DECISION_MATRICES: 'mova:decision-matrices',
+  DAILY_COMPLETIONS: 'taskoona:daily-completions',
+  STRATEGY_COMPLETIONS: 'taskoona:strategy-completions',
+  MILESTONE_COMPLETIONS: 'taskoona:milestone-completions',
+  HISTORY_LOG: 'taskoona:history-log',
+  USER_PROFILE: 'taskoona:user-profile',
+  DECISION_MATRICES: 'taskoona:decision-matrices',
 } as const
 
 export const PHASE_COUNT = 4

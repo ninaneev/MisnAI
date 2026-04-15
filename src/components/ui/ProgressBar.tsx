@@ -1,10 +1,10 @@
 interface ProgressBarProps {
   value: number        // 0-100
   label?: string
-  color?: string       // Tailwind bg class, default gold
+  color?: string       // Tailwind bg class, default coral
 }
 
-export function ProgressBar({ value, label, color = 'bg-gold' }: ProgressBarProps) {
+export function ProgressBar({ value, label, color = 'bg-coral' }: ProgressBarProps) {
   const clamped = Math.min(100, Math.max(0, value))
 
   return (

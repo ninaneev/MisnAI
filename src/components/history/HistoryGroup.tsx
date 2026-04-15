@@ -11,7 +11,7 @@ export function HistoryGroup({ date, events }: HistoryGroupProps) {
   return (
     <div className="mb-6">
       <div className="flex items-center gap-3 mb-2">
-        <span className="font-mono text-xs text-gold uppercase tracking-widest">
+        <span className="font-mono text-xs text-coral uppercase tracking-widest">
           {formatDate(`${date}T00:00:00`)}
         </span>
         <div className="flex-1 h-px bg-border" />

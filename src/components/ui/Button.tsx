@@ -9,7 +9,7 @@ export function Button({ variant = 'primary', size = 'md', className = '', child
   const base = 'font-mono transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
   const sizes = { sm: 'px-3 py-1 text-xs', md: 'px-4 py-2 text-sm' }
   const variants = {
-    primary: 'bg-gold text-bg-base hover:bg-gold-dim',
+    primary: 'bg-coral text-bg-base hover:bg-coral-dim',
     ghost: 'border border-border text-muted hover:text-text hover:border-muted',
     danger: 'border border-red text-red hover:bg-red hover:text-bg-base',
   }

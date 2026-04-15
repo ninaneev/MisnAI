@@ -23,7 +23,7 @@ export function HistoryFilter({ active, onChange }: HistoryFilterProps) {
           onClick={() => onChange(f.value)}
           className={`font-mono text-xs px-3 py-1.5 rounded transition-colors ${
             active === f.value
-              ? 'bg-gold text-bg-base'
+              ? 'bg-coral text-bg-base'
               : 'text-muted hover:text-text border border-border'
           }`}
         >

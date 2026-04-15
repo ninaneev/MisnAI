@@ -1,71 +1,104 @@
-# Mova
+# Taskoona
 
-**A local-first execution operating system for founders and solopreneurs.**
+**An external brain for solopreneurs and early companies.**
 
-Mova helps you decide what to do next — in business and in life — based on who you are, what you're building, and what matters most right now. It combines your business context, personality, goals, and strategic stage into a single system that generates structured daily action and tracks momentum over time.
+Taskoona helps people building from zero to first traction decide what to do next, keep the right context in view, and turn strategy into daily action. It combines business context, goals, personality, constraints, milestones, habits, and decision support into a local-first operating system for execution.
 
-Part of the [Flowity AI](https://github.com/ninaneev) ecosystem. Open-source. Runs entirely in your browser.
+Taskoona is built by Flowity AI, but it is not the execution layer of Flowity AI and it is not Flowity Brain. It is a separate app that can become its own micro-SaaS product.
 
----
+Initial public URL: `taskoona.flowity.ai`. Vercel preview URLs can be used for testing, but the branded Flowity subdomain should be the first public home until Taskoona moves to its own domain.
 
-## What it does
+## What It Does
 
-Most productivity tools give you a blank list. Mova gives you a system.
+Most productivity tools give you a blank list. Taskoona gives you a working system.
 
-You bring your context — your business description, stage, goals, personality type, life priorities — and Mova generates context-aware daily execution blocks, sequences your strategy across phases, tracks milestones, logs history, and helps you weigh major decisions with a structured matrix. Everything is stored locally. Nothing leaves your machine.
+You bring your context: what you are building, your current stage, your goals, your life priorities, your personality, and your constraints. Taskoona uses that context to shape daily execution blocks, strategy phases, milestones, history, and decision matrices. Everything works locally in the browser.
 
-### Core surfaces
+| Area | Purpose |
+| --- | --- |
+| **Today** | Daily execution blocks grouped by shift. Completions reset by local day. |
+| **Strategy** | Staged business progression across phases, with future phases still visible. |
+| **Milestones** | Progress markers with completion timing and momentum tracking. |
+| **History** | Durable progress memory across daily execution, strategy, milestones, and decisions. |
+| **Context** | Business description, goals, personality, Q&A answers, vision, and lifestyle priorities. |
+| **Decisions** | Weighted decision matrix for comparing options before committing. |
+| **Settings** | Profile editing, context management, and reset controls. |
 
-| Surface | What it does |
-|---|---|
-| **Today** | Daily execution blocks grouped by shift (morning / afternoon / evening). Each block surfaces context-aware substeps drawn from your strategy, goals, and business description. Completions reset by day. |
-| **Strategy** | Four-phase strategic roadmap with locked/unlocked progression. Tracks which moves are done, which are next. Stores your strategic context and uses it to sharpen daily tasks. |
-| **Milestones** | Persistent progress markers across business and life. Completion timestamps preserved. Shows what's been won and what's still ahead. |
-| **Context** | Everything Mova knows about you — business description, goals, sports, personality, Q&A answers, vision goals. Edit any field to immediately sharpen your execution blocks. |
-| **Decisions** | Weighted decision matrix for comparing strategies and goals. Define criteria, weight each one (1–10), grade every option, get a ranked result — then write a counter-argument against the winner before committing. Decision support, not decision automation. |
-| **History** | Durable log of daily completions. Treated as momentum memory, not disposable UI noise. |
-| **Settings** | Full profile editor — name, business stage, MBTI, goals, vision goals, decision matrices. Danger zone for full reset. |
+## Product Positioning
 
----
+Taskoona is for:
 
-## Design principles
+- solo founders
+- solopreneurs
+- early companies with no or little revenue
+- independent operators building a real business
+- teams that need structure before they need heavy management software
 
-**Local-first.** Your context is yours. All state persists in `localStorage` via Zustand. No account required, no server dependency.
+Taskoona should feel like an external brain: practical, personal, structured, and useful before any advanced AI layer is added.
 
-**Context-driven execution.** Daily tasks are not generic. They are generated from your business description, current strategy phase, pending strategic moves, life goals, and vision — updated in real time as you edit your context.
+Flowity AI is a separate decision-intelligence business for product teams. Its core customer is a Series A developer-focused SaaS company with roughly EUR3M-EUR8M ARR, active customer/community feedback, and a fast product iteration cycle. Flowity AI helps Heads of Product, VPs of Product, and CTOs convert customer and business signals into executive decisions.
 
-**Staged strategy.** Execution is sequenced across four phases. Phases unlock as previous ones complete. The system always shows what comes next, even when it's not yet reachable.
+Taskoona is different. It is a founder operating app for early execution, business context, daily momentum, and life-aware planning.
 
-**Identity-aware.** MBTI adaptation changes framing and emphasis across the system — not cosmetically, but in how tasks are described and prioritised.
+## Design Principles
 
-**Verdict pressure.** The decision matrix requires you to argue against the winning option before you act on it. Numbers are a starting point, not a verdict.
+**Context before tasks.** Daily actions should come from the user's real business context, goals, stage, and constraints.
 
-**Momentum over perfection.** History is durable. Milestones are timestamped. The system is designed to make progress visible so the user keeps moving.
+**Execution and life together.** Business-building and life structure belong in the same system when the user is the operating engine.
 
----
+**Local-first by default.** Taskoona should remain useful and trustworthy before cloud sync, backend systems, or AI features are connected.
 
-## Tech stack
+**Momentum over perfection.** History is durable, milestones are timestamped, and progress should stay visible.
 
-| Layer | Choice |
-|---|---|
-| Framework | React 18 + TypeScript (strict) |
-| Build | Vite |
+**Decision support, not decision automation.** The app can structure a choice, but the user remains responsible for judgment.
+
+## Brand
+
+Taskoona uses its own brand system, separate from Flowity AI.
+
+The selected palette fits the product because it has three clear signals:
+
+- coral for action and urgency
+- ink for focus and seriousness
+- lime for progress and completion
+
+| Token | Hex | Usage |
+| --- | --- | --- |
+| `coral` | `#FF6548` | Primary actions, active states, key emphasis |
+| `coral-dim` | `#A53F31` | Subdued action labels and secondary emphasis |
+| `lime` | `#A7F06D` | Progress, completion, positive momentum |
+| `ink` | `#15191A` | Core background and brand anchor |
+| `bg-base` | `#0D1011` | Page background |
+| `bg-surface` | `#171C1D` | Panels and inputs |
+| `bg-surface2` | `#222829` | Elevated surfaces |
+| `border` | `#2B3334` | Dividers and outlines |
+| `text` | `#F7F4EF` | Primary text |
+| `muted` | `#9CA3A0` | Secondary text |
+| `dim` | `#333B3C` | Disabled and quiet UI |
+| `red` | `#E45D5D` | Risk, reset, destructive actions |
+| `blue` | `#6DAAF0` | Informational states |
+| `purple` | `#A982FF` | Optional advanced/intelligence states |
+
+The app should avoid generic AI purple/cyan gradients. It can be energetic without looking childish, and serious without becoming cold.
+
+## Tech Stack
+
+| Layer | Tooling |
+| --- | --- |
+| Frontend | React 18, TypeScript, Vite |
 | Styling | Tailwind CSS with custom design tokens |
-| State | Zustand with `persist` middleware |
-| Server state | TanStack Query (foundation for future backend) |
+| State | Zustand |
+| Server-state foundation | TanStack Query |
 | Routing | React Router v6 |
-| Testing | Vitest + React Testing Library |
-| Planned backend | Supabase |
-| Planned intelligence | FastAPI + local/agentic stack |
+| Testing | Vitest, React Testing Library |
+| Planned backend path | Supabase |
 
----
-
-## Getting started
+## Getting Started
 
 ```bash
 # Clone
-git clone https://github.com/ninaneev/Mova.git
-cd Mova
+git clone https://github.com/ninaneev/Taskoona.git
+cd Taskoona
 
 # Install
 npm install
@@ -74,131 +107,59 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173).
-
----
+The app runs in the browser and stores user state locally.
 
 ## Commands
 
 ```bash
-npm run dev       # Start dev server
-npm run build     # Production build
-npm run test      # Run test suite (Vitest)
-npm run lint      # ESLint
+npm run dev      # Start Vite
+npm run build    # Type-check and build
+npm run test     # Run Vitest
+npm run lint     # Run ESLint
+npm run format   # Format src with Prettier
 ```
 
----
+## Project Structure
 
-## Project structure
-
-```
+```text
 src/
-├── pages/              # Route-level surfaces (Daily, Strategy, Milestones, etc.)
-├── components/
-│   ├── layout/         # Nav, Layout, AppShell
-│   ├── ui/             # Design primitives (Badge, Button, Card, Checkbox, ProgressBar)
-│   ├── daily/          # Daily block components
-│   ├── decisions/      # Decision matrix components
-│   ├── milestones/     # Milestone components
-│   ├── strategy/       # Strategy phase components
-│   └── history/        # History components
-├── stores/             # Zustand stores (user, daily, strategy, milestone, decision)
-├── hooks/              # Business logic (useDaily, useStrategy, useMilestones, useDecisions, useDailyContext)
-├── data/               # Seed data (habits, strategy phases, milestones, personality maps)
-├── types/              # TypeScript interfaces
-└── utils/              # Constants, date utilities
+  components/
+    decisions/      # Decision matrix components
+    layout/         # App shell and navigation
+    onboarding/     # Onboarding form pieces
+    ui/             # Design primitives
+  data/             # Seeded habits, strategy, milestones, personality mappings
+  hooks/            # Execution logic and derived state
+  pages/            # Main product surfaces
+  stores/           # Zustand stores
+  types/            # Shared TypeScript types
+  utils/            # Constants and helpers
 ```
 
-Business logic lives in hooks and stores. Rendering logic lives in components. Pages compose them.
+## Core Rules
 
----
-
-## Design tokens
-
-Mova uses a dark, disciplined visual language — intentional, founder-grade, not playful.
-
-| Token | Value | Use |
-|---|---|---|
-| `bg-base` | `#07070A` | Page background |
-| `bg-surface` | `#0D0D12` | Cards and panels |
-| `bg-surface2` | `#111118` | Input fields, nested surfaces |
-| `border` | `#1C1C28` | All borders |
-| `gold` | `#C9A84C` | Primary accent — active, important |
-| `gold-dim` | `#8A6E2F` | Subdued gold |
-| `text` | `#EDE8DF` | Primary text |
-| `muted` | `#6B6878` | Secondary text, labels |
-| `dim` | `#2A2A38` | Progress bar backgrounds |
-| `red` | `#C94C4C` | Destructive actions |
-| `green` | `#4CC97A` | Completion states |
-| `blue` | `#4C8EC9` | Informational |
-
-Typography: `font-display` (serif) for headings and task labels. `font-mono` for system labels, metadata, and UI controls.
-
----
-
-## Context model
-
-Mova works because you give it context. The more complete your profile, the more specific your daily execution blocks become.
-
-| Field | What it feeds |
-|---|---|
-| Business description | Daily task substeps, strategic framing |
-| Business goals | Morning review, deep work focus, outreach targets |
-| Business stage | Phase unlocking, strategic sequencing |
-| Life goals | Evening review, life-task coordination |
-| Sports & exercise | Morning block, habit framing |
-| MBTI | Personality adaptation across task descriptions |
-| Vision goals | Outreach and content blocks |
-| Custom context | All daily task generation |
-| Q&A answers | Sharpens task generation further |
-| Strategy custom context | Strategy-level daily framing |
-
----
-
-## Decision matrix
-
-The Decisions surface is a weighted multi-criteria decision aid — useful when you're choosing between strategic directions, goals, or major moves.
-
-**How it works:**
-
-1. Create a matrix and name the decision.
-2. Add criteria — the things that actually matter (revenue impact, strategic fit, time to result, energy cost, etc.).
-3. Weight each criterion from 1–10.
-4. Add your options (candidate strategies, goals, paths).
-5. Grade each option against every criterion (1–10).
-6. Mova computes: `score = Σ(grade × weight) / Σ(10 × weight) × 100`
-7. Options are ranked. The winner is surfaced with a verdict.
-8. Write your counter-argument — the strongest case *against* the winner — before you commit.
-
-The counter-argument step is mandatory in spirit. The numeric result tells you what your stated values imply. Your counter-argument tests whether those values were complete.
-
-Matrices are editable at any time from both the Decisions page and Settings.
-
----
+1. Daily completions reset by local day.
+2. Strategic progress persists until explicitly changed.
+3. History is durable progress memory, not disposable UI noise.
+4. Future phases remain visible even before they are unlocked.
+5. When daily execution is complete, the app surfaces the next strategic move.
+6. Milestones preserve completion timing.
+7. Personality adaptation changes framing and emphasis, not product integrity.
+8. The app remains useful before advanced AI features are connected.
+9. User-supplied business context, goals, and life priorities shape recommendations.
+10. Local-first usage is a core product value.
 
 ## Roadmap
 
-- [ ] Supabase sync — optional cloud persistence, multi-device
-- [ ] AI review layer — daily brief generated from strategy + context + history
-- [ ] Flowity Brain integration — signal intelligence feeding into Mova execution
-- [ ] Mobile PWA — offline-first, installable
-- [ ] Shared context templates — import a business context starter
-- [ ] Milestone suggestions — AI-generated milestone proposals based on stage and goals
-- [ ] Weekly review surface — structured reflection tied to history and strategy progress
-
----
-
-## Part of Flowity AI
-
-Mova is the execution layer of the [Flowity AI](https://github.com/ninaneev) ecosystem.
-
-**Flowity Brain** is the intelligence engine — it ingests business signals, extracts patterns, and generates executive insight for leadership teams.
-
-**Mova** is where that intelligence becomes action — a local-first OS for the founder running the operation.
-
-They are different products. Mova is open-source and self-contained. Flowity Brain is a commercial intelligence service.
-
----
+- [x] Context-aware daily execution blocks
+- [x] Strategy phases and unlock logic
+- [x] Milestone tracking
+- [x] History log
+- [x] Decision matrix
+- [ ] Stronger business-context onboarding
+- [ ] Life-task coordination
+- [ ] Supabase sync
+- [ ] Optional AI review layer
 
 ## License
 

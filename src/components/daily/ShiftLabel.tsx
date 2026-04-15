@@ -11,7 +11,7 @@ const labels: Record<TimeBlock, string> = {
 }
 
 const colors: Record<TimeBlock, string> = {
-  morning: 'text-gold',
+  morning: 'text-coral',
   midday: 'text-blue',
   evening: 'text-purple',
 }

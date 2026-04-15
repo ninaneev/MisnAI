@@ -4,8 +4,8 @@
 
 @layer base {
   body {
-    background-color: #07070A;
-    color: #EDE8DF;
+    background-color: #0D1011;
+    color: #F7F4EF;
   }
 
   * {
@@ -17,11 +17,11 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #0D0D12;
+    background: #171C1D;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #1C1C28;
+    background: #2B3334;
     border-radius: 2px;
   }
 }

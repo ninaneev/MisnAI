@@ -19,7 +19,7 @@ export function NavBar() {
             end={item.to === '/'}
             className={({ isActive }) =>
               `flex-1 md:flex-none flex flex-col md:flex-row items-center md:items-center gap-0.5 md:gap-3 py-3 md:py-2.5 md:px-4 font-mono text-xs transition-colors ${
-                isActive ? 'text-gold' : 'text-muted hover:text-text'
+                isActive ? 'text-coral' : 'text-muted hover:text-text'
               }`
             }
           >

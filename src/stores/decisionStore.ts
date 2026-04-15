@@ -24,7 +24,7 @@ const seedMatrix: DecisionMatrix = {
     },
     {
       id: 'o2',
-      label: 'Ship Mova publicly',
+      label: 'Ship Taskoona publicly',
       description: 'Open-source launch + LinkedIn narrative + developer reach.',
       grades: { c1: 5, c2: 5, c3: 8, c4: 7 },
     },
@@ -126,7 +126,8 @@ export const useDecisionStore = create<DecisionState>()(
             ...m,
             criteria: m.criteria.filter((c) => c.id !== criterionId),
             options: m.options.map((o) => {
-              const { [criterionId]: _removed, ...rest } = o.grades
+              const rest = { ...o.grades }
+              delete rest[criterionId]
               return { ...o, grades: rest }
             }),
           })),

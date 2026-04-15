@@ -26,7 +26,7 @@ const stageLabel = {
   scale: 'Scale Stage',
 } as const
 
-// Context questions Mova generates to deepen your profile.
+// Context questions Taskoona generates to deepen your profile.
 // Answers feed into daily task generation via useDailyContext.
 const CONTEXT_QUESTIONS = [
   'What is your single biggest current business bottleneck?',
@@ -75,9 +75,9 @@ export default function VisionPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova</p>
+        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona</p>
         <h1 className="font-display text-3xl text-text">Context</h1>
-        <p className="mt-1 font-mono text-xs text-muted">Everything Mova knows about you. Modify anything to sharpen your daily tasks.</p>
+        <p className="mt-1 font-mono text-xs text-muted">Everything Taskoona knows about you. Modify anything to sharpen your daily tasks.</p>
       </div>
 
       <div className="space-y-3">
@@ -112,7 +112,7 @@ export default function VisionPage() {
           />
           <div className="mt-3 flex items-center gap-3">
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Stage</span>
-            <span className="rounded-md border border-gold/30 bg-gold/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-gold">
+            <span className="rounded-md border border-coral/30 bg-coral/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-coral">
               {stageLabel[profile.businessStage]}
             </span>
           </div>
@@ -178,12 +178,12 @@ export default function VisionPage() {
         >
           {adaptation ? (
             <div>
-              <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-gold">{adaptation.label}</p>
+              <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-coral">{adaptation.label}</p>
               <p className="mb-4 text-sm leading-relaxed text-muted">{adaptation.blockDescriptions.morning}</p>
               <div className="space-y-2">
                 {adaptation.strengths.map((s) => (
                   <div key={s} className="flex items-center gap-2">
-                    <ChevronRight size={12} className="flex-shrink-0 text-gold" />
+                    <ChevronRight size={12} className="flex-shrink-0 text-coral" />
                     <p className="text-sm text-[#c8c4bc]">{s}</p>
                   </div>
                 ))}
@@ -241,7 +241,7 @@ export default function VisionPage() {
           onToggle={() => toggleSection('qa')}
         >
           <p className="mb-4 text-sm leading-relaxed text-muted">
-            Answer these questions to sharpen how Mova generates your daily tasks. Answers are stored and used directly in your execution blocks.
+            Answer these questions to sharpen how Taskoona generates your daily tasks. Answers are stored and used directly in your execution blocks.
           </p>
           <div className="space-y-5">
             {CONTEXT_QUESTIONS.map((q) => {
@@ -251,7 +251,7 @@ export default function VisionPage() {
 
               return (
                 <div key={q}>
-                  <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-gold">{q}</p>
+                  <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-coral">{q}</p>
                   <textarea
                     value={draft}
                     onChange={(e) =>
@@ -259,7 +259,7 @@ export default function VisionPage() {
                     }
                     rows={2}
                     placeholder="Type your answer…"
-                    className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
+                    className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none transition-colors focus:border-coral"
                   />
                   <div className="mt-1.5 flex items-center justify-between">
                     {saved && (
@@ -274,7 +274,7 @@ export default function VisionPage() {
                       className={`ml-auto flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] transition-all ${
                         isSaving
                           ? 'border-green/40 bg-green/10 text-green'
-                          : 'border-border text-muted hover:border-gold hover:text-gold disabled:opacity-30'
+                          : 'border-border text-muted hover:border-coral hover:text-coral disabled:opacity-30'
                       }`}
                     >
                       {isSaving && <Check size={10} />}
@@ -353,7 +353,7 @@ function ContextField({
           <button
             type="button"
             onClick={onEdit}
-            className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-gold"
+            className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-coral"
           >
             Edit
           </button>
@@ -368,7 +368,7 @@ function ContextField({
               onChange={(e) => onDraftChange(e.target.value)}
               rows={4}
               autoFocus
-              className="w-full resize-none rounded-xl border border-gold bg-bg-surface2 px-4 py-3 text-sm text-text outline-none"
+              className="w-full resize-none rounded-xl border border-coral bg-bg-surface2 px-4 py-3 text-sm text-text outline-none"
             />
           ) : (
             <input
@@ -376,14 +376,14 @@ function ContextField({
               value={draft}
               onChange={(e) => onDraftChange(e.target.value)}
               autoFocus
-              className="w-full rounded-xl border border-gold bg-bg-surface2 px-4 py-3 text-sm text-text outline-none"
+              className="w-full rounded-xl border border-coral bg-bg-surface2 px-4 py-3 text-sm text-text outline-none"
             />
           )}
           <div className="mt-2 flex items-center gap-3">
             <button
               type="button"
               onClick={onSave}
-              className="rounded-lg border border-gold bg-gold/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20"
+              className="rounded-lg border border-coral bg-coral/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20"
             >
               Save
             </button>

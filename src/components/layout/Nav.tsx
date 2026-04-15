@@ -39,7 +39,7 @@ export function Nav() {
             className={({ isActive }) =>
               [
                 'flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-colors duration-150',
-                isActive ? 'text-gold' : 'text-muted hover:text-text',
+                isActive ? 'text-coral' : 'text-muted hover:text-text',
               ].join(' ')
             }
           >

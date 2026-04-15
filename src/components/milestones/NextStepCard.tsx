@@ -8,12 +8,12 @@ interface NextStepCardProps {
 
 export function NextStepCard({ milestone }: NextStepCardProps) {
   return (
-    <Card className="border-gold/30 bg-gold/5">
+    <Card className="border-coral/30 bg-coral/5">
       <div className="flex items-start gap-3">
-        <div className="w-2 h-2 rounded-full bg-gold mt-1.5 flex-shrink-0" />
+        <div className="w-2 h-2 rounded-full bg-coral mt-1.5 flex-shrink-0" />
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-mono text-xs text-gold uppercase tracking-widest">Next Milestone</span>
+            <span className="font-mono text-xs text-coral uppercase tracking-widest">Next Milestone</span>
             <Badge label={milestone.category} variant="strategy" />
           </div>
           <p className="font-display text-text">{milestone.title}</p>

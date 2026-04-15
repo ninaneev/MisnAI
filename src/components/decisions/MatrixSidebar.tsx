@@ -16,7 +16,7 @@ export function MatrixSidebar({ matrices, activeId, onSelect, onCreate }: Props)
         <button
           type="button"
           onClick={onCreate}
-          className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-gold"
+          className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-coral"
           aria-label="Create new matrix"
         >
           <Plus size={12} /> New
@@ -35,12 +35,12 @@ export function MatrixSidebar({ matrices, activeId, onSelect, onCreate }: Props)
                 type="button"
                 onClick={() => onSelect(m.id)}
                 className={`block w-full border-b border-border px-4 py-3 text-left transition-colors last:border-0 ${
-                  isActive ? 'bg-gold/5' : 'hover:bg-bg-surface2'
+                  isActive ? 'bg-coral/5' : 'hover:bg-bg-surface2'
                 }`}
               >
                 <p
                   className={`font-mono text-[11px] uppercase tracking-[0.15em] ${
-                    isActive ? 'text-gold' : 'text-text'
+                    isActive ? 'text-coral' : 'text-text'
                   }`}
                 >
                   {m.title}

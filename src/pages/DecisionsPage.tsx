@@ -41,7 +41,7 @@ export default function DecisionsPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova · Decision Engine</p>
+        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Decision Engine</p>
         <h1 className="font-display text-3xl text-text">Decisions</h1>
         <p className="mt-1 font-mono text-xs text-muted">
           Weigh criteria, grade options, then argue against the winner before committing.
@@ -64,7 +64,7 @@ export default function DecisionsPage() {
             <button
               type="button"
               onClick={handleCreate}
-              className="mx-auto mt-4 flex items-center gap-2 rounded-xl border border-gold bg-gold/10 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20"
+              className="mx-auto mt-4 flex items-center gap-2 rounded-xl border border-coral bg-coral/10 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20"
             >
               <Plus size={14} /> New matrix
             </button>
@@ -86,7 +86,7 @@ export default function DecisionsPage() {
                   onChange={(e) => updateMatrix(matrix.id, { description: e.target.value })}
                   rows={2}
                   placeholder="What decision are you making? What is at stake?"
-                  className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
+                  className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none transition-colors focus:border-coral"
                 />
                 <div className="flex items-center justify-between">
                   <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">

@@ -22,7 +22,7 @@ export function OptionsGrader({ matrix, onAdd, onUpdate, onRemove }: Props) {
         <button
           type="button"
           onClick={onAdd}
-          className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:border-gold hover:text-gold"
+          className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:border-coral hover:text-coral"
         >
           <Plus size={12} /> Add option
         </button>
@@ -85,10 +85,10 @@ export function OptionsGrader({ matrix, onAdd, onUpdate, onRemove }: Props) {
                         step={1}
                         value={grade || 1}
                         onChange={(e) => setGrade(matrix.id, o.id, c.id, Number(e.target.value))}
-                        className="w-20 accent-[#C9A84C]"
+                        className="w-20 accent-[#FF6548]"
                         aria-label={`${o.label} grade for ${c.label}`}
                       />
-                      <span className="w-5 text-right font-mono text-[11px] text-gold">{grade || '–'}</span>
+                      <span className="w-5 text-right font-mono text-[11px] text-coral">{grade || '–'}</span>
                     </div>
                   )
                 })}

@@ -11,10 +11,10 @@ const defaultProfile: UserProfile = {
   businessStage: 'launch',
 
   businessDescription:
-    'Flowity AI — executive intelligence company building signal interpretation and decision support for B2B SaaS leadership teams. Products: Flowity Brain (intelligence engine), Executive Hub (client-facing dashboard), and Mova (open-source founder execution OS). ***REMOVED*** research track running in parallel with the commercial GTM.',
+    'Flowity AI — executive intelligence company building signal interpretation and decision support for B2B SaaS leadership teams. Products: Flowity Brain (intelligence engine), Executive Hub (client-facing dashboard), and Taskoona (open-source founder execution OS). ***REMOVED*** research track running in parallel with the commercial GTM.',
 
   businessGoals:
-    'Close first 3 paying Flowity Brain clients at EUR 1,199/month. Complete ***REMOVED*** Phase 1 submission. Launch Mova publicly as open-source. Reach EUR 10k MRR before relocating to Europe. Own the executive intelligence category on LinkedIn.',
+    'Close first 3 paying Flowity Brain clients at EUR 1,199/month. Complete ***REMOVED*** Phase 1 submission. Launch Taskoona publicly as open-source. Reach EUR 10k MRR before relocating to Europe. Own the executive intelligence category on LinkedIn.',
 
   lifeGoals:
     'Relocate abroad: France first (European base, cultural grounding), then Switzerland (long-term stability, proximity to international ecosystem). Build a fully location-independent operation before the move. Complete ***REMOVED*** milestones without sacrificing commercial GTM.',

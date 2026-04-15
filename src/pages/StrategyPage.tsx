@@ -7,8 +7,8 @@ import { useUserStore } from '../stores/userStore'
 import type { StrategyTask } from '../types/strategy'
 
 const phaseColorClasses = [
-  { text: 'text-gold-dim', fill: 'bg-gold-dim' },
-  { text: 'text-gold', fill: 'bg-gold' },
+  { text: 'text-coral-dim', fill: 'bg-coral-dim' },
+  { text: 'text-coral', fill: 'bg-coral' },
   { text: 'text-blue', fill: 'bg-blue' },
   { text: 'text-green', fill: 'bg-green' },
 ]
@@ -45,7 +45,7 @@ export default function StrategyPage() {
     <div>
       <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
         <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova · Strategic Engine</p>
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Strategic Engine</p>
           <h1 className="font-display text-3xl text-text">Strategy</h1>
           <p className="mt-1 font-mono text-xs text-muted">Phase-gated execution with visible next moves.</p>
         </div>
@@ -73,8 +73,8 @@ export default function StrategyPage() {
         </div>
       </section>
 
-      <Card className="mb-5 border-gold/30 bg-gold/5 px-4 py-4">
-        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">The Current Aim</p>
+      <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">
+        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">The Current Aim</p>
         <p className="mt-2 text-lg leading-relaxed text-text">
           Build a business that is clear enough to sell, useful enough to keep, and calm enough to sustain.
         </p>
@@ -86,13 +86,13 @@ export default function StrategyPage() {
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-text">Strategic Context</p>
-            <p className="mt-0.5 font-mono text-[10px] text-muted">Mova reads this to sharpen your daily tasks</p>
+            <p className="mt-0.5 font-mono text-[10px] text-muted">Taskoona reads this to sharpen your daily tasks</p>
           </div>
           {!editingContext && (
             <button
               type="button"
               onClick={() => { setContextDraft(profile.customContext); setEditingContext(true) }}
-              className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-gold"
+              className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-coral"
             >
               {contextSaved ? (
                 <span className="flex items-center gap-1 text-green">
@@ -111,14 +111,14 @@ export default function StrategyPage() {
                 onChange={(e) => setContextDraft(e.target.value)}
                 rows={5}
                 autoFocus
-                placeholder="Add anything Mova should know to give you better daily tasks: current priorities, blockers, strategic bets, context on your market or stage…"
-                className="w-full resize-none rounded-xl border border-gold bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none"
+                placeholder="Add anything Taskoona should know to give you better daily tasks: current priorities, blockers, strategic bets, context on your market or stage…"
+                className="w-full resize-none rounded-xl border border-coral bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none"
               />
               <div className="mt-3 flex items-center gap-3">
                 <button
                   type="button"
                   onClick={saveContext}
-                  className="rounded-xl border border-gold bg-gold/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20"
+                  className="rounded-xl border border-coral bg-coral/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20"
                 >
                   Save
                 </button>
@@ -174,7 +174,7 @@ export default function StrategyPage() {
                     {phase.title}
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">{phase.subtitle}</p>
-                  {phase.target && <p className="mt-2 text-sm text-gold/80">Target: {phase.target}</p>}
+                  {phase.target && <p className="mt-2 text-sm text-coral/80">Target: {phase.target}</p>}
                   <p className="mt-2 font-mono text-[11px] text-muted">
                     {phase.period ?? 'Current phase'} · {doneCount}/{phase.tasks.length} done
                   </p>
@@ -259,7 +259,7 @@ function TaskCheckbox({ checked, onToggle }: { checked: boolean; onToggle: () =>
       type="button"
       onClick={onToggle}
       className={`mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-150 ${
-        checked ? 'border-gold bg-gold text-bg-base' : 'border-border text-gold'
+        checked ? 'border-coral bg-coral text-bg-base' : 'border-border text-coral'
       }`}
       aria-label={checked ? 'Mark incomplete' : 'Mark complete'}
     >

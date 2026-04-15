@@ -52,7 +52,7 @@ export default function SettingsPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova</p>
+        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona</p>
         <h1 className="font-display text-3xl text-text">Settings</h1>
         <p className="mt-1 font-mono text-xs text-muted">Profile & preferences</p>
       </div>
@@ -65,7 +65,7 @@ export default function SettingsPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              className="w-full rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-coral"
             />
           </Field>
         </SettingsSection>
@@ -77,7 +77,7 @@ export default function SettingsPage() {
               value={businessDescription}
               onChange={(e) => setBusinessDescription(e.target.value)}
               rows={4}
-              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-coral"
               placeholder="Describe your business in a few sentences…"
             />
           </Field>
@@ -86,7 +86,7 @@ export default function SettingsPage() {
               value={businessGoals}
               onChange={(e) => setBusinessGoals(e.target.value)}
               rows={3}
-              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-coral"
               placeholder="Your key business targets for the next 90 days…"
             />
           </Field>
@@ -99,7 +99,7 @@ export default function SettingsPage() {
                   onClick={() => setBusinessStage(s.value)}
                   className={`rounded-xl border px-4 py-3 text-left transition-colors ${
                     businessStage === s.value
-                      ? 'border-gold bg-gold/10 text-gold'
+                      ? 'border-coral bg-coral/10 text-coral'
                       : 'border-border bg-bg-surface2 text-muted hover:border-border/60 hover:text-text'
                   }`}
                 >
@@ -117,7 +117,7 @@ export default function SettingsPage() {
               value={lifeGoals}
               onChange={(e) => setLifeGoals(e.target.value)}
               rows={3}
-              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-coral"
               placeholder="Where you're heading outside of the business…"
             />
           </Field>
@@ -126,7 +126,7 @@ export default function SettingsPage() {
               value={sportsAndExercise}
               onChange={(e) => setSportsAndExercise(e.target.value)}
               rows={2}
-              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-gold"
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 font-mono text-sm text-text outline-none transition-colors focus:border-coral"
               placeholder="Your physical practice — type, frequency, preference…"
             />
           </Field>
@@ -144,7 +144,7 @@ export default function SettingsPage() {
                   onClick={() => setMbti(isSelected ? null : t.mbti)}
                   className={`rounded-xl border px-2 py-3 text-center transition-colors ${
                     isSelected
-                      ? 'border-gold bg-gold/15 text-gold'
+                      ? 'border-coral bg-coral/15 text-coral'
                       : 'border-border bg-bg-surface2 text-muted hover:border-border/60 hover:text-text'
                   }`}
                 >
@@ -157,8 +157,8 @@ export default function SettingsPage() {
             })}
           </div>
           {adaptation && (
-            <div className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">{adaptation.label}</p>
+            <div className="rounded-xl border border-coral/20 bg-coral/5 px-4 py-3">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-coral">{adaptation.label}</p>
               <p className="mt-1 text-sm text-muted">{adaptation.blockDescriptions.morning}</p>
             </div>
           )}
@@ -193,7 +193,7 @@ export default function SettingsPage() {
         <SettingsSection title="Decision Matrices">
           <p className="mb-4 text-sm text-muted">
             Weighted matrices for deciding between goals and strategies. Edit criteria,
-            weights, and option grades. Mova computes the ranking and prompts you to
+            weights, and option grades. Taskoona computes the ranking and prompts you to
             argue against the winner before committing.
           </p>
 
@@ -203,7 +203,7 @@ export default function SettingsPage() {
             )}
             {matrices.map((m) => (
               <div key={m.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-                <Scale size={14} className="flex-shrink-0 text-gold" />
+                <Scale size={14} className="flex-shrink-0 text-coral" />
                 <input
                   type="text"
                   value={m.title}
@@ -215,7 +215,7 @@ export default function SettingsPage() {
                 </span>
                 <Link
                   to="/decisions"
-                  className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-gold"
+                  className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-coral"
                 >
                   Open
                 </Link>
@@ -235,13 +235,13 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={() => createMatrix('New decision')}
-              className="flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:border-gold hover:text-gold"
+              className="flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:border-coral hover:text-coral"
             >
               <Plus size={12} /> New matrix
             </button>
             <Link
               to="/decisions"
-              className="flex items-center gap-1.5 rounded-xl border border-gold bg-gold/10 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20"
+              className="flex items-center gap-1.5 rounded-xl border border-coral bg-coral/10 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20"
             >
               Open Decisions <ArrowRight size={12} />
             </Link>
@@ -255,7 +255,7 @@ export default function SettingsPage() {
           className={`flex w-full items-center justify-center gap-2 rounded-xl border px-6 py-4 font-mono text-xs uppercase tracking-[0.2em] transition-all ${
             saved
               ? 'border-green/40 bg-green/10 text-green'
-              : 'border-gold bg-gold/10 text-gold hover:bg-gold/20'
+              : 'border-coral bg-coral/10 text-coral hover:bg-coral/20'
           }`}
         >
           {saved && <Check size={14} />}
@@ -265,7 +265,7 @@ export default function SettingsPage() {
         {/* Danger Zone */}
         <SettingsSection title="Danger Zone" accent="red">
           <p className="mb-4 text-sm text-muted">
-            Clearing all data resets Mova completely — profile, completions, strategy, history. Cannot be undone.
+            Clearing all data resets Taskoona completely — profile, completions, strategy, history. Cannot be undone.
           </p>
           {!showReset ? (
             <button

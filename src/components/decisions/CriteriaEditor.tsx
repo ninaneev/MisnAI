@@ -19,7 +19,7 @@ export function CriteriaEditor({ matrix }: Props) {
         <button
           type="button"
           onClick={() => addCriterion(matrix.id, 'New criterion', 5)}
-          className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:border-gold hover:text-gold"
+          className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:border-coral hover:text-coral"
         >
           <Plus size={12} /> Add
         </button>
@@ -47,10 +47,10 @@ export function CriteriaEditor({ matrix }: Props) {
                 step={1}
                 value={c.weight}
                 onChange={(e) => updateCriterion(matrix.id, c.id, { weight: Number(e.target.value) })}
-                className="w-28 accent-[#C9A84C]"
+                className="w-28 accent-[#FF6548]"
                 aria-label={`${c.label} weight`}
               />
-              <span className="w-6 text-right font-mono text-[11px] text-gold">{c.weight}</span>
+              <span className="w-6 text-right font-mono text-[11px] text-coral">{c.weight}</span>
             </div>
             <button
               type="button"

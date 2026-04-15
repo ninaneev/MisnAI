@@ -22,15 +22,15 @@ describe('Nav', () => {
     expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument()
   })
 
-  it('highlights the active link with gold class', () => {
+  it('highlights the active link with coral class', () => {
     renderWithRouter('/strategy')
     const strategyLink = screen.getByRole('link', { name: /strategy/i })
-    expect(strategyLink).toHaveClass('text-gold')
+    expect(strategyLink).toHaveClass('text-coral')
   })
 
-  it('non-active links do not have gold class', () => {
+  it('non-active links do not have coral class', () => {
     renderWithRouter('/strategy')
     const todayLink = screen.getByRole('link', { name: /today/i })
-    expect(todayLink).not.toHaveClass('text-gold')
+    expect(todayLink).not.toHaveClass('text-coral')
   })
 })

@@ -28,7 +28,7 @@ const tagAccent: Record<DailyHabitTag, string> = {
   GROW: 'border-l-purple',
   BUILD: 'border-l-blue',
   REST: 'border-l-green',
-  LIFE: 'border-l-gold',
+  LIFE: 'border-l-coral',
 }
 
 export default function DailyPage() {
@@ -56,20 +56,20 @@ export default function DailyPage() {
     <div>
       <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
         <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-gold-dim">Mova · Execution Engine</p>
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Execution Engine</p>
           <h1 className="font-display text-3xl text-text">Today</h1>
           <p className="mt-1 font-mono text-xs text-muted">{today}</p>
 
           <div className="mt-5">
             <div className="mb-2 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
               <span className="text-muted">Progress</span>
-              <span className="text-gold">
+              <span className="text-coral">
                 {completedToday}/{totalHabits} · {progressPct}%
               </span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-dim">
               <div
-                className={`h-full rounded-full transition-all duration-300 ${allDone ? 'bg-green' : 'bg-gold'}`}
+                className={`h-full rounded-full transition-all duration-300 ${allDone ? 'bg-green' : 'bg-coral'}`}
                 style={{ width: `${progressPct}%` }}
               />
             </div>
@@ -81,12 +81,12 @@ export default function DailyPage() {
             <div className="rounded-xl border border-border bg-bg-surface/80 px-4 py-3">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">Personality Mode</p>
               <p className="mt-2 text-sm leading-relaxed text-text">
-                <span className="font-mono text-gold">{adaptation.label}</span> · {adaptation.blockDescriptions.morning}
+                <span className="font-mono text-coral">{adaptation.label}</span> · {adaptation.blockDescriptions.morning}
               </p>
             </div>
           ) : (
-            <div className="rounded-xl border border-gold/20 bg-gold/5 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Execution Engine Active</p>
+            <div className="rounded-xl border border-coral/20 bg-coral/5 px-4 py-3">
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Execution Engine Active</p>
               <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">
                 Each block below tells you exactly what to do. Check steps as you go, then mark the block complete.
               </p>
@@ -96,8 +96,8 @@ export default function DailyPage() {
       </section>
 
       {!allDone && completedToday > 0 && (
-        <Card className="mb-5 border-gold/30 bg-gold/5 px-4 py-4">
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Keep Going</p>
+        <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Keep Going</p>
           <p className="mt-2 text-sm text-[#c8c4bc]">{totalHabits - completedToday} blocks remaining today.</p>
         </Card>
       )}
@@ -107,8 +107,8 @@ export default function DailyPage() {
           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Today Complete</p>
           <p className="mt-2 text-sm text-[#c8c4bc]">All daily blocks are done. Strong work.</p>
           {nextUnlockedTask && (
-            <div className="mt-4 rounded-xl border border-gold/20 bg-bg-surface/80 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-gold">Bonus — Next Strategy Priority</p>
+            <div className="mt-4 rounded-xl border border-coral/20 bg-bg-surface/80 px-4 py-3">
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Bonus — Next Strategy Priority</p>
               <p className="mt-2 font-display text-lg text-text">{nextUnlockedTask.label}</p>
               <p className="mt-1 text-sm leading-relaxed text-muted">{nextUnlockedTask.description}</p>
             </div>
@@ -190,7 +190,7 @@ export default function DailyPage() {
                                     <span
                                       className={`mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
                                         done
-                                          ? 'border-gold bg-gold/20 text-gold'
+                                          ? 'border-coral bg-coral/20 text-coral'
                                           : 'border-border text-transparent'
                                       }`}
                                     >
@@ -247,7 +247,7 @@ function HabitCheckbox({
     GROW: checked ? 'border-purple bg-purple/20 text-purple' : 'border-border text-purple',
     BUILD: checked ? 'border-blue bg-blue/20 text-blue' : 'border-border text-blue',
     REST: checked ? 'border-green bg-green/20 text-green' : 'border-border text-green',
-    LIFE: checked ? 'border-gold bg-gold/20 text-gold' : 'border-border text-gold',
+    LIFE: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
   }
 
   return (

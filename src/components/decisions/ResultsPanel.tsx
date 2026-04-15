@@ -34,27 +34,27 @@ export function ResultsPanel({ matrix, scores, winner, onCounterArgumentChange }
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <div className="flex min-w-0 items-center gap-3">
                       <span
-                        className={`font-mono text-[11px] ${isWinner ? 'text-gold' : 'text-muted'}`}
+                        className={`font-mono text-[11px] ${isWinner ? 'text-coral' : 'text-muted'}`}
                       >
                         #{idx + 1}
                       </span>
                       <p
                         className={`truncate text-sm ${
-                          isWinner ? 'text-gold' : 'text-[#c8c4bc]'
+                          isWinner ? 'text-coral' : 'text-[#c8c4bc]'
                         }`}
                       >
                         {s.label}
                       </p>
                     </div>
                     <span
-                      className={`font-mono text-xs ${isWinner ? 'text-gold' : 'text-muted'}`}
+                      className={`font-mono text-xs ${isWinner ? 'text-coral' : 'text-muted'}`}
                     >
                       {pct}%
                     </span>
                   </div>
                   <div className="h-1.5 overflow-hidden rounded-full bg-dim">
                     <div
-                      className={`h-full rounded-full ${isWinner ? 'bg-gold' : 'bg-gold-dim'}`}
+                      className={`h-full rounded-full ${isWinner ? 'bg-coral' : 'bg-coral-dim'}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -67,11 +67,11 @@ export function ResultsPanel({ matrix, scores, winner, onCounterArgumentChange }
 
       {/* Verdict + Counter-argument */}
       {winner && (
-        <div className="overflow-hidden rounded-2xl border border-gold/30 bg-gold/5">
-          <div className="flex items-start gap-3 border-b border-gold/20 px-5 py-4">
-            <Trophy size={18} className="mt-0.5 flex-shrink-0 text-gold" />
+        <div className="overflow-hidden rounded-2xl border border-coral/30 bg-coral/5">
+          <div className="flex items-start gap-3 border-b border-coral/20 px-5 py-4">
+            <Trophy size={18} className="mt-0.5 flex-shrink-0 text-coral" />
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-gold">Verdict</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-coral">Verdict</p>
               <p className="mt-1 text-lg text-text">{winner.label}</p>
               <p className="mt-1 font-mono text-[11px] text-muted">
                 Scores {Math.round(winner.percent)}% against your criteria.
@@ -91,7 +91,7 @@ export function ResultsPanel({ matrix, scores, winner, onCounterArgumentChange }
               onChange={(e) => onCounterArgumentChange(e.target.value)}
               rows={4}
               placeholder="What could make the winner wrong? What criterion is missing? What second-order effect isn't priced in?"
-              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none transition-colors focus:border-gold"
+              className="w-full resize-none rounded-xl border border-border bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none transition-colors focus:border-coral"
             />
           </div>
         </div>

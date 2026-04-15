@@ -30,7 +30,7 @@ export const personalityAdaptations: PersonalityAdaptation[] = [
     emphasisAreas: ['outreach', 'milestones'],
     blockDescriptions: {
       morning: 'High-impact decisions and team direction',
-      midday: 'Forceful execution and obstacle removal',
+      midday: 'Forceful execution and obstacle retaskoonal',
       evening: 'Progress audit and strategic recalibration',
     },
   },
