@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { Check, Trash2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowRight, Check, Plus, Scale, Trash2 } from 'lucide-react'
 import { useUserStore } from '../stores/userStore'
+import { useDecisions } from '../hooks/useDecisions'
 import { personalityAdaptations } from '../data/personalityMaps'
 import type { BusinessStage } from '../types/user'
 import type { MBTIType } from '../types/personality'
@@ -14,6 +16,7 @@ const BUSINESS_STAGES: { value: BusinessStage; label: string }[] = [
 
 export default function SettingsPage() {
   const { profile, updateProfile, removeVisionGoal } = useUserStore()
+  const { matrices, createMatrix, deleteMatrix, updateMatrix } = useDecisions()
 
   const [name, setName] = useState(profile.name)
   const [businessDescription, setBusinessDescription] = useState(profile.businessDescription)
@@ -183,6 +186,65 @@ export default function SettingsPage() {
             {profile.visionGoals.length === 0 && (
               <p className="font-mono text-xs text-muted">No goals set. Visit Context to update.</p>
             )}
+          </div>
+        </SettingsSection>
+
+        {/* Decision Matrices */}
+        <SettingsSection title="Decision Matrices">
+          <p className="mb-4 text-sm text-muted">
+            Weighted matrices for deciding between goals and strategies. Edit criteria,
+            weights, and option grades. Mova computes the ranking and prompts you to
+            argue against the winner before committing.
+          </p>
+
+          <div className="mb-4 divide-y divide-border">
+            {matrices.length === 0 && (
+              <p className="font-mono text-xs text-muted">No matrices yet.</p>
+            )}
+            {matrices.map((m) => (
+              <div key={m.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+                <Scale size={14} className="flex-shrink-0 text-gold" />
+                <input
+                  type="text"
+                  value={m.title}
+                  onChange={(e) => updateMatrix(m.id, { title: e.target.value })}
+                  className="min-w-0 flex-1 bg-transparent font-mono text-xs uppercase tracking-[0.12em] text-text outline-none"
+                />
+                <span className="font-mono text-[10px] text-muted">
+                  {m.criteria.length}c · {m.options.length}o
+                </span>
+                <Link
+                  to="/decisions"
+                  className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-gold"
+                >
+                  Open
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => deleteMatrix(m.id)}
+                  className="text-muted transition-colors hover:text-red"
+                  aria-label={`Delete ${m.title}`}
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => createMatrix('New decision')}
+              className="flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:border-gold hover:text-gold"
+            >
+              <Plus size={12} /> New matrix
+            </button>
+            <Link
+              to="/decisions"
+              className="flex items-center gap-1.5 rounded-xl border border-gold bg-gold/10 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-gold transition-colors hover:bg-gold/20"
+            >
+              Open Decisions <ArrowRight size={12} />
+            </Link>
           </div>
         </SettingsSection>
 

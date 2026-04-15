@@ -33,6 +33,12 @@ describe('App routing', () => {
     expect(screen.getByText('Context')).toBeInTheDocument()
   })
 
+  it('renders Decisions page at /decisions', () => {
+    window.history.pushState({}, '', '/decisions')
+    render(<App />)
+    expect(screen.getByRole('link', { name: /decide/i })).toBeInTheDocument()
+  })
+
   it('renders History page at /history', () => {
     window.history.pushState({}, '', '/history')
     render(<App />)

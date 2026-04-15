@@ -5,6 +5,7 @@ import {
   Target,
   Trophy,
   Layers,
+  Scale,
   History,
   Settings,
 } from 'lucide-react'
@@ -20,6 +21,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/strategy',   label: 'Strategy',   icon: Target },
   { to: '/milestones', label: 'Milestones', icon: Trophy },
   { to: '/vision',     label: 'Context',    icon: Layers },
+  { to: '/decisions',  label: 'Decide',     icon: Scale },
   { to: '/history',    label: 'History',    icon: History },
   { to: '/settings',   label: 'Settings',   icon: Settings },
 ]

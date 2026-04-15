@@ -6,6 +6,7 @@ import StrategyPage from './pages/StrategyPage'
 import MilestonesPage from './pages/MilestonesPage'
 import HistoryPage from './pages/HistoryPage'
 import VisionPage from './pages/VisionPage'
+import DecisionsPage from './pages/DecisionsPage'
 import SettingsPage from './pages/SettingsPage'
 import OnboardingPage from './pages/OnboardingPage'
 
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: 'strategy',     element: <StrategyPage /> },
       { path: 'milestones',   element: <MilestonesPage /> },
       { path: 'vision',       element: <VisionPage /> },
+      { path: 'decisions',    element: <DecisionsPage /> },
       { path: 'history',      element: <HistoryPage /> },
       { path: 'settings',     element: <SettingsPage /> },
     ],
