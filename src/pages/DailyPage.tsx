@@ -6,8 +6,11 @@ import { useDaily } from '../hooks/useDaily'
 import { useDailyContext } from '../hooks/useDailyContext'
 import { usePersonality } from '../hooks/usePersonality'
 import { useStrategy } from '../hooks/useStrategy'
+import { useDailyWorkStore } from '../stores/dailyWorkStore'
+import { useUserStore } from '../stores/userStore'
 import { todayKey } from '../utils/dateUtils'
-import type { DailyHabitTag, TimeBlock } from '../types/daily'
+import type { DailyExecutionBlock, DailyHabit, DailyHabitTag, TimeBlock } from '../types/daily'
+import type { BusinessArtifactKey } from '../types/user'
 
 const blockLabels: Record<TimeBlock, string> = {
   morning: 'Morning',
@@ -31,12 +34,30 @@ const tagAccent: Record<DailyHabitTag, string> = {
   LIFE: 'border-l-coral',
 }
 
+function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
+  return {
+    title: habit.label,
+    durationMin: habit.durationMin,
+    beforeStart: 'Open the relevant work, close distractions, and decide what a useful finish looks like.',
+    steps: (habit.steps ?? [habit.description]).map((instruction, index) => ({
+      id: `fallback-${index}`,
+      label: `Step ${index + 1}`,
+      instruction,
+      durationMin: Math.max(2, Math.round(habit.durationMin / Math.max(1, habit.steps?.length ?? 1))),
+    })),
+    doneWhen: 'The block has a visible result or a clear next action.',
+    ifStuck: 'Make the task smaller until the next move is obvious.',
+  }
+}
+
 export default function DailyPage() {
   const { byBlock, toggle, isComplete, completedToday, totalHabits, allDone, toggleStep, isStepComplete } =
     useDaily()
-  const contextSteps = useDailyContext()
+  const contextPlans = useDailyContext()
   const { nextUnlockedTask } = useStrategy()
   const { adaptation } = usePersonality()
+  const { profile, updateProfile } = useUserStore()
+  const { notes, setNote, keyFor } = useDailyWorkStore()
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   const today = new Date().toLocaleDateString('en-US', {
@@ -52,19 +73,32 @@ export default function DailyPage() {
     [byBlock]
   )
 
+  function artifactValue(key: BusinessArtifactKey): string {
+    return profile.businessArtifacts[key] ?? ''
+  }
+
+  function updateArtifact(key: BusinessArtifactKey, value: string) {
+    updateProfile({
+      businessArtifacts: {
+        ...profile.businessArtifacts,
+        [key]: value,
+      },
+    })
+  }
+
   return (
     <div>
-      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
+      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#101616] to-bg-base">
         <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Execution Engine</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-coral-dim">Taskoona / Daily Blocks</p>
           <h1 className="font-display text-3xl text-text">Today</h1>
-          <p className="mt-1 font-mono text-xs text-muted">{today}</p>
+          <p className="mt-1 text-sm text-muted">{today}</p>
 
           <div className="mt-5">
-            <div className="mb-2 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
+            <div className="mb-2 flex items-center justify-between text-[11px] uppercase tracking-[0.12em]">
               <span className="text-muted">Progress</span>
               <span className="text-coral">
-                {completedToday}/{totalHabits} · {progressPct}%
+                {completedToday}/{totalHabits} / {progressPct}%
               </span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-dim">
@@ -77,38 +111,35 @@ export default function DailyPage() {
         </div>
 
         <div className="px-5 py-4">
-          {adaptation ? (
-            <div className="rounded-xl border border-border bg-bg-surface/80 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted">Personality Mode</p>
-              <p className="mt-2 text-sm leading-relaxed text-text">
-                <span className="font-mono text-coral">{adaptation.label}</span> · {adaptation.blockDescriptions.morning}
+          <div className="rounded-xl border border-border bg-bg-surface/80 px-4 py-3">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-muted">How to use today</p>
+            <p className="mt-2 text-sm leading-relaxed text-text">
+              Open one block, follow the numbered micro-steps, write inside the workspace when Taskoona asks for output,
+              then mark the step and block complete.
+            </p>
+            {adaptation && (
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                {adaptation.label}: {adaptation.blockDescriptions.morning}
               </p>
-            </div>
-          ) : (
-            <div className="rounded-xl border border-coral/20 bg-coral/5 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Execution Engine Active</p>
-              <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">
-                Each block below tells you exactly what to do. Check steps as you go, then mark the block complete.
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
 
       {!allDone && completedToday > 0 && (
         <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Keep Going</p>
-          <p className="mt-2 text-sm text-[#c8c4bc]">{totalHabits - completedToday} blocks remaining today.</p>
+          <p className="text-[11px] uppercase tracking-[0.16em] text-coral">Keep Going</p>
+          <p className="mt-2 text-sm text-muted">{totalHabits - completedToday} blocks remaining today.</p>
         </Card>
       )}
 
       {allDone && (
         <Card className="mb-5 border-green/30 bg-green/5 px-4 py-4">
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Today Complete</p>
-          <p className="mt-2 text-sm text-[#c8c4bc]">All daily blocks are done. Strong work.</p>
+          <p className="text-[11px] uppercase tracking-[0.16em] text-green">Today Complete</p>
+          <p className="mt-2 text-sm text-muted">All daily blocks are done. Strong work.</p>
           {nextUnlockedTask && (
             <div className="mt-4 rounded-xl border border-coral/20 bg-bg-surface/80 px-4 py-3">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Bonus — Next Strategy Priority</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-coral">Bonus: Next Strategy Priority</p>
               <p className="mt-2 font-display text-lg text-text">{nextUnlockedTask.label}</p>
               <p className="mt-1 text-sm leading-relaxed text-muted">{nextUnlockedTask.description}</p>
             </div>
@@ -116,22 +147,22 @@ export default function DailyPage() {
         </Card>
       )}
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {blocks.map(({ block, habits }) => (
           <section key={block}>
             <div className="mb-3 flex items-center justify-between">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-dim">{blockLabels[block]}</p>
-              <p className="font-mono text-[11px] text-muted">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-dim">{blockLabels[block]}</p>
+              <p className="text-[11px] text-muted">
                 {habits.filter((h) => isComplete(h.id)).length}/{habits.length}
               </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {habits.map((habit) => {
                 const completed = isComplete(habit.id)
                 const expanded = expandedId === habit.id
                 const tag = habit.tag ?? 'BUILD'
-                const steps = contextSteps[habit.id] ?? habit.steps ?? []
+                const plan = contextPlans[habit.id] ?? fallbackPlan(habit)
 
                 return (
                   <article
@@ -139,7 +170,7 @@ export default function DailyPage() {
                     className={[
                       'overflow-hidden rounded-2xl border border-border border-l-4 bg-bg-surface transition-all duration-200',
                       tagAccent[tag],
-                      completed ? 'opacity-60' : 'opacity-100',
+                      completed ? 'opacity-70' : 'opacity-100',
                     ].join(' ')}
                   >
                     <div className="flex gap-3 px-4 py-4">
@@ -152,18 +183,16 @@ export default function DailyPage() {
                       >
                         <div className="min-w-0">
                           <div className="mb-2 flex flex-wrap items-center gap-2">
-                            {habit.timeLabel && (
-                              <span className="font-mono text-[11px] text-muted">{habit.timeLabel}</span>
-                            )}
+                            {habit.timeLabel && <span className="text-[11px] text-muted">{habit.timeLabel}</span>}
                             <Badge label={tag} variant={tagVariant[tag]} />
-                            <span className="font-mono text-[11px] text-muted">{habit.durationMin} min</span>
+                            <span className="text-[11px] text-muted">{plan.durationMin} min</span>
                           </div>
                           <h2
-                            className={`font-mono text-xs uppercase tracking-[0.18em] ${completed ? 'text-muted line-through' : 'text-text'}`}
+                            className={`font-display text-xl leading-tight ${completed ? 'text-muted line-through' : 'text-text'}`}
                           >
-                            {habit.label}
+                            {plan.title}
                           </h2>
-                          <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">{habit.description}</p>
+                          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">{habit.description}</p>
                         </div>
 
                         <ChevronDown
@@ -174,44 +203,98 @@ export default function DailyPage() {
                     </div>
 
                     {expanded && (
-                      <div className="border-t border-border px-4 pb-4 pt-3">
-                        <div className="pl-11">
-                          {steps.length > 0 && (
-                            <div className="space-y-2">
-                              {steps.map((step, i) => {
-                                const done = isStepComplete(habit.id, i)
-                                return (
-                                  <button
-                                    key={i}
-                                    type="button"
-                                    onClick={() => toggleStep(habit.id, i)}
-                                    className="flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left transition-colors hover:border-border hover:bg-bg-surface2"
-                                  >
-                                    <span
-                                      className={`mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
-                                        done
-                                          ? 'border-coral bg-coral/20 text-coral'
-                                          : 'border-border text-transparent'
+                      <div className="border-t border-border px-4 pb-5 pt-4">
+                        <div className="space-y-4 pl-0 sm:pl-8">
+                          <div className="rounded-xl border border-border bg-bg-surface2 px-4 py-3">
+                            <p className="text-[11px] uppercase tracking-[0.16em] text-muted">Before you start</p>
+                            <p className="mt-2 text-sm leading-relaxed text-text">{plan.beforeStart}</p>
+                          </div>
+
+                          <div className="space-y-3">
+                            {plan.steps.map((step, i) => {
+                              const done = isStepComplete(habit.id, i)
+                              const workKey = keyFor(habit.id, step.id)
+                              const noteValue = step.workspace?.artifactKey
+                                ? artifactValue(step.workspace.artifactKey)
+                                : notes[workKey] ?? ''
+
+                              return (
+                                <div
+                                  key={step.id}
+                                  className={`rounded-xl border px-4 py-4 transition-colors ${
+                                    done ? 'border-border bg-bg-surface2/60' : 'border-border bg-bg-surface2'
+                                  }`}
+                                >
+                                  <div className="flex items-start gap-3">
+                                    <button
+                                      type="button"
+                                      onClick={() => toggleStep(habit.id, i)}
+                                      className={`mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded border text-xs transition-colors ${
+                                        done ? 'border-coral bg-coral/20 text-coral' : 'border-border text-muted'
                                       }`}
+                                      aria-label={done ? 'Mark step incomplete' : 'Mark step complete'}
                                     >
-                                      {done && <Check size={10} />}
-                                    </span>
-                                    <p
-                                      className={`text-sm leading-relaxed transition-colors ${
-                                        done ? 'text-muted line-through' : 'text-[#c8c4bc]'
-                                      }`}
-                                    >
-                                      {step}
-                                    </p>
-                                  </button>
-                                )
-                              })}
+                                      {done ? <Check size={12} /> : i + 1}
+                                    </button>
+
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        <p className={`font-display text-lg leading-tight ${done ? 'text-muted' : 'text-text'}`}>
+                                          {step.label}
+                                        </p>
+                                        {step.durationMin && (
+                                          <span className="rounded border border-border px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-muted">
+                                            {step.durationMin} min
+                                          </span>
+                                        )}
+                                      </div>
+                                      <p className={`mt-2 text-sm leading-relaxed ${done ? 'text-muted' : 'text-text/85'}`}>
+                                        {step.instruction}
+                                      </p>
+
+                                      {step.workspace && (
+                                        <label className="mt-3 block">
+                                          <span className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-muted">
+                                            {step.workspace.label}
+                                          </span>
+                                          <textarea
+                                            value={noteValue}
+                                            onChange={(e) => {
+                                              if (step.workspace?.artifactKey) {
+                                                updateArtifact(step.workspace.artifactKey, e.target.value)
+                                              } else {
+                                                setNote(workKey, e.target.value)
+                                              }
+                                            }}
+                                            rows={4}
+                                            placeholder={step.workspace.placeholder}
+                                            className="w-full resize-none rounded-xl border border-border bg-bg-base px-4 py-3 text-sm leading-relaxed text-text placeholder-muted outline-none transition-colors focus:border-coral"
+                                          />
+                                        </label>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+
+                          <div className="grid gap-3 md:grid-cols-2">
+                            <div className="rounded-xl border border-green/30 bg-green/5 px-4 py-3">
+                              <p className="text-[11px] uppercase tracking-[0.16em] text-green">Done when</p>
+                              <p className="mt-2 text-sm leading-relaxed text-text">{plan.doneWhen}</p>
                             </div>
-                          )}
+                            {plan.ifStuck && (
+                              <div className="rounded-xl border border-border bg-bg-surface2 px-4 py-3">
+                                <p className="text-[11px] uppercase tracking-[0.16em] text-muted">If stuck</p>
+                                <p className="mt-2 text-sm leading-relaxed text-muted">{plan.ifStuck}</p>
+                              </div>
+                            )}
+                          </div>
 
                           {habit.why && (
-                            <div className="mt-4 rounded-xl border border-border bg-bg-surface2 px-4 py-3">
-                              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Why This Matters</p>
+                            <div className="rounded-xl border border-border bg-bg-surface2 px-4 py-3">
+                              <p className="text-[11px] uppercase tracking-[0.16em] text-muted">Why this matters</p>
                               <p className="mt-2 text-sm italic leading-relaxed text-muted">{habit.why}</p>
                             </div>
                           )}
@@ -226,8 +309,8 @@ export default function DailyPage() {
         ))}
       </div>
 
-      <p className="mt-8 text-center font-mono text-[11px] uppercase tracking-[0.24em] text-muted">
-        Resets at midnight · {todayKey()}
+      <p className="mt-8 text-center text-[11px] uppercase tracking-[0.16em] text-muted">
+        Resets at midnight / {todayKey()}
       </p>
     </div>
   )

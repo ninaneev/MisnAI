@@ -31,12 +31,14 @@ describe('Taskoona backup', () => {
   it('exports only Taskoona storage keys', () => {
     const storage = createMemoryStorage()
     storage.setItem(STORAGE_KEYS.USER_PROFILE, '{"state":{"profile":{"name":"Alex"}}}')
+    storage.setItem(STORAGE_KEYS.DAILY_WORK, '{"state":{"notes":{"today:habit:step":"Draft"}}}')
     storage.setItem('unrelated:key', 'ignore me')
 
     const backup = createTaskoonaBackup(storage)
 
     expect(backup.app).toBe('taskoona')
     expect(backup.storage[STORAGE_KEYS.USER_PROFILE]).toContain('Alex')
+    expect(backup.storage[STORAGE_KEYS.DAILY_WORK]).toContain('Draft')
     expect(backup.storage).not.toHaveProperty('unrelated:key')
   })
 

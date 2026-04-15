@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { generateLocalDailySteps } from '../lib/generation/localDailyPlanner'
 import { useUserStore } from '../stores/userStore'
+import type { DailyExecutionBlock } from '../types/daily'
 import { useStrategy } from './useStrategy'
 
 /**
@@ -9,7 +10,7 @@ import { useStrategy } from './useStrategy'
  * life goals, custom context, vision goals, and local public templates.
  * This is deterministic and local; it does not call hosted AI.
  */
-export function useDailyContext(): Record<string, string[]> {
+export function useDailyContext(): Record<string, DailyExecutionBlock> {
   const { profile } = useUserStore()
   const { phases, isComplete: isStrategyComplete, isPhaseUnlocked } = useStrategy()
 

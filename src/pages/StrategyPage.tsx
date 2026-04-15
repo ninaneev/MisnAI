@@ -133,7 +133,7 @@ export default function StrategyPage() {
             </div>
           ) : (
             <p
-              className={`cursor-pointer text-sm leading-relaxed ${profile.customContext ? 'text-[#c8c4bc]' : 'italic text-muted'}`}
+              className={`cursor-pointer text-sm leading-relaxed ${profile.customContext ? 'text-text/85' : 'italic text-muted'}`}
               onClick={() => { setContextDraft(profile.customContext); setEditingContext(true) }}
             >
               {profile.customContext || 'No context added yet — click to add strategic notes.'}
@@ -173,7 +173,7 @@ export default function StrategyPage() {
                   <h2 className={`font-mono text-xs uppercase tracking-[0.18em] ${complete ? 'text-muted line-through' : 'text-text'}`}>
                     {phase.title}
                   </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">{phase.subtitle}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-text/85">{phase.subtitle}</p>
                   {phase.target && <p className="mt-2 text-sm text-coral/80">Target: {phase.target}</p>}
                   <p className="mt-2 font-mono text-[11px] text-muted">
                     {phase.period ?? 'Current phase'} · {doneCount}/{phase.tasks.length} done
@@ -226,7 +226,7 @@ export default function StrategyPage() {
                     {complete && phase.number < phases.length && (
                       <div className="mt-5 rounded-xl border border-green/30 bg-green/5 px-4 py-3">
                         <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Phase Complete — Next Up</p>
-                        <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">
+                        <p className="mt-2 text-sm leading-relaxed text-text/85">
                           Move into phase {phase.number + 1} once you are ready to trade stability for the next level of leverage.
                         </p>
                       </div>

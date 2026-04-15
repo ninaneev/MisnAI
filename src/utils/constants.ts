@@ -5,6 +5,7 @@ export const STORAGE_KEYS = {
   HISTORY_LOG: 'taskoona:history-log',
   USER_PROFILE: 'taskoona:user-profile',
   DECISION_MATRICES: 'taskoona:decision-matrices',
+  DAILY_WORK: 'taskoona:daily-work',
 } as const
 
 export const PHASE_COUNT = 4

@@ -40,7 +40,7 @@ export function ResultsPanel({ matrix, scores, winner, onCounterArgumentChange }
                       </span>
                       <p
                         className={`truncate text-sm ${
-                          isWinner ? 'text-coral' : 'text-[#c8c4bc]'
+                          isWinner ? 'text-coral' : 'text-text/85'
                         }`}
                       >
                         {s.label}
@@ -82,7 +82,7 @@ export function ResultsPanel({ matrix, scores, winner, onCounterArgumentChange }
             <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
               Argue against this result
             </p>
-            <p className="mb-3 text-sm leading-relaxed text-[#c8c4bc]">
+            <p className="mb-3 text-sm leading-relaxed text-text/85">
               Numbers are a starting point, not a verdict. Write the strongest case
               against the winner before committing — what is this matrix missing?
             </p>

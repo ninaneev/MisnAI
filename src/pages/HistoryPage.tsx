@@ -103,7 +103,7 @@ export default function HistoryPage() {
                         <div className={`mb-2 inline-flex rounded-full border px-2 py-1 font-mono text-[11px] uppercase tracking-[0.18em] ${typeClasses[event.type]}`}>
                           {typeLabels[event.type]}
                         </div>
-                        <p className="text-sm leading-relaxed text-[#c8c4bc]">{event.label}</p>
+                        <p className="text-sm leading-relaxed text-text/85">{event.label}</p>
                       </div>
                       <p className="font-mono text-[11px] text-muted">{formatTime(event.completedAt)}</p>
                     </div>

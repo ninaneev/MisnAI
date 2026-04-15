@@ -1,12 +1,12 @@
 # Taskoona
 
-**An external brain for solopreneurs and early companies.**
+**A local-first execution system for solopreneurs and early companies.**
 
-Taskoona helps people building from zero to first traction decide what to do next, keep the right context in view, and turn strategy into daily action. It combines business context, goals, personality, constraints, milestones, habits, and decision support into a local-first operating system for execution.
+Taskoona helps people building from zero to first traction decide what to do next, keep priorities visible, and turn strategy into daily action. It combines business context, goals, personality, constraints, milestones, habits, and decision support into a focused operating system for early execution.
 
-Taskoona is built by Flowity AI, but it is not the execution layer of Flowity AI and it is not Flowity Brain. It is a separate app that can become its own micro-SaaS product.
+Taskoona is an open-source app by Flowity AI. It starts as a free local-first core and is designed to grow into its own standalone micro-SaaS product.
 
-Initial public URL: `taskoona.flowity.ai`. Vercel preview URLs can be used for testing, but the branded Flowity subdomain should be the first public home until Taskoona moves to its own domain.
+Initial public URL: `taskoona.flowity.ai`.
 
 ## What It Does
 
@@ -35,11 +35,9 @@ Taskoona is for:
 - independent operators building a real business
 - teams that need structure before they need heavy management software
 
-Taskoona should feel like an external brain: practical, personal, structured, and useful before any advanced AI layer is added.
+Taskoona should feel practical, personal, structured, and useful before any advanced AI layer is added.
 
-Flowity AI is a separate decision-intelligence business for product teams. Its core customer is a Series A developer-focused SaaS company with roughly EUR3M-EUR8M ARR, active customer/community feedback, and a fast product iteration cycle. Flowity AI helps Heads of Product, VPs of Product, and CTOs convert customer and business signals into executive decisions.
-
-Taskoona is different. It is a founder operating app for early execution, business context, daily momentum, and life-aware planning.
+The product is built for early execution: business context, daily momentum, strategy sequencing, decisions, and life-aware planning in one local-first workspace.
 
 ## Open-Core Boundary
 
@@ -73,15 +71,15 @@ The selected palette fits the product because it has three clear signals:
 
 | Token | Hex | Usage |
 | --- | --- | --- |
-| `coral` | `#FF6548` | Primary actions, active states, key emphasis |
-| `coral-dim` | `#A53F31` | Subdued action labels and secondary emphasis |
+| `coral` | `#6BC8D6` | Primary actions, active states, key emphasis |
+| `coral-dim` | `#4E8F99` | Subdued action labels and secondary emphasis |
 | `lime` | `#A7F06D` | Progress, completion, positive momentum |
 | `ink` | `#15191A` | Core background and brand anchor |
-| `bg-base` | `#0D1011` | Page background |
+| `bg-base` | `#0B0F10` | Page background |
 | `bg-surface` | `#171C1D` | Panels and inputs |
 | `bg-surface2` | `#222829` | Elevated surfaces |
 | `border` | `#2B3334` | Dividers and outlines |
-| `text` | `#F7F4EF` | Primary text |
+| `text` | `#F3F0E8` | Primary text |
 | `muted` | `#9CA3A0` | Secondary text |
 | `dim` | `#333B3C` | Disabled and quiet UI |
 | `red` | `#E45D5D` | Risk, reset, destructive actions |

@@ -25,6 +25,22 @@ const defaultProfile: UserProfile = {
   customContext:
     'Currently in Brazil. The European move sets the urgency horizon for the business. ***REMOVED*** provides research validation and credibility that strengthens the commercial narrative. Dual track (research + commercial) requires sequencing: commercial proof points reinforce the PIPE application; PIPE outcomes reinforce the intelligence service positioning.',
 
+  businessArtifacts: {
+    oneSentenceOffer:
+      'Flowity AI helps Series A developer-focused SaaS product teams convert customer and business signals into better product decisions.',
+    idealClientProfile:
+      'Series A developer-focused SaaS companies around EUR3M-EUR8M ARR with active community feedback, fast product iteration, and product leaders who need clearer prioritisation.',
+    primaryChannel:
+      'Founder-led LinkedIn content, direct outreach, warm introductions, and low-friction signal audits.',
+    revenueTarget90Day:
+      'Close the first 3 paid Interpret pilots at ***REMOVED***/month while building proof for the full Brain service.',
+    positioningNotes:
+      'Decision intelligence for product teams. Focus on signal interpretation, prioritisation, and executive product decisions.',
+    outreachDraft: '',
+    dailyReviewNote: '',
+    nextActionTomorrow: '',
+  },
+
   contextAnswers: [],
 
   visionGoals: [
@@ -125,9 +141,17 @@ export const useUserStore = create<UserState>()(
       // This means adding a new field to UserProfile never requires clearing localStorage.
       merge: (persisted, current) => {
         const p = persisted as Partial<UserState>
+        const savedProfile = (p.profile ?? {}) as Partial<UserProfile>
         return {
           ...current,
-          profile: { ...current.profile, ...(p.profile ?? {}) },
+          profile: {
+            ...current.profile,
+            ...savedProfile,
+            businessArtifacts: {
+              ...current.profile.businessArtifacts,
+              ...(savedProfile.businessArtifacts ?? {}),
+            },
+          },
         }
       },
     }

@@ -36,7 +36,7 @@ describe('App routing', () => {
   it('renders Decisions page at /decisions', () => {
     window.history.pushState({}, '', '/decisions')
     render(<App />)
-    expect(screen.getByRole('link', { name: /decide/i })).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: /decide/i }).length).toBeGreaterThan(0)
   })
 
   it('renders History page at /history', () => {

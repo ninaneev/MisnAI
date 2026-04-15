@@ -15,6 +15,18 @@ export interface ContextAnswer {
   answeredAt: string
 }
 
+export type BusinessArtifactKey =
+  | 'oneSentenceOffer'
+  | 'idealClientProfile'
+  | 'primaryChannel'
+  | 'revenueTarget90Day'
+  | 'positioningNotes'
+  | 'outreachDraft'
+  | 'dailyReviewNote'
+  | 'nextActionTomorrow'
+
+export type BusinessArtifacts = Record<BusinessArtifactKey, string>
+
 export interface UserProfile {
   name: string
   mbti: MBTIType | null
@@ -24,6 +36,7 @@ export interface UserProfile {
   lifeGoals: string
   sportsAndExercise: string
   customContext: string
+  businessArtifacts: BusinessArtifacts
   contextAnswers: ContextAnswer[]
   visionGoals: VisionGoal[]
   onboardingComplete: boolean

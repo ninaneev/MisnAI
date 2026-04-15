@@ -49,13 +49,13 @@ export default function MilestonesPage() {
             <div className="rounded-xl border border-coral/20 bg-coral/5 px-4 py-4">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">Next Target</p>
               <p className="mt-2 font-display text-xl text-text">{nextMilestone.title}</p>
-              <p className="mt-1 text-sm leading-relaxed text-[#c8c4bc]">{nextMilestone.description}</p>
+              <p className="mt-1 text-sm leading-relaxed text-text/85">{nextMilestone.description}</p>
               {nextMilestone.nextStep && <p className="mt-3 text-sm text-muted">Once hit: {nextMilestone.nextStep}</p>}
             </div>
           ) : (
             <div className="rounded-xl border border-green/30 bg-green/5 px-4 py-4">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">All Milestones Reached</p>
-              <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">You have cleared every current milestone in the map.</p>
+              <p className="mt-2 text-sm leading-relaxed text-text/85">You have cleared every current milestone in the map.</p>
             </div>
           )}
         </div>
@@ -125,7 +125,7 @@ export default function MilestonesPage() {
                     </div>
 
                     <h2 className={`font-display text-xl ${completed ? 'text-muted line-through' : 'text-text'}`}>{milestone.title}</h2>
-                    <p className="mt-2 text-sm leading-relaxed text-[#c8c4bc]">{milestone.description}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-text/85">{milestone.description}</p>
 
                     {completed && completedAt ? (
                       <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-green">

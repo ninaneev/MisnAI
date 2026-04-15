@@ -441,14 +441,14 @@ Use the Taskoona visual language rather than Flowity AI's purple/cyan brand or g
 Design tokens:
 
 - ink: `#15191A`
-- coral: `#FF6548`
-- coral-dim: `#A53F31`
+- coral: `#6BC8D6`
+- coral-dim: `#4E8F99`
 - lime: `#A7F06D`
-- bg-base: `#0D1011`
+- bg-base: `#0B0F10`
 - bg-surface: `#171C1D`
 - bg-surface2: `#222829`
 - border: `#2B3334`
-- text: `#F7F4EF`
+- text: `#F3F0E8`
 - muted: `#9CA3A0`
 - dim: `#333B3C`
 - red: `#E45D5D`

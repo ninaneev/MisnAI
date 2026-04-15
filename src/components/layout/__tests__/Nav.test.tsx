@@ -13,25 +13,26 @@ function renderWithRouter(initialPath = '/') {
 describe('Nav', () => {
   it('renders all navigation links', () => {
     renderWithRouter()
-    expect(screen.getByRole('link', { name: /today/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /strategy/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /milestones/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /context/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /decide/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /templates/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /history/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: /today/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /strategy/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /milestones/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /context/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /decide/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /templates/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /history/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /settings/i }).length).toBeGreaterThan(0)
+    expect(screen.getByText(/Follow small execution blocks/i)).toBeInTheDocument()
   })
 
   it('highlights the active link with coral class', () => {
     renderWithRouter('/strategy')
-    const strategyLink = screen.getByRole('link', { name: /strategy/i })
-    expect(strategyLink).toHaveClass('text-coral')
+    const strategyLinks = screen.getAllByRole('link', { name: /strategy/i })
+    expect(strategyLinks.some((link) => link.className.includes('text-coral') || link.className.includes('bg-coral'))).toBe(true)
   })
 
   it('non-active links do not have coral class', () => {
     renderWithRouter('/strategy')
-    const todayLink = screen.getByRole('link', { name: /today/i })
-    expect(todayLink).not.toHaveClass('text-coral')
+    const todayLinks = screen.getAllByRole('link', { name: /today/i })
+    expect(todayLinks.every((link) => !link.className.includes('text-coral') && !link.className.includes('bg-coral'))).toBe(true)
   })
 })

@@ -12,14 +12,14 @@ export function DailyProgress({ completed, total }: DailyProgressProps) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-baseline">
-        <span className="font-mono text-xs text-muted uppercase tracking-widest">Daily Progress</span>
-        <span className={`font-mono text-sm ${allDone ? 'text-green' : 'text-coral'}`}>
+        <span className="text-xs font-medium uppercase tracking-[0.12em] text-muted">Daily Progress</span>
+        <span className={`text-sm font-medium ${allDone ? 'text-green' : 'text-coral'}`}>
           {completed}/{total}
         </span>
       </div>
       <ProgressBar value={pct} color={allDone ? 'green' : 'coral'} />
       {allDone && (
-        <p className="font-mono text-xs text-green">All habits complete. Check your strategy tasks.</p>
+        <p className="text-xs text-green">All habits complete. Check your strategy tasks.</p>
       )}
     </div>
   )

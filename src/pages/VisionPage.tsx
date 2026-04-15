@@ -184,7 +184,7 @@ export default function VisionPage() {
                 {adaptation.strengths.map((s) => (
                   <div key={s} className="flex items-center gap-2">
                     <ChevronRight size={12} className="flex-shrink-0 text-coral" />
-                    <p className="text-sm text-[#c8c4bc]">{s}</p>
+                    <p className="text-sm text-text/85">{s}</p>
                   </div>
                 ))}
               </div>
@@ -397,7 +397,7 @@ function ContextField({
           </div>
         </div>
       ) : (
-        <p className={`text-sm leading-relaxed ${value ? 'text-[#c8c4bc]' : 'italic text-muted'}`}>
+        <p className={`text-sm leading-relaxed ${value ? 'text-text/85' : 'italic text-muted'}`}>
           {value || 'Not set — click Edit to add context.'}
         </p>
       )}

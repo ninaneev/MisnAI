@@ -221,7 +221,7 @@ function StepPersonality({ selected, onSelect }: { selected: MBTIType | null; on
 
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 3</p>
+      <p className="mb-1 text-xs font-medium uppercase tracking-[0.12em] text-coral-dim">Step 3</p>
       <h1 className="mb-2 font-display text-3xl text-text">How do you operate?</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted">
         Select your MBTI type if you know it — Taskoona uses this to frame your day. You can skip this.
