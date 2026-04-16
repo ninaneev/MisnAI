@@ -54,18 +54,19 @@ const tagCardBorder: Record<DailyHabitTag, string> = {
 }
 
 function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
+  const habitSteps = habit.steps ?? ['Work on the key task for this block and produce one visible result.']
   return {
     title: habit.label,
     durationMin: habit.durationMin,
-    beforeStart: 'Open the relevant work, close distractions, and decide what a useful finish looks like.',
-    steps: (habit.steps ?? [habit.description]).map((instruction, index) => ({
-      id: `fallback-${index}`,
+    beforeStart: habit.description,
+    steps: habitSteps.map((instruction, index) => ({
+      id: `step-${index}`,
       label: `Step ${index + 1}`,
       instruction,
-      durationMin: Math.max(2, Math.round(habit.durationMin / Math.max(1, habit.steps?.length ?? 1))),
+      durationMin: Math.max(3, Math.round(habit.durationMin / Math.max(1, habitSteps.length))),
     })),
-    doneWhen: 'The block has a visible result or a clear next action.',
-    ifStuck: 'Make the task smaller until the next move is obvious.',
+    doneWhen: `${habit.label} is complete with one visible result or logged output.`,
+    ifStuck: 'Break the task into a smaller piece. The first 5 minutes of focused work always clarify the path.',
   }
 }
 
@@ -183,6 +184,39 @@ export default function DailyPage() {
           </div>
         )
       })()}
+
+      {/* HOW IT WORKS — in-app loop explainer, collapsible */}
+      {completedToday === 0 && (
+        <details className="group mb-6 overflow-hidden rounded-lg" style={{
+          border: '1px solid rgba(212,184,120,0.14)',
+          background: 'rgba(12,15,17,0.88)',
+        }}>
+          <summary className="flex cursor-pointer items-center justify-between px-5 py-3 list-none">
+            <span className="font-mono text-[10px] uppercase tracking-[0.28em]" style={{ color: '#D4B878' }}>
+              How Taskoona Works
+            </span>
+            <ChevronDown size={14} className="text-muted transition-transform group-open:rotate-180" />
+          </summary>
+          <div className="px-5 pb-5 pt-2">
+            <ol className="space-y-3">
+              {[
+                { n: '01', title: 'Bring context', body: 'Your business, stage, goals, and constraints live in Settings and Context. Taskoona reads this every day.' },
+                { n: '02', title: 'Taskoona chooses the move', body: 'Each block is generated from your strategy phase, saved artifacts, and current priority — not from a generic checklist.' },
+                { n: '03', title: 'Execute the block', body: 'Open one block, follow the steps, and write the output when asked. Close it when done.' },
+                { n: '04', title: 'Log and advance', body: 'Completed blocks feed your history. When a phase is done, the next one unlocks automatically.' },
+              ].map(({ n, title, body }) => (
+                <li key={n} className="flex gap-4">
+                  <span className="font-mono text-[10px] pt-0.5" style={{ color: '#D4B878', minWidth: '1.5rem' }}>{n}</span>
+                  <div>
+                    <p className="text-sm font-medium text-text">{title}</p>
+                    <p className="mt-0.5 text-xs leading-relaxed" style={{ color: '#9BA8A2' }}>{body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </details>
+      )}
 
       {!allDone && completedToday > 0 && (
         <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">

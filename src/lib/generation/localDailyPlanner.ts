@@ -53,23 +53,76 @@ interface LocalDailyPlanInput {
   pendingTasks: StrategyTask[]
 }
 
-function taskBlock(task: StrategyTask | null, profile: UserProfile, fallbackTitle: string): DailyExecutionBlock {
+function taskBlock(task: StrategyTask | null, profile: UserProfile, _fallbackTitle: string): DailyExecutionBlock {
+  const artifacts = profile.businessArtifacts
+
   if (!task) {
+    const hasOffer    = hasValue(artifacts.oneSentenceOffer)
+    const hasICP      = hasValue(artifacts.idealClientProfile)
+    const hasOutreach = hasValue(artifacts.outreachDraft)
+
+    if (hasOffer && hasICP) {
+      return block(
+        'Send your offer to a real person',
+        20,
+        'Use what you already have. The goal is a real send, not another rewrite.',
+        [
+          step('pick-recipient', 'Pick one recipient', `Choose one person from your saved ICP: ${truncate(artifacts.idealClientProfile!, 8)}. Open their profile now.`, 3),
+          step('personalise', 'Personalise the message', `Take your offer — "${truncate(artifacts.oneSentenceOffer!, 10)}" — and rewrite the first line for this specific person in one sentence.`, 5, workspace('Personalised opener', 'For [name]: ...', 'outreachDraft')),
+          step('send-it', 'Send or schedule it', 'Send the message now, or copy it into your outreach tool and set a send time within 2 hours.', 5),
+          step('log-signal', 'Log the next signal to watch', 'Write what reply or behaviour would confirm this person is worth a follow-up.', 7),
+        ],
+        'One real message has been sent or is scheduled for today.',
+        'If you cannot decide who to send to, send it to yourself first to check the tone.'
+      )
+    }
+
+    if (hasOffer && !hasICP) {
+      return block(
+        'Put your offer in front of one person',
+        20,
+        'Use the offer you already have. You are testing it, not rewriting it.',
+        [
+          step('pick-person', 'Name one person to contact', 'Think of one person — founder, operator, or potential client — who might feel the pain your offer solves. Write their name.', 3),
+          step('send-offer', 'Send the offer', `Copy this: "${truncate(artifacts.oneSentenceOffer!, 12)}". Paste it into a direct message with one line of context about why you are sending it.`, 8, workspace('Message sent', 'Sent to [name]...', 'outreachDraft')),
+          step('log-result', 'Log the response or time', 'Write what happened: sent, bounced, ignored, or replied. Log the timestamp.', 4),
+          step('next-person', 'Queue the next person', 'Write one name for tomorrow so the next send starts without a decision.', 5),
+        ],
+        'Your offer has been sent to one real person today.',
+        'If you hesitate on who to send to, send it to someone you already know. Signal beats silence.'
+      )
+    }
+
+    if (hasOutreach) {
+      return block(
+        'Execute your saved outreach',
+        20,
+        'You already have a draft. The job is to send it, not polish it.',
+        [
+          step('review-draft', 'Read the draft once', `Open your saved outreach: "${truncate(artifacts.outreachDraft!, 12)}". Read it once. Fix only glaring errors.`, 4),
+          step('pick-three', 'Choose three recipients', 'Write three names or companies that fit the person the draft was written for.', 4),
+          step('send-all', 'Send to all three', 'Send the message to each recipient. Personalise only the opening line.', 8, workspace('Sent to', 'Sent to: 1. ... 2. ... 3. ...', 'outreachDraft')),
+          step('log-follow', 'Log follow-up timing', 'Write when you will follow up if there is no reply. Default: 3 business days.', 4),
+        ],
+        'Three real messages sent today. Follow-up dates logged.',
+        'If you only have time for one send, send one. Progress beats perfection every time.'
+      )
+    }
+
+    // True fallback — still direct, no meta-planning
     return block(
-      fallbackTitle,
+      'Create one visible result',
       20,
-      'Use the current priority and create one small result that can be reviewed today.',
+      'Pick the smallest thing that proves the business moved today. Not a plan. A result.',
       [
-        step('pick-output', 'Name the output', 'Write the smallest result this block should leave behind.', 3),
-        step('work-slice', 'Produce the slice', 'Create the first usable version, even if it is rough.', 14),
-        step('save-next', 'Save the next move', 'Write the next tiny step that follows from what you made.', 3, workspace('Next action', 'Next I will...', 'nextActionTomorrow')),
+        step('commit-result', 'Name the result', 'Write one sentence: "By the end of this block I will have [specific deliverable]." Not a task — a result you can show someone.', 3),
+        step('execute', 'Build the result', 'Work until the result exists. If it takes more than 20 minutes, cut scope — not time.', 14, workspace('Result produced', 'The output is...', 'nextActionTomorrow')),
+        step('log-next', 'Write the next physical action', 'Write the literal next step: open [file], call [name], send [message]. Not "continue."', 3),
       ],
-      'You have one visible output and one saved next action.',
-      'Shrink the output until it can be finished in 10 minutes.'
+      'One concrete result exists that did not exist 20 minutes ago.',
+      'If you are stuck on what the result should be, send one message to one person. That is always a valid result.'
     )
   }
-
-  const artifacts = profile.businessArtifacts
   const label = task.label.toLowerCase()
 
   if (label.includes('one sentence offer')) {
@@ -232,19 +285,26 @@ export function generateLocalDailySteps({
   const topBusinessGoal = profile.businessGoals ? truncate(profile.businessGoals, 12) : null
 
   return {
-    'morning-review': block(
-      'Plan the first clean move',
-      12,
-      'Start from the highest-leverage move already in front of you. The goal is a clear first action, not a new plan.',
-      [
-        step('scan', 'Scan today', 'Read the next strategy task and your top goal once. Do not edit yet.', 2),
-        step('choose-one', 'Choose one outcome', 'Write the one outcome that would make today useful.', 4, workspace('Daily review note', 'Today is useful if...', 'dailyReviewNote')),
-        step('block-time', 'Protect the block', 'Choose when the first deep-work block starts and what gets ignored until it is done.', 3),
-        step('start-line', 'Write the first move', 'Write the first action: send, edit, list, publish, review, or decide.', 3),
-      ],
-      'You know the first outcome, start time, and first action.',
-      'If everything feels urgent, choose the action closest to revenue or proof.'
-    ),
+    'morning-review': (() => {
+      const topGoal = hasValue(profile.businessGoals) ? truncate(profile.businessGoals!, 8) : null
+      return block(
+        'Plan the first clean move',
+        12,
+        'Start from the highest-leverage move already in front of you. The goal is a clear first action, not a new plan.',
+        [
+          step('open-clean', 'Open without inbox', 'Close email, Slack, and social. Open only this app and whatever you will work on first.', 2),
+          step('read-objective', 'Read your top objective', topGoal
+            ? `Your saved goal: "${topGoal}". Write one sentence — what does moving this forward look like today?`
+            : 'Write your top business objective for today in one sentence. Be specific: revenue, customer, product, or clarity.', 3,
+            workspace('Today\'s objective', 'Today I advance...', 'dailyReviewNote')),
+          step('pick-one-action', 'Choose one first action', 'Pick the single build or outreach action that directly moves today\'s objective. Write it as a physical action: open, send, call, write, ship.', 2),
+          step('block-time', 'Protect the block', 'Choose when the first deep-work block starts and what gets ignored until it is done.', 3),
+          step('start-line', 'Write the first move', 'Write the exact first action: open [file], send [message], call [name], write [deliverable]. Not "work on."', 2),
+        ],
+        'You have one objective written, one first action committed, and a protected start time.',
+        'If everything feels urgent, choose the action closest to revenue or proof.'
+      )
+    })(),
 
     'deep-work-1': taskBlock(task1, profile, 'Create the next useful output'),
 
@@ -263,19 +323,40 @@ export function generateLocalDailySteps({
       'Write it as a field note from building, not as marketing.'
     ),
 
-    outreach: block(
-      'Create one real conversation',
-      18,
-      'Use one target or existing thread. The goal is a relevant conversation, not message volume.',
-      [
-        step('pick-person', 'Pick one person', 'Choose one person or company with a reason to care now.', 3),
-        step('reason', 'Write the reason', 'Write why this person is relevant in one sentence.', 3),
-        step('message', 'Draft the message', 'Write a short message that starts from their context, not your pitch.', 8, workspace('Outreach draft', 'Hey..., noticed..., thought this might be useful...', 'outreachDraft')),
-        step('send-or-schedule', 'Send or schedule', 'Send it, or schedule exactly when you will send it today.', 4),
-      ],
-      'One relevant conversation has been started or scheduled.',
-      'If stuck, reply to an existing thread before starting a new one.'
-    ),
+    outreach: (() => {
+      const hasICP   = hasValue(profile.businessArtifacts.idealClientProfile)
+      const hasOffer = hasValue(profile.businessArtifacts.oneSentenceOffer)
+
+      if (hasICP && hasOffer) {
+        return block(
+          'Send your offer to ICP contacts',
+          20,
+          'Use your saved ICP and offer. Send real messages to real people.',
+          [
+            step('find-three', 'Find three ICP contacts', `Your saved ICP: "${truncate(profile.businessArtifacts.idealClientProfile!, 8)}". Open LinkedIn or your contact list and write three names that fit this description.`, 5),
+            step('write-message', 'Personalise for each', `Start from your offer: "${truncate(profile.businessArtifacts.oneSentenceOffer!, 10)}". Rewrite the first line for each person in one sentence.`, 7, workspace('Outreach messages', '1. [Name]: ...\n2. [Name]: ...\n3. [Name]: ...', 'outreachDraft')),
+            step('send-follow', 'Send and log follow-up dates', 'Send each message. Write the follow-up date next to each name. Default: 3 business days.', 5),
+            step('track-signal', 'Log what to watch for', 'Write one signal per contact that would mean "qualified and worth pursuing."', 3),
+          ],
+          'Three targeted messages sent to ICP-matched contacts today.',
+          'If you cannot find three, send to one. Send rate matters more than batch size.'
+        )
+      }
+
+      return block(
+        'Send three direct messages today',
+        18,
+        'Real names only. The goal is sent messages, not a perfect pitch.',
+        [
+          step('pick-targets', 'Name three contacts', 'Write three people who could be clients, partners, or warm introducers. Real names only.', 3),
+          step('open-and-write', 'Write one message per person', 'For each name: open their profile, write one personalised message in 2 sentences. What you do + why this person.', 10, workspace('Messages drafted', '1. ...\n2. ...\n3. ...', 'outreachDraft')),
+          step('send-all', 'Send all three', 'Send each message. Do not overthink. Sent beats perfect.', 4),
+          step('log-follow', 'Set follow-up reminders', 'Write when you will check back if no reply. Default: 3 business days.', 3),
+        ],
+        'Three real messages sent. Follow-up dates written.',
+        'If you cannot think of three people, send one well-targeted message. Quality over volume.'
+      )
+    })(),
 
     'midday-check': block(
       'Reset the afternoon',
