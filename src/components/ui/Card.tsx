@@ -1,7 +1,18 @@
 import type { HTMLAttributes } from 'react'
 
+type CardSurface = 'default' | 'raised' | 'ink' | 'plum' | 'forest' | 'amber'
+
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  surface?: 'default' | 'raised'
+  surface?: CardSurface
+}
+
+const surfaceClasses: Record<CardSurface, string> = {
+  default: 'bg-[rgba(13,43,30,0.80)] border-[rgba(30,74,46,0.5)]',
+  raised:  'border-border bg-bg-surface2/95',
+  ink:     'card-ink',
+  plum:    'card-plum',
+  forest:  'card-forest',
+  amber:   'card-amber',
 }
 
 export function Card({ surface = 'default', className = '', children, ...props }: CardProps) {
@@ -9,10 +20,8 @@ export function Card({ surface = 'default', className = '', children, ...props }
     <div
       {...props}
       className={[
-        'rounded-xl border shadow-[0_18px_60px_rgba(0,0,0,0.18)]',
-        surface === 'raised'
-          ? 'border-border bg-bg-surface2/95'
-          : 'bg-[rgba(13,43,30,0.80)] border-[rgba(30,74,46,0.5)]',
+        'rounded-lg border shadow-[0_8px_32px_rgba(0,0,0,0.28)]',
+        surfaceClasses[surface],
         className,
       ].join(' ')}
     >
@@ -25,7 +34,7 @@ export function CardHeader({ className = '', children, ...props }: HTMLAttribute
   return (
     <div
       {...props}
-      className={['border-b border-border px-4 py-3', className].join(' ')}
+      className={['border-b border-[rgba(255,255,255,0.05)] px-4 py-3', className].join(' ')}
     >
       {children}
     </div>

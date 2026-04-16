@@ -90,8 +90,8 @@ export function Nav() {
       <div className="hidden h-full flex-col px-5 py-6 md:flex">
         <div className="mb-8">
           <p className="taskoona-brand text-xs font-semibold uppercase tracking-[0.12em]">Taskoona</p>
-          <p className="mt-2 font-display text-2xl text-text">Execution OS</p>
-          <p className="mt-3 min-h-20 text-sm leading-relaxed text-muted">{activeItem.guide}</p>
+          <p className="mt-1 font-display text-2xl text-text">Execution OS</p>
+          <p className="mt-3 min-h-[4.5rem] text-sm leading-relaxed" style={{ color: '#9BA8A2' }}>{activeItem.guide}</p>
         </div>
 
         <NavItems />

@@ -18,7 +18,7 @@
     background-size: cover, cover, cover, cover;
     background-position: center top, left center, center center, center center;
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    color: #FDF4E3;
+    color: #EEE8DC;
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -43,7 +43,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #071812;
+    background: #0C0F11;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -83,4 +83,24 @@
     background: linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%);
     border: 1px solid rgba(212,184,120,0.18);
   }
+
+  /* Metallic gold text — use on labels, section headers */
+  .gold-text {
+    background: linear-gradient(135deg, #F0DC9A 0%, #D4B060 40%, #9A7230 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Metallic gold thin bar — use on progress, dividers */
+  .gold-bar {
+    background: linear-gradient(90deg, transparent 0%, #D4B878 25%, #C9A84C 50%, #D4B878 75%, transparent 100%);
+  }
+
+  /* Task card surface variants */
+  .card-ink    { background: rgba(12,15,17,0.94);  border-color: rgba(255,255,255,0.055); }
+  .card-plum   { background: rgba(20,16,26,0.94);  border-color: rgba(255,58,174,0.10); }
+  .card-forest { background: rgba(8,20,14,0.94);   border-color: rgba(22,163,122,0.12); }
+  .card-amber  { background: rgba(18,14,6,0.94);   border-color: rgba(212,184,120,0.12); }
+  .card-carbon { background: rgba(14,16,18,0.94);  border-color: rgba(255,255,255,0.04); }
 }

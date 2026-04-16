@@ -36,6 +36,23 @@ const tagBorderColor: Record<DailyHabitTag, string> = {
   LIFE:  '#FF3AAE',  // pink  — life priorities
 }
 
+// Card surface per tag — visual variety, not monochrome green
+const tagCardBg: Record<DailyHabitTag, string> = {
+  BODY:  'rgba(20,16,26,0.92)',   // dark plum — pink energy
+  GROW:  'rgba(8,20,14,0.92)',    // deep forest — emerald growth
+  BUILD: 'rgba(18,14,6,0.92)',    // dark amber — gold precision
+  REST:  'rgba(12,15,13,0.92)',   // dark sage-carbon — calm
+  LIFE:  'rgba(20,16,26,0.92)',   // dark plum — pink life
+}
+
+const tagCardBorder: Record<DailyHabitTag, string> = {
+  BODY:  'rgba(255,58,174,0.16)',
+  GROW:  'rgba(22,163,122,0.16)',
+  BUILD: 'rgba(212,184,120,0.16)',
+  REST:  'rgba(143,175,110,0.12)',
+  LIFE:  'rgba(255,58,174,0.14)',
+}
+
 function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
   return {
     title: habit.label,
@@ -118,7 +135,7 @@ export default function DailyPage() {
               {completedToday} / {totalHabits}
             </span>
           </div>
-          <div className="mt-2 h-px overflow-hidden" style={{ background: 'rgba(30,74,46,0.5)' }}>
+          <div className="mt-2 h-px overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
             <div
               className="h-full transition-all duration-500"
               style={{
@@ -131,6 +148,41 @@ export default function DailyPage() {
           </div>
         </div>
       </section>
+
+      {/* TODAY'S MOVE — editorial hero showing the first priority action */}
+      {(() => {
+        const firstMove = blocks[0]?.habits.find(h => h.tag === 'BUILD' || h.tag === 'BODY') ?? blocks[0]?.habits[0]
+        if (!firstMove) return null
+        const plan = contextPlans[firstMove.id] ?? fallbackPlan(firstMove)
+        return (
+          <div className="mb-8 overflow-hidden rounded-xl" style={{
+            background: 'linear-gradient(135deg, #14101A 0%, #1A1228 60%, #0D2B1E 100%)',
+            border: '1px solid rgba(255,58,174,0.18)',
+          }}>
+            <div className="px-6 pt-6 pb-4">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.30em]" style={{ color: '#FF3AAE' }}>Today's Move</span>
+                <span className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(255,58,174,0.3), transparent)' }} />
+                <span className="font-mono text-[10px] text-muted">{firstMove.durationMin} min</span>
+              </div>
+              <h2 className="font-display text-2xl text-text leading-snug">{plan.title}</h2>
+              {plan.steps[0] && (
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: '#9BA8A2' }}>
+                  First action — {plan.steps[0].instruction}
+                </p>
+              )}
+            </div>
+            <div className="px-6 pb-5 flex items-center gap-4" style={{ borderTop: '1px solid rgba(255,58,174,0.10)' }}>
+              <span className="font-mono text-[10px] uppercase tracking-[0.20em]" style={{ color: '#FF3AAE' }}>
+                {firstMove.tag}
+              </span>
+              {firstMove.why && (
+                <span className="text-xs italic" style={{ color: '#9BA8A2' }}>{firstMove.why}</span>
+              )}
+            </div>
+          </div>
+        )
+      })()}
 
       {!allDone && completedToday > 0 && (
         <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">
@@ -157,7 +209,7 @@ export default function DailyPage() {
         {blocks.map(({ block, habits }) => (
           <section key={block}>
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted">{blockLabels[block]}</p>
+              <p className="gold-text font-mono text-[11px] uppercase tracking-[0.28em]">{blockLabels[block]}</p>
               <p className="text-[11px] text-muted">
                 {habits.filter((h) => isComplete(h.id)).length}/{habits.length}
               </p>
@@ -175,9 +227,12 @@ export default function DailyPage() {
                     key={habit.id}
                     className={`overflow-hidden rounded-2xl border border-border/40 shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition-all duration-200 ${completed ? 'opacity-70' : 'opacity-100'}`}
                     style={{
-                      backgroundColor: '#0D2B1E',
+                      background: tagCardBg[tag],
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
+                      borderColor: tagCardBorder[tag],
                       borderLeftColor: tagBorderColor[tag],
-                      borderLeftWidth: 4,
+                      borderLeftWidth: '2px',
                     }}
                   >
                     <div className="flex gap-3 px-4 py-4">

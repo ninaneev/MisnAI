@@ -24,7 +24,7 @@ export default {
         // UI tokens — no gray anywhere
         border:          '#1E4A2E',
         text:            '#FDF4E3',
-        muted:           '#8FBA9F',
+        muted:           '#9BA8A2',
         dim:             '#0A2216',
 
         // Aliases — all point to brand colors, never Tailwind defaults
@@ -46,6 +46,13 @@ export default {
         'ruby-surface':  '#0D2B1E',
         'nectar-surface':'#1A1A08',
         'moss-surface':  '#0A2416',
+
+        // Neutral-dark surfaces — not green, for card variety
+        'ink-surface':   '#0C0F11',
+        'graphite':      '#161A1E',
+        'plum-dark':     '#14101A',
+        'carbon':        '#111418',
+        'amber-dark':    '#141008',
       },
       fontFamily: {
         sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
