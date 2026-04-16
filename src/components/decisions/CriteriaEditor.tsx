@@ -47,7 +47,7 @@ export function CriteriaEditor({ matrix }: Props) {
                 step={1}
                 value={c.weight}
                 onChange={(e) => updateCriterion(matrix.id, c.id, { weight: Number(e.target.value) })}
-                className="w-28 accent-[#6BC8D6]"
+                className="w-28 accent-[#FF3AAE]"
                 aria-label={`${c.label} weight`}
               />
               <span className="w-6 text-right font-mono text-[11px] text-coral">{c.weight}</span>
@@ -55,7 +55,7 @@ export function CriteriaEditor({ matrix }: Props) {
             <button
               type="button"
               onClick={() => removeCriterion(matrix.id, c.id)}
-              className="text-muted transition-colors hover:text-red"
+              className="text-muted transition-colors hover:text-coral"
               aria-label={`Remove ${c.label}`}
             >
               <Trash2 size={13} />

@@ -10,7 +10,7 @@ describe('Badge', () => {
 
   it('applies daily variant styling', () => {
     render(<Badge label="DAILY" variant="daily" />)
-    expect(screen.getByText('DAILY')).toHaveClass('text-blue')
+    expect(screen.getByText('DAILY')).toHaveClass('text-coral')
   })
 
   it('applies strategy variant styling', () => {
@@ -20,6 +20,6 @@ describe('Badge', () => {
 
   it('applies milestone variant styling', () => {
     render(<Badge label="MILESTONE" variant="milestone" />)
-    expect(screen.getByText('MILESTONE')).toHaveClass('text-purple')
+    expect(screen.getByText('MILESTONE')).toHaveClass('text-coral-dim')
   })
 })

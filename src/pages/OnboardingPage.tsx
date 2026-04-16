@@ -64,7 +64,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-bg-base px-5 pb-12 pt-10">
+    <div className="flex min-h-dvh flex-col bg-transparent px-5 pb-12 pt-10">
       <div className="mb-8">
         <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
           <span>Setup</span>

@@ -74,7 +74,7 @@ export default function SettingsPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona</p>
+        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona</p>
         <h1 className="font-display text-3xl text-text">Settings</h1>
         <p className="mt-1 font-mono text-xs text-muted">Profile, local data, and preferences</p>
       </div>
@@ -159,7 +159,7 @@ export default function SettingsPage() {
                 <button
                   key={t.mbti}
                   type="button"
-                  onClick={() => setMbti(isSelected ? null : t.mbti)}
+                  onClick={() => setMbti(t.mbti)}
                   className={`rounded-xl border px-2 py-3 text-center transition-colors ${
                     isSelected
                       ? 'border-coral bg-coral/15 text-coral'
@@ -193,7 +193,7 @@ export default function SettingsPage() {
                 <button
                   type="button"
                   onClick={() => removeVisionGoal(goal.id)}
-                  className="mt-0.5 flex-shrink-0 text-muted transition-colors hover:text-red"
+                  className="mt-0.5 flex-shrink-0 text-muted transition-colors hover:text-coral"
                   aria-label="Remove goal"
                 >
                   <Trash2 size={15} />
@@ -235,7 +235,7 @@ export default function SettingsPage() {
                 <button
                   type="button"
                   onClick={() => deleteMatrix(m.id)}
-                  className="text-muted transition-colors hover:text-red"
+                  className="text-muted transition-colors hover:text-coral"
                   aria-label={`Delete ${m.title}`}
                 >
                   <Trash2 size={13} />
@@ -312,7 +312,7 @@ export default function SettingsPage() {
           {saved ? 'Saved' : 'Save Changes'}
         </button>
 
-        <SettingsSection title="Danger Zone" accent="red">
+        <SettingsSection title="Danger Zone" accent="danger">
           <p className="mb-4 text-sm text-muted">
             Clearing all data resets Taskoona completely: profile, completions, strategy, history. Cannot be undone.
           </p>
@@ -320,7 +320,7 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={() => setShowReset(true)}
-              className="rounded-xl border border-red/30 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-red/70 transition-colors hover:border-red hover:text-red"
+              className="rounded-xl border border-coral/30 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-coral/70 transition-colors hover:border-coral hover:text-coral"
             >
               Reset All Data
             </button>
@@ -329,7 +329,7 @@ export default function SettingsPage() {
               <button
                 type="button"
                 onClick={resetAll}
-                className="rounded-xl border border-red bg-red/10 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-red transition-colors hover:bg-red/20"
+                className="rounded-xl border border-coral bg-coral/10 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20"
               >
                 Confirm Reset
               </button>
@@ -354,19 +354,19 @@ function SettingsSection({
   children,
 }: {
   title: string
-  accent?: 'red'
+  accent?: 'danger'
   children: React.ReactNode
 }) {
   return (
     <div
       className={`overflow-hidden rounded-2xl border bg-bg-surface ${
-        accent === 'red' ? 'border-red/20' : 'border-border'
+        accent === 'danger' ? 'border-coral/20' : 'border-border'
       }`}
     >
-      <div className={`border-b px-5 py-4 ${accent === 'red' ? 'border-red/20' : 'border-border'}`}>
+      <div className={`border-b px-5 py-4 ${accent === 'danger' ? 'border-coral/20' : 'border-border'}`}>
         <p
           className={`font-mono text-[11px] uppercase tracking-[0.25em] ${
-            accent === 'red' ? 'text-red/70' : 'text-muted'
+            accent === 'danger' ? 'text-coral/70' : 'text-muted'
           }`}
         >
           {title}

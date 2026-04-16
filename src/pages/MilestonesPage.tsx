@@ -22,6 +22,13 @@ const categoryLabel = {
   personal: 'Personal',
 } as const
 
+const categorySurface = {
+  revenue: 'bg-coral/25',
+  audience: 'bg-coral/20',
+  product: 'bg-coral/25',
+  personal: 'bg-coral-dim/25',
+} as const
+
 export default function MilestonesPage() {
   const { milestones, complete, isComplete, getCompletedAt, completedCount, nextMilestone } = useMilestones()
   const [filter, setFilter] = useState<CategoryFilter>('all')
@@ -35,9 +42,17 @@ export default function MilestonesPage() {
 
   return (
     <div>
-      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
-        <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Milestone Map</p>
+      <section
+  className="mb-6 overflow-hidden rounded-3xl shadow-[0_18px_52px_rgba(0,0,0,0.40)]"
+  style={{
+    background: 'linear-gradient(135deg, #071A12 0%, #0D2B1E 60%, #071812 100%)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgba(22,163,122,0.35)',
+  }}
+>
+        <div className="border-b border-coral/40 px-5 py-6">
+          <p className="taskoona-brand mb-2 font-mono text-[10px] uppercase tracking-[0.35em]" style={{ color: '#16A37A' }}>Taskoona · Milestone Map</p>
           <h1 className="font-display text-3xl text-text">Milestones</h1>
           <p className="mt-1 font-mono text-xs text-muted">
             {completedCount} of {milestones.length} achieved
@@ -105,12 +120,12 @@ export default function MilestonesPage() {
               </div>
 
               <article
-                className={`mb-3 flex-1 rounded-2xl border px-4 py-4 transition-all duration-200 ${
+                className={`mb-3 flex-1 rounded-2xl border px-4 py-4 shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition-all duration-200 ${
                   completed
                     ? 'border-border bg-bg-surface opacity-60'
                     : isNext
                       ? 'border-coral/30 bg-coral/5'
-                      : 'border-border bg-bg-surface'
+                      : `border-border ${categorySurface[milestone.category]}`
                 }`}
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

@@ -7,7 +7,7 @@ import { STORAGE_KEYS } from '../utils/constants'
 // always merged over any existing saved profile so no localStorage wipe is needed.
 const defaultProfile: UserProfile = {
   name: 'Founder',
-  mbti: 'INTJ',
+  mbti: 'INFJ',
   businessStage: 'launch',
 
   businessDescription:

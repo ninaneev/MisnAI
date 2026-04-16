@@ -6,9 +6,9 @@ interface BadgeProps {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  daily:     'text-blue border-blue/30 bg-blue/5',
+  daily:     'text-coral border-coral/30 bg-coral/5',
   strategy:  'text-coral border-coral/30 bg-coral/5',
-  milestone: 'text-purple border-purple/30 bg-purple/5',
+  milestone: 'text-coral-dim border-coral-dim/30 bg-coral-dim/5',
   life:      'text-green border-green/30 bg-green/5',
   muted:     'text-muted border-border bg-transparent',
 }

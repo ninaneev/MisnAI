@@ -26,12 +26,14 @@ const tagVariant: Record<DailyHabitTag, 'daily' | 'strategy' | 'milestone' | 'li
   LIFE: 'life',
 }
 
-const tagAccent: Record<DailyHabitTag, string> = {
-  BODY: 'border-l-red',
-  GROW: 'border-l-purple',
-  BUILD: 'border-l-blue',
-  REST: 'border-l-green',
-  LIFE: 'border-l-coral',
+// Strategic color assignments — each color carries meaning, not just decoration
+// Pink = energy/action (BODY, LIFE) | Gold = value/precision (BUILD) | Emerald = growth (GROW) | Sage = balance (REST)
+const tagBorderColor: Record<DailyHabitTag, string> = {
+  BODY:  '#FF3AAE',  // pink  — physical energy
+  GROW:  '#16A37A',  // emerald — growth & learning
+  BUILD: '#D4B878',  // beige-gold (warm, not yellow) — building real value
+  REST:  '#8FAF6E',  // sage  — rest & recovery
+  LIFE:  '#FF3AAE',  // pink  — life priorities
 }
 
 function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
@@ -88,40 +90,44 @@ export default function DailyPage() {
 
   return (
     <div>
-      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#101616] to-bg-base">
-        <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-coral-dim">Taskoona / Daily Blocks</p>
-          <h1 className="font-display text-3xl text-text">Today</h1>
-          <p className="mt-1 text-sm text-muted">{today}</p>
+      <section
+  className="mb-8 overflow-hidden rounded-xl"
+  style={{
+    background: 'linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgba(212,184,120,0.22)',
+  }}
+>
+        <div className="px-6 py-7">
+          <p className="taskoona-brand mb-3 font-mono text-[10px] uppercase tracking-[0.35em]">Daily Blocks</p>
+          <h1 className="font-display text-4xl text-text">Today</h1>
+          <p className="mt-1 font-mono text-xs text-muted">{today}</p>
 
-          <div className="mt-5">
-            <div className="mb-2 flex items-center justify-between text-[11px] uppercase tracking-[0.12em]">
-              <span className="text-muted">Progress</span>
-              <span className="text-coral">
-                {completedToday}/{totalHabits} / {progressPct}%
-              </span>
-            </div>
-            <div className="h-1.5 overflow-hidden rounded-full bg-dim">
-              <div
-                className={`h-full rounded-full transition-all duration-300 ${allDone ? 'bg-green' : 'bg-coral'}`}
-                style={{ width: `${progressPct}%` }}
-              />
-            </div>
-          </div>
+          {adaptation && (
+            <p className="mt-3 text-sm leading-relaxed text-muted italic">
+              {adaptation.label} · {adaptation.blockDescriptions.morning}
+            </p>
+          )}
         </div>
 
-        <div className="px-5 py-4">
-          <div className="rounded-xl border border-border bg-bg-surface/80 px-4 py-3">
-            <p className="text-[11px] uppercase tracking-[0.16em] text-muted">How to use today</p>
-            <p className="mt-2 text-sm leading-relaxed text-text">
-              Open one block, follow the numbered micro-steps, write inside the workspace when Taskoona asks for output,
-              then mark the step and block complete.
-            </p>
-            {adaptation && (
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                {adaptation.label}: {adaptation.blockDescriptions.morning}
-              </p>
-            )}
+        <div className="px-6 pb-5" style={{ borderTop: '1px solid rgba(212,184,120,0.12)' }}>
+          <div className="flex items-center justify-between pt-4">
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">Progress</span>
+            <span className="font-mono text-[11px]" style={{ color: allDone ? '#16A37A' : '#FF3AAE' }}>
+              {completedToday} / {totalHabits}
+            </span>
+          </div>
+          <div className="mt-2 h-px overflow-hidden" style={{ background: 'rgba(30,74,46,0.5)' }}>
+            <div
+              className="h-full transition-all duration-500"
+              style={{
+                width: `${progressPct}%`,
+                background: allDone
+                  ? 'linear-gradient(90deg, #16A37A, #A7F06D)'
+                  : 'linear-gradient(90deg, #FF3AAE, #CC2E8A)',
+              }}
+            />
           </div>
         </div>
       </section>
@@ -151,7 +157,7 @@ export default function DailyPage() {
         {blocks.map(({ block, habits }) => (
           <section key={block}>
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-dim">{blockLabels[block]}</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted">{blockLabels[block]}</p>
               <p className="text-[11px] text-muted">
                 {habits.filter((h) => isComplete(h.id)).length}/{habits.length}
               </p>
@@ -167,11 +173,12 @@ export default function DailyPage() {
                 return (
                   <article
                     key={habit.id}
-                    className={[
-                      'overflow-hidden rounded-2xl border border-border border-l-4 bg-bg-surface transition-all duration-200',
-                      tagAccent[tag],
-                      completed ? 'opacity-70' : 'opacity-100',
-                    ].join(' ')}
+                    className={`overflow-hidden rounded-2xl border border-border/40 shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition-all duration-200 ${completed ? 'opacity-70' : 'opacity-100'}`}
+                    style={{
+                      backgroundColor: '#0D2B1E',
+                      borderLeftColor: tagBorderColor[tag],
+                      borderLeftWidth: 4,
+                    }}
                   >
                     <div className="flex gap-3 px-4 py-4">
                       <HabitCheckbox checked={completed} onToggle={() => toggle(habit.id)} accent={tag} />
@@ -326,9 +333,9 @@ function HabitCheckbox({
   accent: DailyHabitTag
 }) {
   const accentClasses: Record<DailyHabitTag, string> = {
-    BODY: checked ? 'border-red bg-red/20 text-red' : 'border-border text-red',
-    GROW: checked ? 'border-purple bg-purple/20 text-purple' : 'border-border text-purple',
-    BUILD: checked ? 'border-blue bg-blue/20 text-blue' : 'border-border text-blue',
+    BODY: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
+    GROW: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
+    BUILD: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
     REST: checked ? 'border-green bg-green/20 text-green' : 'border-border text-green',
     LIFE: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
   }

@@ -86,12 +86,12 @@ export function Nav() {
     ) ?? NAV_ITEMS[0]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-bg-surface md:sticky md:top-0 md:h-dvh md:w-72 md:flex-shrink-0 md:border-r md:border-t-0">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border md:sticky md:top-0 md:h-dvh md:w-72 md:flex-shrink-0 md:border-r md:border-t-0 md:shadow-[18px_0_60px_rgba(0,0,0,0.16)]" style={{ background: 'linear-gradient(180deg, #0D2B1E 0%, #071812 100%)', borderColor: 'rgba(212,184,120,0.18)' }}>
       <div className="hidden h-full flex-col px-5 py-6 md:flex">
         <div className="mb-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-coral">Taskoona</p>
+          <p className="taskoona-brand text-xs font-semibold uppercase tracking-[0.12em]">Taskoona</p>
           <p className="mt-2 font-display text-2xl text-text">Execution OS</p>
-          <p className="mt-3 text-sm leading-relaxed text-muted">{activeItem.guide}</p>
+          <p className="mt-3 min-h-20 text-sm leading-relaxed text-muted">{activeItem.guide}</p>
         </div>
 
         <NavItems />
@@ -114,14 +114,14 @@ function NavItems({ mobile = false }: { mobile?: boolean }) {
           className={({ isActive }) =>
             mobile
               ? [
-                  'flex flex-1 flex-col items-center justify-center gap-0.5 py-2 transition-colors duration-150',
+                  'flex h-14 flex-1 flex-col items-center justify-center gap-0.5 py-2 transition-colors duration-150',
                   isActive ? 'text-coral' : 'text-muted hover:text-text',
                 ].join(' ')
               : [
-                  'flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors',
+                  'flex h-10 items-center gap-3 rounded-lg px-3 text-sm font-medium transition-all duration-150',
                   isActive
-                    ? 'border-coral/30 bg-coral/10 text-text'
-                    : 'border-transparent text-muted hover:border-border hover:bg-bg-surface2 hover:text-text',
+                    ? 'text-text bg-[rgba(255,58,174,0.06)] border-l-[2px] border-l-coral pl-[10px]'
+                    : 'text-muted hover:text-text hover:bg-[rgba(255,255,255,0.03)] border-l-[2px] border-l-transparent pl-[10px]',
                 ].join(' ')
           }
         >

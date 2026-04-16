@@ -4,26 +4,53 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#111719',
-        coral: '#6BC8D6',
-        'coral-dim': '#4E8F99',
-        lime: '#9BD67A',
-        'bg-base': '#0B0F10',
-        'bg-surface': '#141A1C',
-        'bg-surface2': '#1D2528',
-        border: '#2A3438',
-        text: '#F3F0E8',
-        muted: '#9BA6A8',
-        dim: '#3A464A',
-        red: '#DF6D69',
-        green: '#9BD67A',
-        blue: '#7CA8E8',
-        purple: '#B39AF0',
+        // Luxury emerald + gold palette
+        emerald:         '#0F6D59',
+        'emerald-light': '#16A37A',
+        'emerald-dim':   '#094438',
+        gold:            '#D4B878',
+        'gold-light':    '#E8D5A3',
+        'gold-dim':      '#A08840',
+        pink:            '#FF3AAE',
+        'pink-dim':      '#CC2E8A',
+        sage:            '#8FAF6E',
+        'sage-dim':      '#5A7A44',
+
+        // Surfaces — deep dark emerald
+        'bg-base':       '#071812',
+        'bg-surface':    '#0D2B1E',
+        'bg-surface2':   '#123425',
+
+        // UI tokens — no gray anywhere
+        border:          '#1E4A2E',
+        text:            '#FDF4E3',
+        muted:           '#8FBA9F',
+        dim:             '#0A2216',
+
+        // Aliases — all point to brand colors, never Tailwind defaults
+        coral:           '#FF3AAE',
+        'coral-dim':     '#CC2E8A',
+        green:           '#0F6D59',
+        ruby:            '#FF3AAE',
+        'ruby-dim':      '#CC2E8A',
+        nectar:          '#D4B878',
+        moss:            '#16A37A',
+        indigo:          '#0D2B1E',
+        red:             '#FF3AAE',
+        blue:            '#0F6D59',
+        purple:          '#FF3AAE',
+        lime:            '#16A37A',
+        ink:             '#040F09',
+
+        // Surface aliases
+        'ruby-surface':  '#0D2B1E',
+        'nectar-surface':'#1A1A08',
+        'moss-surface':  '#0A2416',
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', '"SFMono-Regular"', 'Consolas', 'monospace'],
+        sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Playfair Display"', 'Georgia', 'ui-serif', 'serif'],
+        mono:    ['"IBM Plex Mono"', '"SFMono-Regular"', 'Consolas', 'monospace'],
       },
     },
   },

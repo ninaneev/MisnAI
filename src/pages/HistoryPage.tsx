@@ -12,7 +12,7 @@ const typeLabels: Record<HistoryEventType, string> = {
 }
 
 const typeClasses: Record<HistoryEventType, string> = {
-  daily: 'border-blue/30 bg-blue/5 text-blue',
+  daily: 'border-coral/30 bg-coral/5 text-coral',
   strategy: 'border-coral/30 bg-coral/5 text-coral',
   milestone: 'border-green/30 bg-green/5 text-green',
 }
@@ -44,9 +44,17 @@ export default function HistoryPage() {
 
   return (
     <div>
-      <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-[#0D0A04] to-bg-base">
-        <div className="border-b border-border px-5 py-6">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Progress Memory</p>
+      <section
+  className="mb-6 overflow-hidden rounded-3xl shadow-[0_18px_52px_rgba(0,0,0,0.40)]"
+  style={{
+    background: 'linear-gradient(135deg, #071812 0%, #0A1E14 60%, #071812 100%)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgba(143,186,159,0.20)',
+  }}
+>
+        <div className="border-b border-coral/40 px-5 py-6">
+          <p className="taskoona-brand mb-2 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona · Progress Memory</p>
           <h1 className="font-display text-3xl text-text">History</h1>
           <p className="mt-1 font-mono text-xs text-muted">{totalEvents} recorded events</p>
         </div>

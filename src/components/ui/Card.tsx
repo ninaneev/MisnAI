@@ -9,8 +9,10 @@ export function Card({ surface = 'default', className = '', children, ...props }
     <div
       {...props}
       className={[
-        'rounded-lg border border-border',
-        surface === 'raised' ? 'bg-bg-surface2' : 'bg-bg-surface',
+        'rounded-xl border shadow-[0_18px_60px_rgba(0,0,0,0.18)]',
+        surface === 'raised'
+          ? 'border-border bg-bg-surface2/95'
+          : 'bg-[rgba(13,43,30,0.80)] border-[rgba(30,74,46,0.5)]',
         className,
       ].join(' ')}
     >
@@ -23,7 +25,7 @@ export function CardHeader({ className = '', children, ...props }: HTMLAttribute
   return (
     <div
       {...props}
-      className={['px-4 py-3 border-b border-border', className].join(' ')}
+      className={['border-b border-border px-4 py-3', className].join(' ')}
     >
       {children}
     </div>

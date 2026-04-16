@@ -75,7 +75,7 @@ export default function VisionPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona</p>
+        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona</p>
         <h1 className="font-display text-3xl text-text">Context</h1>
         <p className="mt-1 font-mono text-xs text-muted">Everything Taskoona knows about you. Modify anything to sharpen your daily tasks.</p>
       </div>

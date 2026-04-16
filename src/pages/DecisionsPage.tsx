@@ -41,7 +41,7 @@ export default function DecisionsPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Taskoona · Decision Engine</p>
+        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona · Decision Engine</p>
         <h1 className="font-display text-3xl text-text">Decisions</h1>
         <p className="mt-1 font-mono text-xs text-muted">
           Weigh criteria, grade options, then argue against the winner before committing.
@@ -95,7 +95,7 @@ export default function DecisionsPage() {
                   <button
                     type="button"
                     onClick={handleDelete}
-                    className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-red"
+                    className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-coral"
                   >
                     <Trash2 size={12} /> Delete matrix
                   </button>

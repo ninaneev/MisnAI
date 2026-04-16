@@ -60,7 +60,7 @@ export function OptionsGrader({ matrix, onAdd, onUpdate, onRemove }: Props) {
                 <button
                   type="button"
                   onClick={() => onRemove(o.id)}
-                  className="mt-1 text-muted transition-colors hover:text-red"
+                  className="mt-1 text-muted transition-colors hover:text-coral"
                   aria-label={`Remove ${o.label}`}
                 >
                   <Trash2 size={14} />
@@ -85,7 +85,7 @@ export function OptionsGrader({ matrix, onAdd, onUpdate, onRemove }: Props) {
                         step={1}
                         value={grade || 1}
                         onChange={(e) => setGrade(matrix.id, o.id, c.id, Number(e.target.value))}
-                        className="w-20 accent-[#6BC8D6]"
+                        className="w-20 accent-[#FF3AAE]"
                         aria-label={`${o.label} grade for ${c.label}`}
                       />
                       <span className="w-5 text-right font-mono text-[11px] text-coral">{grade || '–'}</span>
