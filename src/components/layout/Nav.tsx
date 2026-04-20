@@ -89,12 +89,32 @@ export function Nav() {
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border md:sticky md:top-0 md:h-dvh md:w-72 md:flex-shrink-0 md:border-r md:border-t-0 md:shadow-[18px_0_60px_rgba(0,0,0,0.16)]" style={{ background: 'linear-gradient(180deg, #0D2B1E 0%, #071812 100%)', borderColor: 'rgba(212,184,120,0.18)' }}>
       <div className="hidden h-full flex-col px-5 py-6 md:flex">
         <div className="mb-8">
-          <p className="taskoona-brand text-xs font-semibold uppercase tracking-[0.12em]">Taskoona</p>
-          <p className="mt-2 font-display text-2xl text-text">Execution OS</p>
+          <div className="flex items-center gap-2.5">
+            <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+              <path d="M3 19 C 3 10, 10 3, 19 3 C 19 12, 12 19, 3 19 Z" stroke="#E0B84A" strokeWidth="1.4" fill="rgba(224,184,74,0.08)" />
+              <path d="M4 18 L 18 4" stroke="#E0B84A" strokeWidth="1" opacity="0.6" />
+            </svg>
+            <p className="movaris-brand">Movaris AI</p>
+          </div>
+          <p className="mt-2.5 font-display text-2xl text-text">Execution OS</p>
           <p className="mt-3 min-h-20 text-sm leading-relaxed text-muted">{activeItem.guide}</p>
         </div>
 
         <NavItems />
+
+        <div style={{ flex: 1 }} />
+
+        <div className="border-t pt-3.5 mt-3.5" style={{ borderColor: 'rgba(224,184,74,0.12)' }}>
+          <span className="font-mono text-[9px] tracking-[0.32em] uppercase" style={{ color: 'var(--gold)' }}>Active Phase</span>
+          <div className="flex items-baseline gap-2 mt-1.5">
+            <span className="font-mono text-sm" style={{ color: 'var(--pink)' }}>02</span>
+            <span className="font-display italic text-base text-text">Traction</span>
+          </div>
+          <div className="h-0.5 rounded-full mt-2.5 overflow-hidden" style={{ background: 'var(--dim)' }}>
+            <div className="h-full" style={{ width: '34%', background: 'linear-gradient(90deg, #FF3AAE, #CC2E8A)' }} />
+          </div>
+          <span className="font-mono text-[10px] tracking-[0.18em] uppercase mt-1.5 block text-muted">04 / 12 done</span>
+        </div>
       </div>
 
       <NavItems mobile />
