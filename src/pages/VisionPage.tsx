@@ -75,7 +75,7 @@ export default function VisionPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.32em] mb-1" style={{ color: 'var(--gold)' }}>Context</p>
         <h1 className="font-display text-3xl text-text">Context</h1>
         <p className="mt-1 font-mono text-xs text-muted">Everything Taskoona knows about you. Modify anything to sharpen your daily tasks.</p>
       </div>
@@ -112,7 +112,7 @@ export default function VisionPage() {
           />
           <div className="mt-3 flex items-center gap-3">
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Stage</span>
-            <span className="rounded-md border border-coral/30 bg-coral/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.15em] text-coral">
+            <span className="rounded-md px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.15em]" style={{ borderColor: 'rgba(255,58,174,0.25)', background: 'rgba(255,58,174,0.08)', color: '#FF3AAE', border: '1px solid rgba(255,58,174,0.25)' }}>
               {stageLabel[profile.businessStage]}
             </span>
           </div>
@@ -178,12 +178,12 @@ export default function VisionPage() {
         >
           {adaptation ? (
             <div>
-              <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.2em] text-coral">{adaptation.label}</p>
+              <p className="mb-1 font-mono text-[11px] uppercase tracking-[0.2em]" style={{ color: 'var(--pink)' }}>{adaptation.label}</p>
               <p className="mb-4 text-sm leading-relaxed text-muted">{adaptation.blockDescriptions.morning}</p>
               <div className="space-y-2">
                 {adaptation.strengths.map((s) => (
                   <div key={s} className="flex items-center gap-2">
-                    <ChevronRight size={12} className="flex-shrink-0 text-coral" />
+                    <ChevronRight size={12} className="flex-shrink-0" style={{ color: 'var(--pink)' }} />
                     <p className="text-sm text-text/85">{s}</p>
                   </div>
                 ))}
@@ -251,7 +251,7 @@ export default function VisionPage() {
 
               return (
                 <div key={q}>
-                  <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-coral">{q}</p>
+                  <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: 'var(--pink)' }}>{q}</p>
                   <textarea
                     value={draft}
                     onChange={(e) =>
@@ -307,7 +307,7 @@ function ContextSection({
   children: React.ReactNode
 }) {
   return (
-    <div id={id} className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
+    <div id={id} className="overflow-hidden rounded-2xl border" style={{ background: 'rgba(12,15,17,0.94)', borderColor: 'rgba(255,255,255,0.055)' }}>
       <button
         type="button"
         onClick={onToggle}

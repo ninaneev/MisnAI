@@ -41,7 +41,7 @@ export default function DecisionsPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona · Decision Engine</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.32em] mb-1" style={{ color: 'var(--gold)' }}>Weighted before committed</p>
         <h1 className="font-display text-3xl text-text">Decisions</h1>
         <p className="mt-1 font-mono text-xs text-muted">
           Weigh criteria, grade options, then argue against the winner before committing.
@@ -57,14 +57,15 @@ export default function DecisionsPage() {
         />
 
         {!matrix ? (
-          <div className="rounded-2xl border border-border bg-bg-surface px-6 py-10 text-center">
+          <div className="rounded-2xl px-6 py-10 text-center" style={{ background: 'rgba(12,15,17,0.94)', border: '1px solid rgba(255,255,255,0.055)' }}>
             <p className="font-mono text-xs text-muted">
               No matrix selected. Create one to start weighing a decision.
             </p>
             <button
               type="button"
               onClick={handleCreate}
-              className="mx-auto mt-4 flex items-center gap-2 rounded-xl border border-coral bg-coral/10 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20"
+              className="mx-auto mt-4 flex items-center gap-2 rounded-xl border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors"
+              style={{ borderColor: '#FF3AAE', background: 'rgba(255,58,174,0.10)', color: '#FF3AAE' }}
             >
               <Plus size={14} /> New matrix
             </button>
@@ -72,7 +73,7 @@ export default function DecisionsPage() {
         ) : (
           <div className="space-y-5">
             {/* Matrix Header */}
-            <section className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
+            <section className="overflow-hidden rounded-2xl border" style={{ background: 'rgba(12,15,17,0.94)', borderColor: 'rgba(255,255,255,0.055)' }}>
               <div className="space-y-3 px-5 py-5">
                 <input
                   type="text"

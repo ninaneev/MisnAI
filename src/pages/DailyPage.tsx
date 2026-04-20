@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Check, ChevronDown } from 'lucide-react'
 import { Badge } from '../components/ui/Badge'
-import { Card } from '../components/ui/Card'
 import { useDaily } from '../hooks/useDaily'
 import { useDailyContext } from '../hooks/useDailyContext'
 import { usePersonality } from '../hooks/usePersonality'
@@ -96,11 +95,11 @@ export default function DailyPage() {
     background: 'linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%)',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: 'rgba(212,184,120,0.22)',
+    borderColor: 'rgba(224,184,74,0.22)',
   }}
 >
         <div className="px-6 py-7">
-          <p className="movaris-brand mb-3">Daily Blocks</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.32em] mb-3" style={{ color: 'var(--gold)' }}>Daily Blocks</p>
           <h1 className="font-display text-4xl text-text">Today</h1>
           <p className="mt-1 font-mono text-xs text-muted">{today}</p>
 
@@ -133,15 +132,15 @@ export default function DailyPage() {
       </section>
 
       {!allDone && completedToday > 0 && (
-        <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">
+        <div className="mb-5 rounded-xl px-4 py-4" style={{ background: 'rgba(20,16,26,0.94)', border: '1px solid rgba(255,58,174,0.25)', borderLeft: '3px solid #FF3AAE' }}>
           <p className="text-[11px] uppercase tracking-[0.16em] text-coral">Keep Going</p>
           <p className="mt-2 text-sm text-muted">{totalHabits - completedToday} blocks remaining today.</p>
-        </Card>
+        </div>
       )}
 
       {allDone && (
-        <Card className="mb-5 border-green/30 bg-green/5 px-4 py-4">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-green">Today Complete</p>
+        <div className="mb-5 rounded-xl px-4 py-4" style={{ background: 'rgba(8,20,14,0.94)', border: '1px solid rgba(22,163,122,0.12)', borderLeft: '3px solid #16A37A' }}>
+          <p className="text-[11px] uppercase tracking-[0.16em]" style={{ color: 'var(--emerald-light)' }}>Today Complete</p>
           <p className="mt-2 text-sm text-muted">All daily blocks are done. Strong work.</p>
           {nextUnlockedTask && (
             <div className="mt-4 rounded-xl border border-coral/20 bg-bg-surface/80 px-4 py-3">
@@ -150,7 +149,7 @@ export default function DailyPage() {
               <p className="mt-1 text-sm leading-relaxed text-muted">{nextUnlockedTask.description}</p>
             </div>
           )}
-        </Card>
+        </div>
       )}
 
       <div className="space-y-8">
@@ -173,11 +172,15 @@ export default function DailyPage() {
                 return (
                   <article
                     key={habit.id}
-                    className={`overflow-hidden rounded-2xl border border-border/40 shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition-all duration-200 ${completed ? 'opacity-70' : 'opacity-100'}`}
-                    style={{
-                      backgroundColor: '#0D2B1E',
-                      borderLeftColor: tagBorderColor[tag],
-                      borderLeftWidth: 4,
+                    className={`overflow-hidden rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition-all duration-200 ${completed ? 'opacity-70' : 'opacity-100'}`}
+                    style={completed ? {
+                      background: 'rgba(8,20,14,0.94)',
+                      border: '1px solid rgba(22,163,122,0.12)',
+                      borderLeft: '3px solid #16A37A',
+                    } : {
+                      background: 'rgba(12,15,17,0.94)',
+                      border: '1px solid rgba(255,255,255,0.055)',
+                      borderLeft: `3px solid ${tagBorderColor[tag]}`,
                     }}
                   >
                     <div className="flex gap-3 px-4 py-4">
@@ -332,19 +335,24 @@ function HabitCheckbox({
   onToggle: () => void
   accent: DailyHabitTag
 }) {
-  const accentClasses: Record<DailyHabitTag, string> = {
-    BODY: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
-    GROW: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
-    BUILD: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
-    REST: checked ? 'border-green bg-green/20 text-green' : 'border-border text-green',
-    LIFE: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
+  const tagColors: Record<DailyHabitTag, string> = {
+    BODY:  '#FF3AAE',
+    GROW:  '#16A37A',
+    BUILD: '#E0B84A',
+    REST:  '#8FAF6E',
+    LIFE:  '#FF3AAE',
   }
 
   return (
     <button
       type="button"
       onClick={onToggle}
-      className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-200 ${accentClasses[accent]}`}
+      className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-200"
+      style={{
+        borderColor: checked ? tagColors[accent] : 'var(--border)',
+        background: checked ? tagColors[accent] + '33' : 'transparent',
+        color: tagColors[accent],
+      }}
       aria-label={checked ? 'Mark incomplete' : 'Mark complete'}
     >
       {checked ? <Check size={12} /> : null}

@@ -7,13 +7,29 @@ import { useStrategy } from '../hooks/useStrategy'
 import { useUserStore } from '../stores/userStore'
 import type { StrategyTask } from '../types/strategy'
 
-// Phase surface/accent encoding: pink=active, emerald=done, gold=next, default=later
-const phaseColors = [
-  { label: '#FF3AAE', border: '#FF3AAE', bg: 'rgba(255,58,174,0.12)' },  // Foundation — pink energy
-  { label: '#E0B84A', border: '#E0B84A', bg: 'rgba(224,184,74,0.07)' },  // Traction — gold strategic value
-  { label: '#16A37A', border: '#16A37A', bg: 'rgba(22,163,122,0.12)' },  // Rhythm — emerald growth
-  { label: '#8FAF6E', border: '#8FAF6E', bg: 'rgba(143,175,110,0.12)' }, // Durability — sage mastery
-]
+type PhaseState = 'done' | 'active' | 'next' | 'later'
+
+function getPhaseColors(state: PhaseState) {
+  switch (state) {
+    case 'done':
+      return { number: '#16A37A', bar: 'linear-gradient(90deg, #16A37A, #A7F06D)', count: '#16A37A', category: '#16A37A' }
+    case 'active':
+      return { number: '#FF3AAE', bar: 'linear-gradient(90deg, #FF3AAE, #CC2E8A)', count: '#FF3AAE', category: '#FF3AAE' }
+    case 'next':
+      return { number: '#E0B84A', bar: 'linear-gradient(90deg, #E0B84A, #8A6A22)', count: '#E0B84A', category: '#E0B84A' }
+    case 'later':
+      return { number: 'rgba(232,223,200,0.25)', bar: 'rgba(255,255,255,0.06)', count: 'var(--muted)', category: 'rgba(232,223,200,0.25)' }
+  }
+}
+
+function getCardProps(state: PhaseState): { surface: 'forest' | 'plum' | 'amber' | 'ink'; accent?: 'emerald' | 'pink' | 'gold'; style?: React.CSSProperties } {
+  switch (state) {
+    case 'done':   return { surface: 'forest', accent: 'emerald' }
+    case 'active': return { surface: 'plum',   accent: 'pink' }
+    case 'next':   return { surface: 'amber',  accent: 'gold' }
+    case 'later':  return { surface: 'ink',    style: { opacity: 0.72 } }
+  }
+}
 
 export default function StrategyPage() {
   const { phases, toggle, isComplete, phaseProgress, isPhaseUnlocked } = useStrategy()
@@ -43,11 +59,13 @@ export default function StrategyPage() {
     setTimeout(() => setContextSaved(false), 2000)
   }
 
+  const firstLockedIndex = summary.findIndex(s => !s.unlocked)
+
   return (
     <div>
       {/* Page header */}
       <div className="mb-8">
-        <p className="movaris-brand mb-3">The staged path</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.32em] mb-3" style={{ color: 'var(--gold)' }}>The staged path</p>
         <h1 className="font-display text-text" style={{ fontSize: 36, fontWeight: 500, letterSpacing: '-0.015em', lineHeight: 1.1 }}>
           Four phases, <em style={{ fontStyle: 'italic', color: 'var(--pink)' }}>one at a time</em>.
         </h1>
@@ -55,42 +73,6 @@ export default function StrategyPage() {
           Future phases stay visible so you can orient — but today's focus belongs to the one that's active. Nothing else gets your attention.
         </p>
       </div>
-
-      {/* Phase summary overview */}
-      <section
-        className="mb-8 overflow-hidden rounded-xl"
-        style={{
-          background: 'linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%)',
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: 'rgba(224,184,74,0.22)',
-        }}
-      >
-        <div className="px-6 py-5" style={{ borderBottom: '1px solid rgba(224,184,74,0.12)' }}>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted">Phase overview</p>
-        </div>
-
-        <div className="grid gap-3 px-5 py-4 sm:grid-cols-2 xl:grid-cols-4">
-          {summary.map(({ phase, progress, unlocked, doneCount }, index) => {
-            const pct = Math.round(progress * 100)
-
-            return (
-              <div key={phase.id} className="rounded-2xl px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.14)]" style={{ backgroundColor: phaseColors[index]?.bg ?? 'rgba(255,58,174,0.12)', borderWidth: 1, borderStyle: 'solid', borderColor: phaseColors[index]?.border ?? '#FF3AAE' }}>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm" style={{ color: phaseColors[index]?.label ?? '#FF3AAE' }}>{String(phase.number).padStart(2, '0')}</span>
-                  {!unlocked && <Lock size={14} className="text-muted" />}
-                </div>
-                <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-text">{phase.title}</p>
-                <p className="mt-1 text-xs leading-relaxed text-muted">{phase.period ?? phase.subtitle}</p>
-                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-dim">
-                  <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: pct === 100 ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE') }} />
-                </div>
-                <p className="mt-2 font-mono text-[11px] text-muted">{doneCount}/{phase.tasks.length} done</p>
-              </div>
-            )
-          })}
-        </div>
-      </section>
 
       <Card surface="amber" className="mb-5 px-4 py-4" accent="gold">
         <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-gold mb-2">The Current Aim</p>
@@ -137,7 +119,10 @@ export default function StrategyPage() {
                 <button
                   type="button"
                   onClick={saveContext}
-                  className="rounded-xl border border-coral bg-coral/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-coral transition-colors hover:bg-coral/20"
+                  className="rounded-xl px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] transition-colors"
+                  style={{ border: '1px solid var(--pink)', background: 'rgba(255,58,174,0.10)', color: 'var(--pink)' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,58,174,0.20)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,58,174,0.10)')}
                 >
                   Save
                 </button>
@@ -167,19 +152,24 @@ export default function StrategyPage() {
           const isOpen = openPhaseId === phase.id
           const groupedTasks = groupTasksByCategory(phase.tasks)
 
+          const phaseState: PhaseState = complete
+            ? 'done'
+            : unlocked
+              ? 'active'
+              : index === firstLockedIndex
+                ? 'next'
+                : 'later'
+
+          const colors = getPhaseColors(phaseState)
+          const cardProps = getCardProps(phaseState)
+
           return (
-            <article
+            <Card
               key={phase.id}
-              className="overflow-hidden rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.16)] transition-all duration-200"
-              style={{
-                backgroundColor: phaseColors[index]?.bg ?? 'rgba(255,58,174,0.08)',
-                borderWidth: 1,
-                borderStyle: 'solid',
-                borderLeftWidth: 4,
-                borderColor: complete ? 'rgba(22,163,122,0.40)' : (phaseColors[index]?.border ?? '#FF3AAE') + '55',
-                borderLeftColor: complete ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE'),
-                opacity: !unlocked ? 0.75 : 1,
-              }}
+              surface={cardProps.surface}
+              accent={cardProps.accent}
+              className="overflow-hidden transition-all duration-200"
+              style={cardProps.style}
             >
               <button
                 type="button"
@@ -194,11 +184,7 @@ export default function StrategyPage() {
                     fontSize: 44,
                     fontWeight: 500,
                     lineHeight: 1,
-                    color: complete
-                      ? '#16A37A'
-                      : !unlocked
-                        ? 'rgba(232,223,200,0.22)'
-                        : (phaseColors[index]?.label ?? '#FF3AAE'),
+                    color: colors.number,
                   }}>
                     {String(phase.number).padStart(2, '0')}
                   </div>
@@ -215,9 +201,8 @@ export default function StrategyPage() {
                     </h2>
                     {complete && <Badge label="Complete" variant="emerald" />}
                     {!complete && unlocked && <Badge label={`Active · ${Math.round(progress * 100)}%`} variant="pink" />}
-                    {!complete && !unlocked && index === summary.findIndex(s => !s.unlocked) && <Badge label="Next" variant="gold" />}
-                    {!complete && !unlocked && index > summary.findIndex(s => !s.unlocked) && <Badge label="Later" variant="muted" />}
-                    {!unlocked && index === 0 && <Badge label="Locked" variant="muted" />}
+                    {!complete && !unlocked && index === firstLockedIndex && <Badge label="Next" variant="gold" />}
+                    {!complete && !unlocked && index !== firstLockedIndex && <Badge label="Later" variant="muted" />}
                   </div>
                   <p className="text-sm leading-relaxed text-muted">{phase.subtitle}</p>
                   {phase.target && (
@@ -230,13 +215,13 @@ export default function StrategyPage() {
                   <div className="mt-4">
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">Milestones</span>
-                      <span className="font-mono text-[11px]" style={{ color: complete ? '#16A37A' : (phaseColors[index]?.label ?? '#FF3AAE') }}>
+                      <span className="font-mono text-[11px]" style={{ color: colors.count }}>
                         {doneCount} / {phase.tasks.length}
                       </span>
                     </div>
                     <div className="h-1 rounded-full overflow-hidden" style={{ background: 'var(--dim)' }}>
                       <div className="h-full rounded-full transition-all duration-500"
-                        style={{ width: `${Math.round(progress * 100)}%`, backgroundColor: complete ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE') }}
+                        style={{ width: `${Math.round(progress * 100)}%`, background: colors.bar }}
                       />
                     </div>
                   </div>
@@ -255,7 +240,7 @@ export default function StrategyPage() {
                     <div className="space-y-5">
                       {groupedTasks.map(([category, tasks]) => (
                         <div key={category}>
-                          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.24em]" style={{ color: phaseColors[index]?.label ?? '#FF3AAE' }}>{category}</p>
+                          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.24em]" style={{ color: colors.category }}>{category}</p>
                           <div className="space-y-3">
                             {tasks.map((task) => {
                               const completed = isComplete(task.id)
@@ -288,7 +273,7 @@ export default function StrategyPage() {
                   </div>
                 </div>
               )}
-            </article>
+            </Card>
           )
         })}
       </div>
@@ -321,13 +306,14 @@ function TaskCheckbox({ checked, onToggle }: { checked: boolean; onToggle: () =>
     <button
       type="button"
       onClick={onToggle}
-      className={`mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-150 ${
-        checked ? 'border-coral bg-coral text-bg-base' : 'border-border text-coral'
-      }`}
+      className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-150"
+      style={checked
+        ? { borderColor: 'var(--pink)', background: 'var(--pink)', color: 'var(--bg-base)' }
+        : { borderColor: 'var(--border)', color: 'var(--pink)' }
+      }
       aria-label={checked ? 'Mark incomplete' : 'Mark complete'}
     >
       {checked ? <Check size={12} /> : null}
     </button>
   )
 }
-
