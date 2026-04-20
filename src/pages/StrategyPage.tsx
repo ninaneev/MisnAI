@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react'
-import { Check, ChevronDown, Lock } from 'lucide-react'
+import { Check, ChevronDown, History, Lock } from 'lucide-react'
 import { Badge } from '../components/ui/Badge'
+import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { useStrategy } from '../hooks/useStrategy'
 import { useUserStore } from '../stores/userStore'
 import type { StrategyTask } from '../types/strategy'
 
+// Phase surface/accent encoding: pink=active, emerald=done, gold=next, default=later
 const phaseColors = [
   { label: '#FF3AAE', border: '#FF3AAE', bg: 'rgba(255,58,174,0.12)' },  // Foundation — pink energy
-  { label: '#D4B878', border: '#D4B878', bg: 'rgba(212,184,120,0.07)' },  // Traction — beige-gold value
-  { label: '#16A37A', border: '#16A37A', bg: 'rgba(22,163,122,0.12)' },  // Leverage — emerald growth
-  { label: '#8FAF6E', border: '#8FAF6E', bg: 'rgba(143,175,110,0.12)' }, // Scale — sage mastery
+  { label: '#E0B84A', border: '#E0B84A', bg: 'rgba(224,184,74,0.07)' },  // Traction — gold strategic value
+  { label: '#16A37A', border: '#16A37A', bg: 'rgba(22,163,122,0.12)' },  // Rhythm — emerald growth
+  { label: '#8FAF6E', border: '#8FAF6E', bg: 'rgba(143,175,110,0.12)' }, // Durability — sage mastery
 ]
 
 export default function StrategyPage() {
@@ -43,19 +45,29 @@ export default function StrategyPage() {
 
   return (
     <div>
+      {/* Page header */}
+      <div className="mb-8">
+        <p className="movaris-brand mb-3">The staged path</p>
+        <h1 className="font-display text-text" style={{ fontSize: 36, fontWeight: 500, letterSpacing: '-0.015em', lineHeight: 1.1 }}>
+          Four phases, <em style={{ fontStyle: 'italic', color: 'var(--pink)' }}>one at a time</em>.
+        </h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted" style={{ maxWidth: 560 }}>
+          Future phases stay visible so you can orient — but today's focus belongs to the one that's active. Nothing else gets your attention.
+        </p>
+      </div>
+
+      {/* Phase summary overview */}
       <section
-  className="mb-8 overflow-hidden rounded-xl"
-  style={{
-    background: 'linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%)',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgba(212,184,120,0.22)',
-  }}
->
-        <div className="px-6 py-7" style={{ borderBottom: '1px solid rgba(212,184,120,0.12)' }}>
-          <p className="taskoona-brand mb-3 font-mono text-[10px] uppercase tracking-[0.35em]">Strategic Engine</p>
-          <h1 className="font-display text-4xl text-text">Strategy</h1>
-          <p className="mt-1 font-mono text-xs text-muted">Phase-gated execution with visible next moves.</p>
+        className="mb-8 overflow-hidden rounded-xl"
+        style={{
+          background: 'linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%)',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: 'rgba(224,184,74,0.22)',
+        }}
+      >
+        <div className="px-6 py-5" style={{ borderBottom: '1px solid rgba(224,184,74,0.12)' }}>
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted">Phase overview</p>
         </div>
 
         <div className="grid gap-3 px-5 py-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -80,26 +92,26 @@ export default function StrategyPage() {
         </div>
       </section>
 
-      <Card className="mb-5 border-coral/60 bg-coral/20 px-4 py-4">
-        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">The Current Aim</p>
-        <p className="mt-2 text-lg leading-relaxed text-text">
+      <Card surface="amber" className="mb-5 px-4 py-4" accent="gold">
+        <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-gold mb-2">The Current Aim</p>
+        <p className="font-display text-lg leading-relaxed text-text" style={{ fontStyle: 'italic' }}>
           Build a business that is clear enough to sell, useful enough to keep, and calm enough to sustain.
         </p>
         {activePhase?.target && <p className="mt-3 text-sm text-muted">Active target: {activePhase.target}</p>}
       </Card>
 
       {/* Strategic Context — stored and used by daily task generation */}
-      <div className="mb-5 overflow-hidden rounded-2xl border border-coral/35 bg-coral-dim/15">
-        <div className="flex items-center justify-between border-b border-coral/30 px-5 py-4">
+      <div className="mb-5 overflow-hidden rounded-2xl" style={{ border: '1px solid rgba(255,58,174,0.20)', background: 'rgba(255,58,174,0.06)' }}>
+        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid rgba(255,58,174,0.15)' }}>
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-text">Strategic Context</p>
-            <p className="mt-0.5 font-mono text-[10px] text-muted">Taskoona reads this to sharpen your daily tasks</p>
+            <p className="mt-0.5 font-mono text-[10px] text-muted">Movaris AI reads this to sharpen your daily tasks</p>
           </div>
           {!editingContext && (
             <button
               type="button"
               onClick={() => { setContextDraft(profile.customContext); setEditingContext(true) }}
-              className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-coral"
+              className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-pink"
             >
               {contextSaved ? (
                 <span className="flex items-center gap-1 text-green">
@@ -172,39 +184,70 @@ export default function StrategyPage() {
               <button
                 type="button"
                 onClick={() => setOpenPhaseId(isOpen ? null : phase.id)}
-                className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left"
+                className="flex w-full items-start gap-5 px-5 py-5 text-left"
               >
-                <div className="min-w-0">
-                  <div className="mb-2 flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-sm" style={{ color: complete ? '#16A37A' : (phaseColors[index]?.label ?? '#FF3AAE') }}>
-                      {complete ? '✓' : String(phase.number).padStart(2, '0')}
-                    </span>
-                    {!unlocked && <Badge label="Locked" variant="muted" />}
+                {/* Large serif italic phase number */}
+                <div className="flex-shrink-0" style={{ minWidth: 56 }}>
+                  <div style={{
+                    fontFamily: 'var(--font-display)',
+                    fontStyle: 'italic',
+                    fontSize: 44,
+                    fontWeight: 500,
+                    lineHeight: 1,
+                    color: complete
+                      ? '#16A37A'
+                      : !unlocked
+                        ? 'rgba(232,223,200,0.22)'
+                        : (phaseColors[index]?.label ?? '#FF3AAE'),
+                  }}>
+                    {String(phase.number).padStart(2, '0')}
                   </div>
-                  <h2 className={`font-mono text-xs uppercase tracking-[0.18em] ${complete ? 'text-muted line-through' : 'text-text'}`}>
-                    {phase.title}
-                  </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-text/85">{phase.subtitle}</p>
-                  {phase.target && <p className="mt-2 text-sm text-coral/80">Target: {phase.target}</p>}
-                  <p className="mt-2 font-mono text-[11px] text-muted">
-                    {phase.period ?? 'Current phase'} · {doneCount}/{phase.tasks.length} done
+                  <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-muted mt-1">
+                    {phase.period ?? ''}
                   </p>
                 </div>
 
-                <div className="flex flex-col items-end gap-3">
-                  <span className="font-mono text-xs" style={{ color: complete ? '#16A37A' : (phaseColors[index]?.label ?? '#FF3AAE') }}>{Math.round(progress * 100)}%</span>
-                  <ChevronDown size={18} className={`text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                {/* Body */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <h2 className="font-display text-xl text-text" style={{ letterSpacing: '-0.01em' }}>
+                      {phase.title}
+                    </h2>
+                    {complete && <Badge label="Complete" variant="emerald" />}
+                    {!complete && unlocked && <Badge label={`Active · ${Math.round(progress * 100)}%`} variant="pink" />}
+                    {!complete && !unlocked && index === summary.findIndex(s => !s.unlocked) && <Badge label="Next" variant="gold" />}
+                    {!complete && !unlocked && index > summary.findIndex(s => !s.unlocked) && <Badge label="Later" variant="muted" />}
+                    {!unlocked && index === 0 && <Badge label="Locked" variant="muted" />}
+                  </div>
+                  <p className="text-sm leading-relaxed text-muted">{phase.subtitle}</p>
+                  {phase.target && (
+                    <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: 'var(--pink)' }}>
+                      Target: {phase.target}
+                    </p>
+                  )}
+
+                  {/* Progress bar */}
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">Milestones</span>
+                      <span className="font-mono text-[11px]" style={{ color: complete ? '#16A37A' : (phaseColors[index]?.label ?? '#FF3AAE') }}>
+                        {doneCount} / {phase.tasks.length}
+                      </span>
+                    </div>
+                    <div className="h-1 rounded-full overflow-hidden" style={{ background: 'var(--dim)' }}>
+                      <div className="h-full rounded-full transition-all duration-500"
+                        style={{ width: `${Math.round(progress * 100)}%`, backgroundColor: complete ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE') }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-end gap-2 flex-shrink-0 pt-1">
+                  {complete && <Check size={18} color="#16A37A" strokeWidth={2} />}
+                  {!unlocked && !complete && <Lock size={15} color="#9BA8A2" />}
+                  <ChevronDown size={16} className={`text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                 </div>
               </button>
-
-              <div className="px-4 pb-4">
-                <div className="h-1.5 overflow-hidden rounded-full bg-dim">
-                  <div
-                    className="h-full rounded-full"
-                    style={{ width: `${Math.round(progress * 100)}%`, backgroundColor: complete ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE') }}
-                  />
-                </div>
-              </div>
 
               {isOpen && (
                 <div className="border-t border-border px-4 pb-4 pt-4">
@@ -248,6 +291,15 @@ export default function StrategyPage() {
             </article>
           )
         })}
+      </div>
+      {/* Review reminder banner */}
+      <div className="mt-8 flex items-center gap-4 rounded-xl px-5 py-4"
+        style={{ border: '1px dashed rgba(224,184,74,0.22)', background: 'rgba(13,43,30,0.60)' }}>
+        <History size={16} color="#E0B84A" />
+        <p className="flex-1 text-sm text-text-body">
+          Last strategy review — <strong className="font-medium text-gold">review your phase progress</strong> and update context when priorities shift.
+        </p>
+        <Button variant="gold" size="sm">Open review →</Button>
       </div>
     </div>
   )

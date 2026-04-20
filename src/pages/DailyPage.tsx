@@ -29,11 +29,11 @@ const tagVariant: Record<DailyHabitTag, 'daily' | 'strategy' | 'milestone' | 'li
 // Strategic color assignments — each color carries meaning, not just decoration
 // Pink = energy/action (BODY, LIFE) | Gold = value/precision (BUILD) | Emerald = growth (GROW) | Sage = balance (REST)
 const tagBorderColor: Record<DailyHabitTag, string> = {
-  BODY:  '#FF3AAE',  // pink  — physical energy
+  BODY:  '#FF3AAE',  // pink    — physical energy
   GROW:  '#16A37A',  // emerald — growth & learning
-  BUILD: '#D4B878',  // beige-gold (warm, not yellow) — building real value
-  REST:  '#8FAF6E',  // sage  — rest & recovery
-  LIFE:  '#FF3AAE',  // pink  — life priorities
+  BUILD: '#E0B84A',  // gold    — building real value
+  REST:  '#8FAF6E',  // sage    — rest & recovery
+  LIFE:  '#FF3AAE',  // pink    — life priorities
 }
 
 function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
@@ -100,7 +100,7 @@ export default function DailyPage() {
   }}
 >
         <div className="px-6 py-7">
-          <p className="taskoona-brand mb-3 font-mono text-[10px] uppercase tracking-[0.35em]">Daily Blocks</p>
+          <p className="movaris-brand mb-3">Daily Blocks</p>
           <h1 className="font-display text-4xl text-text">Today</h1>
           <p className="mt-1 font-mono text-xs text-muted">{today}</p>
 
@@ -111,16 +111,16 @@ export default function DailyPage() {
           )}
         </div>
 
-        <div className="px-6 pb-5" style={{ borderTop: '1px solid rgba(212,184,120,0.12)' }}>
+        <div className="px-6 pb-5" style={{ borderTop: '1px solid rgba(224,184,74,0.12)' }}>
           <div className="flex items-center justify-between pt-4">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">Progress</span>
             <span className="font-mono text-[11px]" style={{ color: allDone ? '#16A37A' : '#FF3AAE' }}>
               {completedToday} / {totalHabits}
             </span>
           </div>
-          <div className="mt-2 h-px overflow-hidden" style={{ background: 'rgba(30,74,46,0.5)' }}>
+          <div className="mt-2 h-1 overflow-hidden rounded-full" style={{ background: 'var(--dim)' }}>
             <div
-              className="h-full transition-all duration-500"
+              className="h-full rounded-full transition-all duration-500"
               style={{
                 width: `${progressPct}%`,
                 background: allDone
