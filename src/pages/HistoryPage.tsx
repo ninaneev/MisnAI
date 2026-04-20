@@ -12,9 +12,9 @@ const typeLabels: Record<HistoryEventType, string> = {
 }
 
 const typeClasses: Record<HistoryEventType, string> = {
-  daily: 'border-coral/30 bg-coral/5 text-coral',
-  strategy: 'border-coral/30 bg-coral/5 text-coral',
-  milestone: 'border-green/30 bg-green/5 text-green',
+  daily: 'text-coral',
+  strategy: 'text-[#D4B878]',
+  milestone: 'text-[#16A37A]',
 }
 
 export default function HistoryPage() {

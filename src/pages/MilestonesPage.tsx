@@ -22,12 +22,6 @@ const categoryLabel = {
   personal: 'Personal',
 } as const
 
-const categorySurface = {
-  revenue: 'bg-coral/25',
-  audience: 'bg-coral/20',
-  product: 'bg-coral/25',
-  personal: 'bg-coral-dim/25',
-} as const
 
 export default function MilestonesPage() {
   const { milestones, complete, isComplete, getCompletedAt, completedCount, nextMilestone } = useMilestones()
@@ -125,7 +119,7 @@ export default function MilestonesPage() {
                     ? 'border-border bg-bg-surface opacity-60'
                     : isNext
                       ? 'border-coral/30 bg-coral/5'
-                      : `border-border ${categorySurface[milestone.category]}`
+                      : 'border-border bg-bg-surface2'
                 }`}
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

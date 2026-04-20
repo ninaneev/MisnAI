@@ -26,33 +26,6 @@ const tagVariant: Record<DailyHabitTag, 'daily' | 'strategy' | 'milestone' | 'li
   LIFE: 'life',
 }
 
-// Strategic color assignments — each color carries meaning, not just decoration
-// Pink = energy/action (BODY, LIFE) | Gold = value/precision (BUILD) | Emerald = growth (GROW) | Sage = balance (REST)
-const tagBorderColor: Record<DailyHabitTag, string> = {
-  BODY:  '#FF3AAE',  // pink  — physical energy
-  GROW:  '#16A37A',  // emerald — growth & learning
-  BUILD: '#D4B878',  // beige-gold (warm, not yellow) — building real value
-  REST:  '#8FAF6E',  // sage  — rest & recovery
-  LIFE:  '#FF3AAE',  // pink  — life priorities
-}
-
-// Card surface per tag — visual variety, not monochrome green
-const tagCardBg: Record<DailyHabitTag, string> = {
-  BODY:  'rgba(20,16,26,0.92)',   // dark plum — pink energy
-  GROW:  'rgba(8,20,14,0.92)',    // deep forest — emerald growth
-  BUILD: 'rgba(18,14,6,0.92)',    // dark amber — gold precision
-  REST:  'rgba(12,15,13,0.92)',   // dark sage-carbon — calm
-  LIFE:  'rgba(20,16,26,0.92)',   // dark plum — pink life
-}
-
-const tagCardBorder: Record<DailyHabitTag, string> = {
-  BODY:  'rgba(255,58,174,0.16)',
-  GROW:  'rgba(22,163,122,0.16)',
-  BUILD: 'rgba(212,184,120,0.16)',
-  REST:  'rgba(143,175,110,0.12)',
-  LIFE:  'rgba(255,58,174,0.14)',
-}
-
 function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
   const habitSteps = habit.steps ?? ['Work on the key task for this block and produce one visible result.']
   return {
@@ -259,14 +232,11 @@ export default function DailyPage() {
                 return (
                   <article
                     key={habit.id}
-                    className={`overflow-hidden rounded-2xl border border-border/40 shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition-all duration-200 ${completed ? 'opacity-70' : 'opacity-100'}`}
+                    className={`overflow-hidden rounded-lg transition-all duration-200 ${completed ? 'opacity-55' : 'opacity-100'}`}
                     style={{
-                      background: tagCardBg[tag],
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      borderColor: tagCardBorder[tag],
-                      borderLeftColor: tagBorderColor[tag],
-                      borderLeftWidth: '2px',
+                      background: 'rgba(10,14,12,0.92)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.32)',
                     }}
                   >
                     <div className="flex gap-3 px-4 py-4">

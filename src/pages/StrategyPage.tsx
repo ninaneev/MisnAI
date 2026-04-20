@@ -63,7 +63,7 @@ export default function StrategyPage() {
             const pct = Math.round(progress * 100)
 
             return (
-              <div key={phase.id} className="rounded-2xl px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.14)]" style={{ backgroundColor: phaseColors[index]?.bg ?? 'rgba(255,58,174,0.12)', borderWidth: 1, borderStyle: 'solid', borderColor: phaseColors[index]?.border ?? '#FF3AAE' }}>
+              <div key={phase.id} className="rounded-lg px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.14)]" style={{ background: 'rgba(10,14,12,0.88)', border: '1px solid rgba(255,255,255,0.07)' }}>
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-sm" style={{ color: phaseColors[index]?.label ?? '#FF3AAE' }}>{String(phase.number).padStart(2, '0')}</span>
                   {!unlocked && <Lock size={14} className="text-muted" />}
