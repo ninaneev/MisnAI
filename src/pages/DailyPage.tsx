@@ -6,6 +6,7 @@ import { useDaily } from '../hooks/useDaily'
 import { useDailyContext } from '../hooks/useDailyContext'
 import { usePersonality } from '../hooks/usePersonality'
 import { useStrategy } from '../hooks/useStrategy'
+import { buildDailyTaskQueue } from '../lib/generation/dailyTaskQueue'
 import { useDailyWorkStore } from '../stores/dailyWorkStore'
 import { useUserStore } from '../stores/userStore'
 import { todayKey } from '../utils/dateUtils'
@@ -53,14 +54,14 @@ function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
 }
 
 export default function DailyPage() {
-  const { byBlock, toggle, isComplete, completedToday, totalHabits, allDone, toggleStep, isStepComplete } =
-    useDaily()
+  const { habits, toggle, isComplete, completedToday, totalHabits, allDone, toggleStep, isStepComplete } = useDaily()
   const contextPlans = useDailyContext()
   const { nextUnlockedTask } = useStrategy()
   const { adaptation } = usePersonality()
   const { profile, updateProfile } = useUserStore()
   const { notes, setNote, keyFor } = useDailyWorkStore()
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [showExtraTasks, setShowExtraTasks] = useState(false)
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -70,9 +71,25 @@ export default function DailyPage() {
 
   const progressPct = Math.round((completedToday / totalHabits) * 100)
 
+  const queue = useMemo(
+    () =>
+      buildDailyTaskQueue({
+        habits,
+        completedHabitIds: habits.filter((habit) => isComplete(habit.id)).map((habit) => habit.id),
+        nextStrategyTask: nextUnlockedTask,
+        todayLimit: 3,
+      }),
+    [habits, isComplete, nextUnlockedTask]
+  )
+
+  const visibleHabits = showExtraTasks ? [...queue.todayTasks, ...queue.extraTasks] : queue.todayTasks
+
   const blocks = useMemo(
-    () => (['morning', 'midday', 'evening'] as const).map((block) => ({ block, habits: byBlock[block] })),
-    [byBlock]
+    () =>
+      (['morning', 'midday', 'evening'] as const)
+        .map((block) => ({ block, habits: visibleHabits.filter((habit) => habit.block === block) }))
+        .filter(({ habits }) => habits.length > 0),
+    [visibleHabits]
   )
 
   function artifactValue(key: BusinessArtifactKey): string {
@@ -132,10 +149,22 @@ export default function DailyPage() {
         </div>
       </section>
 
+      {queue.currentTask && (
+        <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">
+          <p className="text-[11px] uppercase tracking-[0.16em] text-coral">Next Step</p>
+          <p className="mt-2 font-display text-xl text-text">{queue.currentTask.label}</p>
+          <p className="mt-1 text-sm leading-relaxed text-muted">{queue.currentTask.description}</p>
+          <p className="mt-3 text-xs text-muted">
+            Today is intentionally limited to the next {queue.todayTasks.length} unfinished blocks. Finish/check them,
+            then Misn AI moves the next tasks into view.
+          </p>
+        </Card>
+      )}
+
       {!allDone && completedToday > 0 && (
         <Card className="mb-5 border-coral/30 bg-coral/5 px-4 py-4">
           <p className="text-[11px] uppercase tracking-[0.16em] text-coral">Keep Going</p>
-          <p className="mt-2 text-sm text-muted">{totalHabits - completedToday} blocks remaining today.</p>
+          <p className="mt-2 text-sm text-muted">{queue.remainingCount} blocks remaining today.</p>
         </Card>
       )}
 
@@ -143,14 +172,36 @@ export default function DailyPage() {
         <Card className="mb-5 border-green/30 bg-green/5 px-4 py-4">
           <p className="text-[11px] uppercase tracking-[0.16em] text-green">Today Complete</p>
           <p className="mt-2 text-sm text-muted">All daily blocks are done. Strong work.</p>
-          {nextUnlockedTask && (
+          {queue.bonusTask && (
             <div className="mt-4 rounded-xl border border-coral/20 bg-bg-surface/80 px-4 py-3">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-coral">Bonus: Next Strategy Priority</p>
-              <p className="mt-2 font-display text-lg text-text">{nextUnlockedTask.label}</p>
-              <p className="mt-1 text-sm leading-relaxed text-muted">{nextUnlockedTask.description}</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-coral">Extra Time: Next Strategy Priority</p>
+              <p className="mt-2 font-display text-lg text-text">{queue.bonusTask.label}</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">{queue.bonusTask.description}</p>
             </div>
           )}
         </Card>
+      )}
+
+      {!allDone && (
+        <div className="mb-5 flex flex-col gap-3 rounded-xl border border-border bg-bg-surface2 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-text">Today&apos;s To-Do</p>
+            <p className="mt-1 text-sm text-muted">
+              {showExtraTasks
+                ? `Showing all ${queue.remainingCount} unfinished blocks.`
+                : `Showing the next ${queue.todayTasks.length}. ${queue.extraTasks.length} more available if you have extra time.`}
+            </p>
+          </div>
+          {queue.extraTasks.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowExtraTasks((visible) => !visible)}
+              className="rounded-full border border-coral/40 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-coral transition-colors hover:bg-coral/10"
+            >
+              {showExtraTasks ? 'Hide extra tasks' : `Load ${queue.extraTasks.length} more`}
+            </button>
+          )}
+        </div>
       )}
 
       <div className="space-y-8">
