@@ -10,6 +10,9 @@ export function useDaily() {
   const stepCompletions = useDailyStore((s) => s.stepCompletions)
   const toggle = useDailyStore((s) => s.toggle)
   const toggleStep = useDailyStore((s) => s.toggleStep)
+  const extraTodayTaskIdsByDate = useDailyStore((s) => s.extraTodayTaskIdsByDate)
+  const acceptExtraTodayTask = useDailyStore((s) => s.acceptExtraTodayTask)
+  const removeExtraTodayTask = useDailyStore((s) => s.removeExtraTodayTask)
   const taskOverrides = useDailyPlanningStore((s) => s.taskOverrides)
   const habits = useMemo(() => applyPlanningToHabits(dailyHabits, taskOverrides), [taskOverrides])
 
@@ -48,6 +51,7 @@ export function useDaily() {
   const totalHabits = habits.length
   const allDone = totalHabits > 0 && todayCompleted === totalHabits
   const progressPct = totalHabits > 0 ? Math.round((todayCompleted / totalHabits) * 100) : 0
+  const extraTodayTaskIds = extraTodayTaskIdsByDate[todayKey()] ?? []
 
   return {
     habits,
@@ -58,6 +62,9 @@ export function useDaily() {
     totalHabits,
     allDone,
     progressPct,
+    extraTodayTaskIds,
+    acceptExtraTodayTask,
+    removeExtraTodayTask,
     toggleStep,
     isStepComplete,
   }

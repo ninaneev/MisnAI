@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import type { Criterion, DecisionMatrix, DecisionOption } from '../types/decision'
 import { STORAGE_KEYS } from '../utils/constants'
 
@@ -48,7 +48,7 @@ function uid(prefix: string): string {
   return `${prefix}-${Math.random().toString(36).slice(2, 9)}`
 }
 
-interface DecisionState {
+export interface DecisionState {
   matrices: DecisionMatrix[]
   createMatrix: (title: string, description?: string) => string
   deleteMatrix: (id: string) => void
@@ -71,6 +71,47 @@ function patchMatrix(
   updater: (m: DecisionMatrix) => DecisionMatrix
 ): DecisionMatrix[] {
   return matrices.map((m) => (m.id === id ? { ...updater(m), updatedAt: now() } : m))
+}
+
+function isValidMatrix(matrix: unknown): matrix is DecisionMatrix {
+  if (!matrix || typeof matrix !== 'object') return false
+  const candidate = matrix as Partial<DecisionMatrix>
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.title === 'string' &&
+    Array.isArray(candidate.criteria) &&
+    Array.isArray(candidate.options)
+  )
+}
+
+export function mergePersistedDecisionState(
+  persisted: unknown,
+  current: DecisionState
+): DecisionState {
+  const saved = persisted as Partial<DecisionState> | undefined
+  const matrices = Array.isArray(saved?.matrices) ? saved.matrices.filter(isValidMatrix) : []
+
+  return {
+    ...current,
+    matrices: matrices.length > 0 ? matrices : current.matrices,
+  }
+}
+
+export function migrateLegacyDecisionStorage(storage: Storage): void {
+  const current = storage.getItem(STORAGE_KEYS.DECISION_MATRICES)
+  if (current) return
+
+  const legacyKeys = [
+    `task${'oona'}:decision-matrices`,
+    `mo${'varis'}-ai:decision-matrices`,
+    `mo${'varis'}:decision-matrices`,
+  ]
+  const legacy = legacyKeys.map((key) => storage.getItem(key)).find(Boolean)
+  if (legacy) storage.setItem(STORAGE_KEYS.DECISION_MATRICES, legacy)
+}
+
+if (typeof window !== 'undefined') {
+  migrateLegacyDecisionStorage(window.localStorage)
 }
 
 export const useDecisionStore = create<DecisionState>()(
@@ -181,6 +222,11 @@ export const useDecisionStore = create<DecisionState>()(
         }))
       },
     }),
-    { name: STORAGE_KEYS.DECISION_MATRICES }
+    {
+      name: STORAGE_KEYS.DECISION_MATRICES,
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ matrices: state.matrices }),
+      merge: mergePersistedDecisionState,
+    }
   )
 )

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { ArrowDown, ArrowUp, Check, ChevronDown, EyeOff } from 'lucide-react'
+import { ArrowDown, ArrowUp, Check, ChevronDown, EyeOff, Plus, X } from 'lucide-react'
 import { Card } from '../components/ui/Card'
 import { dailyHabits } from '../data/dailyHabits'
 import { useDaily } from '../hooks/useDaily'
@@ -80,7 +80,19 @@ function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
 }
 
 export default function DailyPage() {
-  const { habits, toggle, isComplete, completedToday, totalHabits, allDone, toggleStep, isStepComplete } = useDaily()
+  const {
+    habits,
+    toggle,
+    isComplete,
+    completedToday,
+    totalHabits,
+    allDone,
+    toggleStep,
+    isStepComplete,
+    extraTodayTaskIds,
+    acceptExtraTodayTask,
+    removeExtraTodayTask,
+  } = useDaily()
   const contextPlans = useDailyContext()
   const { nextUnlockedTask } = useStrategy()
   const { adaptation } = usePersonality()
@@ -91,7 +103,7 @@ export default function DailyPage() {
   const updateTask = useDailyPlanningStore((s) => s.updateTask)
   const moveTask = useDailyPlanningStore((s) => s.moveTask)
   const [expandedId, setExpandedId] = useState<string | null>(null)
-  const [showPreviewTasks, setShowPreviewTasks] = useState(false)
+  const [showExtraPanel, setShowExtraPanel] = useState(false)
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -111,7 +123,23 @@ export default function DailyPage() {
     [habits, isComplete, nextUnlockedTask]
   )
 
-  const visibleHabits = showPreviewTasks ? [...queue.todayTasks, ...queue.extraTasks] : queue.todayTasks
+  const acceptedExtraHabits = useMemo(
+    () =>
+      extraTodayTaskIds
+        .map((habitId) => habits.find((habit) => habit.id === habitId))
+        .filter((habit): habit is DailyHabit => Boolean(habit))
+        .map((habit) => ({
+          ...habit,
+          id: `extra-today-${habit.id}`,
+          previewDayOffset: 1,
+          previewSourceId: habit.id,
+        })),
+    [extraTodayTaskIds, habits]
+  )
+  const visibleHabits = [...queue.todayTasks, ...acceptedExtraHabits]
+  const acceptedExtraBaseIds = new Set(extraTodayTaskIds)
+  const availableExtraTasks = queue.suggestedExtraTasks
+    .filter((habit) => !acceptedExtraBaseIds.has(sourceHabitId(habit)))
   const hiddenHabits = dailyHabits.filter((habit) => taskOverrides[habit.id]?.hidden)
 
   const blocks = useMemo(
@@ -137,6 +165,18 @@ export default function DailyPage() {
 
   function sourceHabitId(habit: DailyHabit): string {
     return habit.previewSourceId ?? habit.id
+  }
+
+  function isExtraTodayHabit(habit: DailyHabit): boolean {
+    return habit.id.startsWith('extra-today-')
+  }
+
+  function completionHabitId(habit: DailyHabit): string {
+    return isExtraTodayHabit(habit) ? habit.id : sourceHabitId(habit)
+  }
+
+  function isSidePreviewHabit(habit: DailyHabit): boolean {
+    return Boolean(habit.previewDayOffset) && !isExtraTodayHabit(habit)
   }
 
   function previewLabel(offset?: number): string {
@@ -228,21 +268,29 @@ export default function DailyPage() {
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-text">Today&apos;s To-Do</p>
             <p className="mt-1 text-sm text-muted">
-              {showPreviewTasks
-                ? `Showing today plus ${queue.extraTasks.length} preview blocks for the next day.`
-                : `Showing all ${queue.todayTasks.length} current-day blocks. ${queue.extraTasks.length} preview blocks available.`}
+              Showing all {queue.todayTasks.length} current-day blocks{acceptedExtraHabits.length > 0 ? ` plus ${acceptedExtraHabits.length} accepted extra.` : '.'}
+              {availableExtraTasks.length > 0 ? ' Extra next-day tasks are hidden until you open the side panel.' : ''}
             </p>
           </div>
-          {queue.extraTasks.length > 0 && (
+          {availableExtraTasks.length > 0 && (
             <button
               type="button"
-              onClick={() => setShowPreviewTasks((visible) => !visible)}
-              className="rounded-full border border-coral/40 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-coral transition-colors hover:bg-coral/10"
+              onClick={() => setShowExtraPanel((visible) => !visible)}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-coral/40 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-coral transition-colors hover:bg-coral/10"
             >
-              {showPreviewTasks ? 'Hide next-day preview' : 'Preview tomorrow'}
+              <Plus size={13} /> {showExtraPanel ? 'Hide extra options' : 'Add extra from tomorrow'}
             </button>
           )}
         </div>
+      )}
+
+      {showExtraPanel && availableExtraTasks.length > 0 && (
+        <ExtraTasksPanel
+          tasks={availableExtraTasks}
+          tags={tags}
+          onAccept={(habitId) => acceptExtraTodayTask(habitId)}
+          onClose={() => setShowExtraPanel(false)}
+        />
       )}
 
       <div className="space-y-8">
@@ -257,9 +305,10 @@ export default function DailyPage() {
 
             <div className="space-y-4">
               {habits.map((habit) => {
-                const isPreview = Boolean(habit.previewDayOffset)
+                const isPreview = isSidePreviewHabit(habit)
+                const isExtraToday = isExtraTodayHabit(habit)
                 const baseHabitId = sourceHabitId(habit)
-                const completed = !isPreview && isComplete(baseHabitId)
+                const completed = !isPreview && isComplete(completionHabitId(habit))
                 const expanded = expandedId === habit.id
                 const tag = habit.tag ?? 'build'
                 const tone = tagToneFor(tags, tag)
@@ -282,7 +331,7 @@ export default function DailyPage() {
                           +
                         </div>
                       ) : (
-                        <HabitCheckbox checked={completed} onToggle={() => toggle(baseHabitId)} tone={tone} />
+                        <HabitCheckbox checked={completed} onToggle={() => toggle(completionHabitId(habit))} tone={tone} />
                       )}
 
                       <button
@@ -295,6 +344,11 @@ export default function DailyPage() {
                             {isPreview && (
                               <span className="rounded border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
                                 {previewLabel(habit.previewDayOffset)}
+                              </span>
+                            )}
+                            {isExtraToday && (
+                              <span className="rounded border border-text/15 bg-white/5 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                                Extra today from tomorrow
                               </span>
                             )}
                             {habit.timeLabel && <span className="text-[11px] text-muted">{habit.timeLabel}</span>}
@@ -320,7 +374,7 @@ export default function DailyPage() {
                       </button>
                     </div>
 
-                    {!isPreview && (
+                    {!isPreview && !isExtraToday && (
                       <div className="flex flex-wrap items-center gap-2 border-t border-border/60 px-4 py-3 sm:pl-12">
                         <input
                           type="text"
@@ -367,6 +421,18 @@ export default function DailyPage() {
                       </div>
                     )}
 
+                    {isExtraToday && (
+                      <div className="flex justify-end border-t border-border/60 px-4 py-3 sm:pl-12">
+                        <button
+                          type="button"
+                          onClick={() => removeExtraTodayTask(baseHabitId)}
+                          className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-muted transition-colors hover:border-coral hover:text-coral"
+                        >
+                          <X size={12} /> Remove extra
+                        </button>
+                      </div>
+                    )}
+
                     {expanded && (
                       <div className="border-t border-border px-4 pb-5 pt-4">
                         <div className="space-y-4 pl-0 sm:pl-8">
@@ -377,8 +443,8 @@ export default function DailyPage() {
 
                           <div className="space-y-3">
                             {plan.steps.map((step, i) => {
-                              const done = !isPreview && isStepComplete(baseHabitId, i)
-                              const workKey = keyFor(baseHabitId, step.id)
+                              const done = !isPreview && isStepComplete(completionHabitId(habit), i)
+                              const workKey = keyFor(completionHabitId(habit), step.id)
                               const noteValue = step.workspace?.artifactKey
                                 ? artifactValue(step.workspace.artifactKey)
                                 : notes[workKey] ?? ''
@@ -394,7 +460,7 @@ export default function DailyPage() {
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        if (!isPreview) toggleStep(baseHabitId, i)
+                                        if (!isPreview) toggleStep(completionHabitId(habit), i)
                                       }}
                                       className={`mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded border text-xs transition-colors ${
                                         done ? 'border-coral bg-coral/20 text-coral' : 'border-border text-muted'
@@ -512,6 +578,65 @@ export default function DailyPage() {
         Resets at midnight / {todayKey()}
       </p>
     </div>
+  )
+}
+
+function ExtraTasksPanel({
+  tasks,
+  tags,
+  onAccept,
+  onClose,
+}: {
+  tasks: DailyHabit[]
+  tags: ReturnType<typeof useDailyPlanningStore.getState>['tags']
+  onAccept: (habitId: string) => void
+  onClose: () => void
+}) {
+  return (
+    <aside className="mb-6 rounded-2xl border border-border bg-bg-surface2/80 px-4 py-4 shadow-[0_18px_50px_rgba(0,0,0,0.28)] lg:ml-auto lg:w-[420px]">
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <div>
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Optional extra tasks</p>
+          <p className="mt-1 text-sm text-muted">
+            Collapsed by default. Pick one next-day block only if today has real capacity; accepted extras appear in Today.
+          </p>
+        </div>
+        <button type="button" onClick={onClose} className="rounded-lg border border-border p-1.5 text-muted hover:text-coral" aria-label="Close extra tasks">
+          <X size={14} />
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        {tasks.slice(0, 6).map((habit) => {
+          const baseHabitId = habit.previewSourceId ?? habit.id
+          const tag = habit.tag ?? 'build'
+          return (
+            <div key={habit.id} className="rounded-xl border border-border/70 bg-bg-base/50 px-3 py-3 opacity-85">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="mb-1 flex flex-wrap items-center gap-2">
+                    {habit.timeLabel && <span className="text-[11px] text-muted">{habit.timeLabel}</span>}
+                    <span className="rounded border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                      {tagLabelFor(tags, tag)}
+                    </span>
+                    <span className="text-[11px] text-muted">{habit.durationMin} min</span>
+                  </div>
+                  <p className="font-display text-lg leading-tight text-text">{habit.label}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{habit.description}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onAccept(baseHabitId)}
+                  className="flex-shrink-0 rounded-lg border border-coral/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-coral transition-colors hover:bg-coral/10"
+                >
+                  Accept
+                </button>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </aside>
   )
 }
 

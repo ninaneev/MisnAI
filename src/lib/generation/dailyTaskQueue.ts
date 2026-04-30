@@ -12,6 +12,7 @@ export interface DailyTaskQueue {
   currentTask: DailyHabit | null
   todayTasks: DailyHabit[]
   extraTasks: DailyHabit[]
+  suggestedExtraTasks: DailyHabit[]
   doneTasks: DailyHabit[]
   bonusTask: StrategyTask | null
   remainingCount: number
@@ -41,11 +42,13 @@ export function buildDailyTaskQueue({
     }))
   )
   const allDailyDone = remainingTasks.length === 0
+  const suggestedExtraTasks = extraTasks.slice(doneTasks.length)
 
   return {
     currentTask: remainingTasks[0] ?? null,
     todayTasks,
     extraTasks,
+    suggestedExtraTasks,
     doneTasks,
     bonusTask: allDailyDone ? nextStrategyTask : null,
     remainingCount: remainingTasks.length,

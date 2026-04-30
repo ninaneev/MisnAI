@@ -7,9 +7,13 @@ import { todayKey } from '../utils/dateUtils'
 interface DailyState {
   completions: DailyCompletion[]
   stepCompletions: Record<string, boolean>
+  extraTodayTaskIdsByDate: Record<string, string[]>
   toggle: (habitId: string) => void
   isComplete: (habitId: string) => boolean
   todayCompletions: () => DailyCompletion[]
+  acceptExtraTodayTask: (habitId: string) => void
+  removeExtraTodayTask: (habitId: string) => void
+  extraTodayTaskIds: () => string[]
   toggleStep: (habitId: string, stepIndex: number) => void
   isStepComplete: (habitId: string, stepIndex: number) => boolean
   resetIfNewDay: () => void
@@ -24,6 +28,7 @@ export const useDailyStore = create<DailyState>()(
     (set, get) => ({
       completions: [],
       stepCompletions: {},
+      extraTodayTaskIdsByDate: {},
 
       toggle(habitId) {
         const today = todayKey()
@@ -54,6 +59,34 @@ export const useDailyStore = create<DailyState>()(
       todayCompletions() {
         const today = todayKey()
         return get().completions.filter((c) => c.date === today)
+      },
+
+      acceptExtraTodayTask(habitId) {
+        const today = todayKey()
+        set((state) => {
+          const current = state.extraTodayTaskIdsByDate[today] ?? []
+          if (current.includes(habitId)) return state
+          return {
+            extraTodayTaskIdsByDate: {
+              ...state.extraTodayTaskIdsByDate,
+              [today]: [...current, habitId],
+            },
+          }
+        })
+      },
+
+      removeExtraTodayTask(habitId) {
+        const today = todayKey()
+        set((state) => ({
+          extraTodayTaskIdsByDate: {
+            ...state.extraTodayTaskIdsByDate,
+            [today]: (state.extraTodayTaskIdsByDate[today] ?? []).filter((id) => id !== habitId),
+          },
+        }))
+      },
+
+      extraTodayTaskIds() {
+        return get().extraTodayTaskIdsByDate[todayKey()] ?? []
       },
 
       toggleStep(habitId, stepIndex) {

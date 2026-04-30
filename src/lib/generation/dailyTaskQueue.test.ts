@@ -32,6 +32,12 @@ describe('buildDailyTaskQueue', () => {
       'evening-review',
     ])
     expect(queue.extraTasks.map((task) => task.previewSourceId)).toEqual(habits.map((habit) => habit.id))
+    expect(queue.suggestedExtraTasks.map((task) => task.previewSourceId)).toEqual([
+      'deep-work-1',
+      'outreach',
+      'midday-check',
+      'evening-review',
+    ])
     expect(queue.doneTasks.map((task) => task.id)).toEqual(['morning-review'])
     expect(queue.remainingCount).toBe(4)
   })
@@ -58,6 +64,7 @@ describe('buildDailyTaskQueue', () => {
     expect(queue.allDailyDone).toBe(true)
     expect(queue.todayTasks.map((task) => task.id)).toEqual(habits.map((habit) => habit.id))
     expect(queue.extraTasks).toEqual([])
+    expect(queue.suggestedExtraTasks).toEqual([])
     expect(queue.bonusTask?.label).toBe('Define the first paid offer')
   })
 })
