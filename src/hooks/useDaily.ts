@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useDailyStore } from '../stores/dailyStore'
+import { applyPlanningToHabits, useDailyPlanningStore } from '../stores/dailyPlanningStore'
 import { dailyHabits } from '../data/dailyHabits'
 import { todayKey } from '../utils/dateUtils'
 import type { TimeBlock } from '../types/daily'
@@ -9,6 +10,8 @@ export function useDaily() {
   const stepCompletions = useDailyStore((s) => s.stepCompletions)
   const toggle = useDailyStore((s) => s.toggle)
   const toggleStep = useDailyStore((s) => s.toggleStep)
+  const taskOverrides = useDailyPlanningStore((s) => s.taskOverrides)
+  const habits = useMemo(() => applyPlanningToHabits(dailyHabits, taskOverrides), [taskOverrides])
 
   const isComplete = useCallback(
     (habitId: string) => {
@@ -32,21 +35,22 @@ export function useDaily() {
       midday: [],
       evening: [],
     }
-    dailyHabits.forEach((h) => blocks[h.block].push(h))
+    habits.forEach((h) => blocks[h.block].push(h))
     return blocks
-  }, [])
+  }, [habits])
 
   const todayCompleted = useMemo(() => {
     const today = todayKey()
-    return completions.filter((c) => c.date === today).length
-  }, [completions])
+    const visibleHabitIds = new Set(habits.map((habit) => habit.id))
+    return completions.filter((c) => c.date === today && visibleHabitIds.has(c.habitId)).length
+  }, [completions, habits])
 
-  const totalHabits = dailyHabits.length
-  const allDone = todayCompleted === totalHabits
-  const progressPct = Math.round((todayCompleted / totalHabits) * 100)
+  const totalHabits = habits.length
+  const allDone = totalHabits > 0 && todayCompleted === totalHabits
+  const progressPct = totalHabits > 0 ? Math.round((todayCompleted / totalHabits) * 100) : 0
 
   return {
-    habits: dailyHabits,
+    habits,
     byBlock,
     toggle,
     isComplete,

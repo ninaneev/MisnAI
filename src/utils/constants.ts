@@ -6,6 +6,7 @@ export const STORAGE_KEYS = {
   USER_PROFILE: 'misn-ai:user-profile',
   DECISION_MATRICES: 'misn-ai:decision-matrices',
   DAILY_WORK: 'misn-ai:daily-work',
+  DAILY_PLANNING: 'misn-ai:daily-planning',
 } as const
 
 export const PHASE_COUNT = 4

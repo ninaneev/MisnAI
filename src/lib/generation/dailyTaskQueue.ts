@@ -5,7 +5,7 @@ export interface DailyTaskQueueInput {
   habits: DailyHabit[]
   completedHabitIds: string[]
   nextStrategyTask?: StrategyTask | null
-  todayLimit?: number
+  previewDays?: number
 }
 
 export interface DailyTaskQueue {
@@ -19,23 +19,27 @@ export interface DailyTaskQueue {
 }
 
 /**
- * Keeps the Today screen focused: show the next unfinished work first,
- * keep only a small "today" queue visible, and place the rest behind
- * an "extra time" affordance so the user always sees the next step
- * without being overwhelmed by the full day at once.
+ * Shows the full current-day plan by default. The extra queue is now a
+ * next-day preview, not a way to hide today's unfinished work.
  */
 export function buildDailyTaskQueue({
   habits,
   completedHabitIds,
   nextStrategyTask = null,
-  todayLimit = 3,
+  previewDays = 1,
 }: DailyTaskQueueInput): DailyTaskQueue {
   const completed = new Set(completedHabitIds)
   const doneTasks = habits.filter((habit) => completed.has(habit.id))
   const remainingTasks = habits.filter((habit) => !completed.has(habit.id))
-  const safeLimit = Math.max(1, todayLimit)
-  const todayTasks = remainingTasks.slice(0, safeLimit)
-  const extraTasks = remainingTasks.slice(safeLimit)
+  const todayTasks = habits
+  const extraTasks = Array.from({ length: Math.max(0, previewDays) }).flatMap((_, index) =>
+    habits.map((habit) => ({
+      ...habit,
+      id: `preview-${index + 1}-${habit.id}`,
+      previewDayOffset: index + 1,
+      previewSourceId: habit.id,
+    }))
+  )
   const allDailyDone = remainingTasks.length === 0
 
   return {

@@ -20,26 +20,31 @@ const nextStrategyTask: StrategyTask = {
 }
 
 describe('buildDailyTaskQueue', () => {
-  it('shows the next unchecked block and keeps today focused to the next three tasks', () => {
-    const queue = buildDailyTaskQueue({ habits, completedHabitIds: ['morning-review'], todayLimit: 3 })
+  it('shows the full current-day plan and keeps the next unchecked block focused', () => {
+    const queue = buildDailyTaskQueue({ habits, completedHabitIds: ['morning-review'] })
 
     expect(queue.currentTask?.id).toBe('deep-work-1')
-    expect(queue.todayTasks.map((task) => task.id)).toEqual(['deep-work-1', 'outreach', 'midday-check'])
-    expect(queue.extraTasks.map((task) => task.id)).toEqual(['evening-review'])
+    expect(queue.todayTasks.map((task) => task.id)).toEqual([
+      'morning-review',
+      'deep-work-1',
+      'outreach',
+      'midday-check',
+      'evening-review',
+    ])
+    expect(queue.extraTasks.map((task) => task.previewSourceId)).toEqual(habits.map((habit) => habit.id))
     expect(queue.doneTasks.map((task) => task.id)).toEqual(['morning-review'])
     expect(queue.remainingCount).toBe(4)
   })
 
-  it('does not duplicate completed tasks in today or extra tasks', () => {
+  it('keeps completed tasks visible without duplicating them in done tasks', () => {
     const queue = buildDailyTaskQueue({
       habits,
       completedHabitIds: ['morning-review', 'deep-work-1', 'outreach'],
-      todayLimit: 3,
     })
 
-    expect(queue.todayTasks.map((task) => task.id)).toEqual(['midday-check', 'evening-review'])
-    expect(queue.extraTasks).toEqual([])
+    expect(queue.todayTasks.map((task) => task.id)).toEqual(habits.map((habit) => habit.id))
     expect(queue.doneTasks.map((task) => task.id)).toEqual(['morning-review', 'deep-work-1', 'outreach'])
+    expect(queue.currentTask?.id).toBe('midday-check')
   })
 
   it('offers the next strategy task as bonus work only when all daily tasks are done', () => {
@@ -47,11 +52,11 @@ describe('buildDailyTaskQueue', () => {
       habits,
       completedHabitIds: habits.map((habit) => habit.id),
       nextStrategyTask,
-      todayLimit: 3,
+      previewDays: 0,
     })
 
     expect(queue.allDailyDone).toBe(true)
-    expect(queue.todayTasks).toEqual([])
+    expect(queue.todayTasks.map((task) => task.id)).toEqual(habits.map((habit) => habit.id))
     expect(queue.extraTasks).toEqual([])
     expect(queue.bonusTask?.label).toBe('Define the first paid offer')
   })

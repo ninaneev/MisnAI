@@ -2,6 +2,22 @@ import type { DailyHabit } from '../types/daily'
 
 export const dailyHabits: DailyHabit[] = [
   {
+    id: 'morning-exercise',
+    label: 'Morning strength or run',
+    description:
+      'Start the day with a physical block that protects cognitive energy before client acquisition begins.',
+    block: 'morning',
+    durationMin: 35,
+    timeLabel: '07:30',
+    tag: 'body',
+    steps: [
+      'Choose strength training, a run, or a mobility session based on energy and weather.',
+      'Keep the session simple enough that it can happen before business work.',
+      'Drink water, clean up, and write one line on how your energy feels.',
+    ],
+    why: 'Physical consistency supports the founder execution system rather than competing with it.',
+  },
+  {
     id: 'morning-review',
     label: 'Pick today’s 10 Flowity prospects',
     description:
@@ -9,7 +25,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'morning',
     durationMin: 30,
     timeLabel: '08:30',
-    tag: 'BUILD',
+    tag: 'research',
     steps: [
       'Open LinkedIn, GitHub, Product Hunt, company changelogs, and your existing warm network.',
       'Select 10 companies that look like Series A devtools/AI/product-led SaaS teams with active feedback loops.',
@@ -26,7 +42,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'morning',
     durationMin: 75,
     timeLabel: '09:10',
-    tag: 'BUILD',
+    tag: 'research',
     steps: [
       'For account 1, find one recent launch, customer complaint, changelog, GitHub issue, Discord/forum thread, or product review.',
       'Repeat for accounts 2 and 3. Capture the exact quote, source link, and why it may matter to product leadership.',
@@ -43,7 +59,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'morning',
     durationMin: 35,
     timeLabel: '10:30',
-    tag: 'GROW',
+    tag: 'content',
     steps: [
       'Use one concrete pattern from your account research, anonymized if needed.',
       'Write 5-8 lines: problem, why dashboards miss it, what a product leader should look for, and one question to ask.',
@@ -60,7 +76,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'morning',
     durationMin: 60,
     timeLabel: '11:15',
-    tag: 'GROW',
+    tag: 'grow',
     steps: [
       'Write one message per person. Mention the exact signal you found, not a generic AI pitch.',
       'Offer Sense as a low-friction audit: “I can map the top recurring product/customer signals and send a short brief.”',
@@ -77,7 +93,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'midday',
     durationMin: 25,
     timeLabel: '13:00',
-    tag: 'GROW',
+    tag: 'grow',
     steps: [
       'Check LinkedIn, email, WhatsApp, and any active founder/product conversations.',
       'Reply to every warm thread with one clear next step: relevance question, Sense audit offer, or 20-minute call.',
@@ -94,7 +110,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'midday',
     durationMin: 60,
     timeLabel: '14:00',
-    tag: 'BUILD',
+    tag: 'build',
     steps: [
       'Review every reply or warm lead and classify it: curious, problem-aware, budget-aware, or not now.',
       'For curious/problem-aware leads, ask for a 20-minute call to review their current signal sources and decision bottleneck.',
@@ -111,7 +127,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'midday',
     durationMin: 25,
     timeLabel: '15:15',
-    tag: 'BUILD',
+    tag: 'build',
     steps: [
       'Create or update rows for every account contacted today.',
       'Use statuses: target, researched, contacted, replied, call proposed, call booked, Sense audit sent, Interpret opportunity, not now.',
@@ -121,6 +137,70 @@ export const dailyHabits: DailyHabit[] = [
     why: 'Pipeline hygiene prevents client work from becoming scattered memory.',
   },
   {
+    id: 'lunch-personal-reset',
+    label: 'Lunch and personal reset',
+    description:
+      'Eat properly, step away from the work surface, and return with a clear afternoon priority.',
+    block: 'midday',
+    durationMin: 40,
+    timeLabel: '12:15',
+    tag: 'personal',
+    steps: [
+      'Eat lunch away from the main workspace.',
+      'Do one practical personal reset: dishes, shower, short errand, or room reset.',
+      'Write the single afternoon priority before opening messages again.',
+    ],
+    why: 'The business needs sustained execution, not skipped recovery that collapses the afternoon.',
+  },
+  {
+    id: 'dog-walk-life',
+    label: 'Dog walk and life maintenance',
+    description:
+      'Take the dog walk or equivalent outdoor life block, then return to work with the next action already chosen.',
+    block: 'midday',
+    durationMin: 25,
+    timeLabel: '16:20',
+    tag: 'life',
+    steps: [
+      'Take the dog walk or a deliberate outdoor walk if the dog walk is already handled.',
+      'Let the block stay low-input: no scrolling, no new work planning.',
+      'On return, reopen only the next selected work surface.',
+    ],
+    why: 'Life structure is part of the operating system, not a distraction from it.',
+  },
+  {
+    id: 'study-research-block',
+    label: 'Study or research compound block',
+    description:
+      'Keep a lower-emphasis learning block alive for strategic research, technical study, or market understanding without letting it replace client acquisition.',
+    block: 'evening',
+    durationMin: 35,
+    timeLabel: '17:20',
+    tag: 'study',
+    steps: [
+      'Choose one learning topic that supports Flowity AI, Misn AI, or the local LLM setup.',
+      'Read, test, or summarize for 25 focused minutes.',
+      'Capture one concrete takeaway that can shape tomorrow’s work.',
+    ],
+    why: 'Study matters, but it should compound the main priority rather than become avoidance.',
+  },
+  {
+    id: 'misn-tiktok-content',
+    label: 'Low-emphasis Misn AI TikTok/content touch',
+    description:
+      'Keep Misn AI audience/content momentum visible without treating it as the biggest priority right now.',
+    block: 'evening',
+    durationMin: 20,
+    timeLabel: '18:00',
+    tag: 'marketing',
+    steps: [
+      'Capture one idea from today’s operating-system work.',
+      'Draft or record a short TikTok/content note if energy allows.',
+      'If Flowity work is behind, save the idea and stop there.',
+    ],
+    why: 'Misn AI content should stay alive, but Flowity AI client traction stays first.',
+  },
+  {
     id: 'evening-review',
     label: 'Extract client lessons and tomorrow’s first move',
     description:
@@ -128,7 +208,7 @@ export const dailyHabits: DailyHabit[] = [
     block: 'evening',
     durationMin: 20,
     timeLabel: '18:30',
-    tag: 'LIFE',
+    tag: 'life',
     steps: [
       'Count outputs: prospects found, messages sent, replies, calls proposed, calls booked.',
       'Write what worked: which signal, buyer role, or message got the best response.',

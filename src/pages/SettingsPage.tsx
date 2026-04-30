@@ -6,6 +6,7 @@ import { useDecisions } from '../hooks/useDecisions'
 import { personalityAdaptations } from '../data/personalityMaps'
 import { downloadMisnBackup, restoreMisnBackup } from '../lib/backup/misnBackup'
 import { noopCloudAdapter } from '../lib/cloud'
+import { useDailyPlanningStore, type TaskTagDefinition } from '../stores/dailyPlanningStore'
 import type { BusinessStage } from '../types/user'
 import type { MBTIType } from '../types/personality'
 
@@ -19,6 +20,11 @@ const BUSINESS_STAGES: { value: BusinessStage; label: string }[] = [
 export default function SettingsPage() {
   const { profile, updateProfile, removeVisionGoal } = useUserStore()
   const { matrices, createMatrix, deleteMatrix, updateMatrix } = useDecisions()
+  const taskTags = useDailyPlanningStore((s) => s.tags)
+  const updateTag = useDailyPlanningStore((s) => s.updateTag)
+  const addTag = useDailyPlanningStore((s) => s.addTag)
+  const removeTag = useDailyPlanningStore((s) => s.removeTag)
+  const resetPlanning = useDailyPlanningStore((s) => s.resetPlanning)
 
   const [name, setName] = useState(profile.name)
   const [businessDescription, setBusinessDescription] = useState(profile.businessDescription)
@@ -180,6 +186,74 @@ export default function SettingsPage() {
               <p className="mt-1 text-sm text-muted">{adaptation.blockDescriptions.morning}</p>
             </div>
           )}
+        </SettingsSection>
+
+        <SettingsSection title="Task tags, schedule, and ordering">
+          <p className="mb-4 text-sm leading-relaxed text-muted">
+            These tags control the Today interface. Add any categories you want — grow, build, life, research,
+            content, TikTok, body, dog walk, lunch — then edit each task directly on Today or in Next Days.
+          </p>
+          <div className="space-y-3">
+            {taskTags.map((tag) => (
+              <div key={tag.id} className="grid gap-2 rounded-xl border border-border bg-bg-surface2 px-3 py-3 md:grid-cols-[1fr_1fr_auto]">
+                <input
+                  value={tag.label}
+                  onChange={(e) => updateTag(tag.id, { label: e.target.value })}
+                  className="rounded-lg border border-border bg-bg-base px-3 py-2 font-mono text-xs text-text outline-none focus:border-coral"
+                  aria-label={`Label for ${tag.label}`}
+                />
+                <select
+                  value={tag.tone}
+                  onChange={(e) => updateTag(tag.id, { tone: e.target.value as TaskTagDefinition['tone'] })}
+                  className="rounded-lg border border-border bg-bg-base px-3 py-2 font-mono text-xs text-text outline-none focus:border-coral"
+                  aria-label={`Card style for ${tag.label}`}
+                >
+                  {['work', 'study', 'research', 'content', 'marketing', 'body', 'life', 'personal'].map((tone) => (
+                    <option key={tone} value={tone}>
+                      {tone}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => removeTag(tag.id)}
+                  className="rounded-lg border border-border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted transition-colors hover:border-coral hover:text-coral"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => addTag({ id: `tag-${Date.now()}`, label: 'New tag', tone: 'work' })}
+              className="rounded-xl border border-coral/40 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-coral transition-colors hover:bg-coral/10"
+            >
+              Add tag
+            </button>
+            <button
+              type="button"
+              onClick={resetPlanning}
+              className="rounded-xl border border-border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted transition-colors hover:border-coral hover:text-coral"
+            >
+              Reset plan defaults
+            </button>
+          </div>
+        </SettingsSection>
+
+        <SettingsSection title="Calendar and local LLM setup">
+          <div className="space-y-3 text-sm leading-relaxed text-muted">
+            <p>
+              Google Calendar is planned as an availability layer: busy events should reduce priority capacity on Today
+              and Next Days before Misn AI schedules deep work.
+            </p>
+            <p>
+              Local LLM setup is planned for users running their own agent stack. The intended path is: connect a local
+              model or CLI agent, give it the Context profile, then let it suggest editable tasks instead of locking users
+              into one hosted AI provider.
+            </p>
+          </div>
         </SettingsSection>
 
         <SettingsSection title="Vision Goals">
