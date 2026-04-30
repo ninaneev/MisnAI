@@ -3,7 +3,7 @@ import type { CloudAdapter, CloudStatus } from './types'
 const localOnlyStatus: CloudStatus = {
   enabled: false,
   label: 'Local-only',
-  reason: 'Cloud sync, hosted AI, accounts, billing, and teams belong in taskoona-cloud.',
+  reason: 'Cloud sync, hosted AI, accounts, billing, and teams belong in misn-ai-cloud.',
 }
 
 export const noopCloudAdapter: CloudAdapter = {

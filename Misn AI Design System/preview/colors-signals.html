@@ -1,0 +1,106 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .swatch-lg {
+    height: 108px;
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .swatch-lg .name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+  }
+  .swatch-lg .hex {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    position: relative;
+    z-index: 2;
+  }
+  .swatch-red {
+    background: linear-gradient(135deg, #E5484D 0%, #B53138 100%);
+    box-shadow: 0 8px 24px rgba(229,72,77,0.22);
+  }
+  .swatch-red-dim {
+    background: linear-gradient(135deg, #B53138 0%, #681F24 100%);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+  .swatch-red-tint {
+    background: rgba(229,72,77,0.08);
+    border: 1px solid rgba(229,72,77,0.28);
+  }
+  .swatch-paper {
+    background: linear-gradient(135deg, #F6F3EC 0%, #DDD8CF 100%);
+    box-shadow: 0 6px 18px rgba(246,243,236,0.12), inset 0 1px 0 rgba(255,255,255,0.24);
+  }
+  .swatch-mist {
+    background: linear-gradient(135deg, #DDD8CF 0%, #A8A29A 100%);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.20);
+  }
+  .swatch-graphite {
+    background: linear-gradient(135deg, #1A1A1A 0%, #090909 100%);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.40);
+  }
+  .t-dark { color: #090909; text-shadow: none !important; }
+  .t-light { color: #F6F3EC; text-shadow: 0 1px 2px rgba(0,0,0,0.35); }
+  .t-red { color: #E5484D; text-shadow: none !important; }
+  .t-mist { color: #DDD8CF; text-shadow: none !important; }
+  .group-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #A8A29A;
+    margin: 0 0 8px 4px;
+    display: block;
+  }
+  .group-label .dot {
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    margin-right: 7px;
+    transform: translateY(-1px);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div>
+      <span class="group-label"><span class="dot" style="background:#E5484D;box-shadow:0 0 6px rgba(229,72,77,0.6)"></span>Red - current move, urgency, commitment</span>
+      <div class="row">
+        <div class="swatch swatch-lg swatch-red"><span class="name t-light">Signal Red</span><span class="hex t-light">#E5484D</span></div>
+        <div class="swatch swatch-lg swatch-red-dim"><span class="name t-light">Red Dim</span><span class="hex t-light">#B53138</span></div>
+        <div class="swatch swatch-lg swatch-red-tint"><span class="name t-red">Red Tint</span><span class="hex t-red">8% fill</span></div>
+      </div>
+    </div>
+    <div>
+      <span class="group-label"><span class="dot" style="background:linear-gradient(135deg,#F6F3EC,#DDD8CF,#A8A29A);box-shadow:0 0 6px rgba(246,243,236,0.30)"></span>Paper neutrals - clarity and depth</span>
+      <div class="row">
+        <div class="swatch swatch-lg swatch-paper"><span class="name t-dark">Paper</span><span class="hex t-dark">#F6F3EC</span></div>
+        <div class="swatch swatch-lg swatch-mist"><span class="name t-dark">Mist</span><span class="hex t-dark">#DDD8CF</span></div>
+        <div class="swatch swatch-lg swatch-graphite"><span class="name t-light">Graphite</span><span class="hex t-light">#1A1A1A</span></div>
+      </div>
+    </div>
+    <div>
+      <span class="group-label"><span class="dot" style="background:#A8A29A"></span>Support tones - structure and calm</span>
+      <div class="row">
+        <div class="swatch swatch-lg" style="background:#A8A29A"><span class="name t-dark">Warm Grey</span><span class="hex t-dark">#A8A29A</span></div>
+        <div class="swatch swatch-lg" style="background:#6F6860"><span class="name t-light">Grey Dim</span><span class="hex t-light">#6F6860</span></div>
+        <div class="swatch swatch-lg" style="background:rgba(246,243,236,0.08);border:1px solid rgba(246,243,236,0.18)"><span class="name t-mist">Paper Tint</span><span class="hex t-mist">8%</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

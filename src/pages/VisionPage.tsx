@@ -26,7 +26,7 @@ const stageLabel = {
   scale: 'Scale Stage',
 } as const
 
-// Context questions Taskoona generates to deepen your profile.
+// Context questions Misn AI generates to deepen your profile.
 // Answers feed into daily task generation via useDailyContext.
 const CONTEXT_QUESTIONS = [
   'What is your single biggest current business bottleneck?',
@@ -75,9 +75,9 @@ export default function VisionPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona</p>
+        <p className="misn-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Misn AI</p>
         <h1 className="font-display text-3xl text-text">Context</h1>
-        <p className="mt-1 font-mono text-xs text-muted">Everything Taskoona knows about you. Modify anything to sharpen your daily tasks.</p>
+        <p className="mt-1 font-mono text-xs text-muted">Everything Misn AI knows about you. Modify anything to sharpen your daily tasks.</p>
       </div>
 
       <div className="space-y-3">
@@ -225,7 +225,7 @@ export default function VisionPage() {
             <div className="space-y-2">
               {recentWins.map((m) => (
                 <div key={m.id} className="flex items-center gap-3 border-b border-border py-2 last:border-0">
-                  <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green" />
+                  <div className="h-2 w-2 flex-shrink-0 rounded-full bg-text" />
                   <span className="text-sm text-text">{m.title}</span>
                 </div>
               ))}
@@ -241,7 +241,7 @@ export default function VisionPage() {
           onToggle={() => toggleSection('qa')}
         >
           <p className="mb-4 text-sm leading-relaxed text-muted">
-            Answer these questions to sharpen how Taskoona generates your daily tasks. Answers are stored and used directly in your execution blocks.
+            Answer these questions to sharpen how Misn AI generates your daily tasks. Answers are stored and used directly in your execution blocks.
           </p>
           <div className="space-y-5">
             {CONTEXT_QUESTIONS.map((q) => {
@@ -273,7 +273,7 @@ export default function VisionPage() {
                       disabled={!draft.trim() || draft.trim() === saved?.answer}
                       className={`ml-auto flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] transition-all ${
                         isSaving
-                          ? 'border-green/40 bg-green/10 text-green'
+                          ? 'border-text/20 bg-white/10 text-text'
                           : 'border-border text-muted hover:border-coral hover:text-coral disabled:opacity-30'
                       }`}
                     >

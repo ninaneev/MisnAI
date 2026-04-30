@@ -14,22 +14,22 @@ export function PhaseCard({ phase, unlocked, progress, isComplete, onToggle }: P
   const done = progress === 1
 
   return (
-    <div className={`bg-bg-surface border rounded-lg p-4 ${done ? 'border-green/30' : 'border-border'}`}>
+    <div className={`rounded-lg border bg-bg-surface p-4 ${done ? 'border-text/20' : 'border-border'}`}>
       <div className="mb-4">
-        <div className="flex items-baseline justify-between mb-1">
+        <div className="mb-1 flex items-baseline justify-between">
           <div className="flex items-baseline gap-2">
             <span className="font-mono text-xs text-muted">Phase {phase.number}</span>
-            {!unlocked && <span className="font-mono text-xs text-muted">— locked</span>}
-            {done && <span className="font-mono text-xs text-green">— complete</span>}
+            {!unlocked && <span className="font-mono text-xs text-muted">- locked</span>}
+            {done && <span className="font-mono text-xs text-text">- complete</span>}
           </div>
         </div>
         <h2 className="font-display text-lg text-text">{phase.title}</h2>
         <p className="font-mono text-xs text-muted">{phase.subtitle}</p>
         <div className="mt-3">
-          <ProgressBar value={progress} color={done ? 'bg-green' : 'bg-coral'} />
+          <ProgressBar value={progress} color={done ? 'bg-text' : 'bg-coral'} />
         </div>
       </div>
-      <div className={!unlocked ? 'opacity-40 pointer-events-none' : ''}>
+      <div className={!unlocked ? 'pointer-events-none opacity-40' : ''}>
         {phase.tasks.map((task) => (
           <StrategyItem
             key={task.id}

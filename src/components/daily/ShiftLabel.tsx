@@ -12,8 +12,8 @@ const labels: Record<TimeBlock, string> = {
 
 const colors: Record<TimeBlock, string> = {
   morning: 'text-coral',
-  midday: 'text-coral-dim',
-  evening: 'text-green',
+  midday: 'text-text',
+  evening: 'text-muted',
 }
 
 export function ShiftLabel({ block }: ShiftLabelProps) {

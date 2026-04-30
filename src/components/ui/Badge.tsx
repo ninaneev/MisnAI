@@ -6,19 +6,21 @@ interface BadgeProps {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  daily:     'text-coral border-coral/30 bg-coral/5',
-  strategy:  'text-coral border-coral/30 bg-coral/5',
-  milestone: 'text-coral-dim border-coral-dim/30 bg-coral-dim/5',
-  life:      'text-green border-green/30 bg-green/5',
-  muted:     'text-muted border-border bg-transparent',
+  daily: 'border-coral/30 bg-coral/5 text-coral',
+  strategy: 'border-text/15 bg-white/5 text-text',
+  milestone: 'border-coral/25 bg-coral/8 text-coral',
+  life: 'border-text/15 bg-white/5 text-text',
+  muted: 'border-border bg-transparent text-muted',
 }
 
 export function Badge({ label, variant = 'muted' }: BadgeProps) {
   return (
-    <span className={[
-      'inline-block font-mono text-[10px] tracking-widest uppercase px-2 py-0.5 rounded border',
-      variantClasses[variant],
-    ].join(' ')}>
+    <span
+      className={[
+        'inline-block rounded border px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest',
+        variantClasses[variant],
+      ].join(' ')}
+    >
       {label}
     </span>
   )

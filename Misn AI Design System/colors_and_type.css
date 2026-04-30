@@ -1,0 +1,276 @@
+/* ============================================================
+ * MISN AI - DESIGN TOKENS
+ * Mission OS system: black, paper, red.
+ * Compatibility aliases are kept so older preview and kit files
+ * can keep rendering while the brand shifts to Misn AI.
+ * ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --mission-black:   #090909;
+  --graphite:        #1A1A1A;
+  --paper:           #F6F3EC;
+  --mist:            #DDD8CF;
+  --warm-grey:       #A8A29A;
+  --signal-red:      #E5484D;
+  --signal-red-dim:  #B53138;
+  --signal-red-deep: #681F24;
+
+  /* Legacy aliases */
+  --emerald:         #111111;
+  --emerald-light:   #F6F3EC;
+  --emerald-dim:     #050505;
+  --gold:            #DDD8CF;
+  --gold-light:      #F6F3EC;
+  --gold-dim:        #8E8477;
+  --pink:            #E5484D;
+  --pink-dim:        #B53138;
+  --sage:            #A8A29A;
+  --sage-dim:        #6F6860;
+
+  --bg-base:         #090909;
+  --bg-surface:      #111111;
+  --bg-surface-2:    #1A1A1A;
+  --bg-ink:          #050505;
+  --surface-ink:     #0C0C0C;
+  --surface-graphite:#161616;
+  --surface-plum:    #130D0E;
+  --surface-carbon:  #101010;
+  --surface-amber:   #1B1412;
+
+  --border:          #2A2A2A;
+  --border-gold:     rgba(246, 243, 236, 0.16);
+  --border-pink:     rgba(229, 72, 77, 0.28);
+  --border-soft:     rgba(255, 255, 255, 0.08);
+
+  --text:            #F6F3EC;
+  --text-body:       #E8E2D8;
+  --muted:           #A8A29A;
+  --dim:             #5F5952;
+
+  --success:         #F6F3EC;
+  --warn:            #E5484D;
+  --danger:          #E5484D;
+  --info:            #DDD8CF;
+
+  --font-display:    'Playfair Display', Georgia, 'Times New Roman', ui-serif, serif;
+  --font-sans:       'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono:       'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --fs-display-xl: 56px;
+  --fs-display-lg: 40px;
+  --fs-display-md: 28px;
+  --fs-h2:         22px;
+  --fs-h3:         18px;
+  --fs-body:       15px;
+  --fs-small:      13px;
+  --fs-mono-lg:    13px;
+  --fs-mono:       11px;
+  --fs-mono-sm:    10px;
+  --fs-mono-xs:    9px;
+
+  --radius-xs:      4px;
+  --radius-sm:      6px;
+  --radius-md:      8px;
+  --radius-lg:      12px;
+  --radius-xl:      16px;
+  --radius-2xl:     20px;
+  --radius-full:    999px;
+
+  --sp-0:  0;
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  --shadow-card:   0 8px 32px rgba(0, 0, 0, 0.34);
+  --shadow-lift:   0 16px 40px rgba(0, 0, 0, 0.46);
+  --shadow-hero:   0 18px 52px rgba(0, 0, 0, 0.48);
+  --shadow-pink:   0 10px 30px rgba(229, 72, 77, 0.24);
+  --shadow-gold:   0 10px 30px rgba(246, 243, 236, 0.14);
+  --shadow-inner-line: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+  --grad-page-hero: linear-gradient(135deg, #0F0F0F 0%, #141414 60%, #090909 100%);
+  --grad-nav:       linear-gradient(180deg, #121212 0%, #090909 100%);
+  --grad-gold-bar:  linear-gradient(90deg, transparent 0%, rgba(229,72,77,0.12) 20%, rgba(246,243,236,0.38) 50%, rgba(229,72,77,0.12) 80%, transparent 100%);
+  --grad-gold-text: linear-gradient(135deg, #F6F3EC 0%, #DDD8CF 45%, #E5484D 100%);
+  --grad-pink-fill: linear-gradient(90deg, #E5484D, #B53138);
+  --grad-progress-done: linear-gradient(90deg, #F6F3EC, #DDD8CF);
+  --grad-move-hero: linear-gradient(135deg, #160E0E 0%, #120D0D 58%, #090909 100%);
+  --grad-botanical-panel: radial-gradient(circle at 82% 16%, rgba(229,72,77,0.14), transparent 16rem), linear-gradient(135deg, rgba(17,17,17,0.97) 0%, rgba(9,9,9,0.95) 100%);
+
+  --ease:           cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:       120ms;
+  --dur:            200ms;
+  --dur-slow:       500ms;
+}
+
+html,
+body {
+  background-color: var(--bg-base);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.misn-canvas,
+body.movaris-canvas {
+  background-image:
+    radial-gradient(ellipse 70% 44% at 50% 0%, rgba(229, 72, 77, 0.18) 0%, transparent 56%),
+    radial-gradient(ellipse 44% 32% at 92% 18%, rgba(229, 72, 77, 0.08) 0%, transparent 48%),
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(160deg, #090909 0%, #111111 55%, #090909 100%);
+  background-attachment: fixed;
+  background-size: cover, cover, 28px 28px, 28px 28px, cover;
+  background-position: center top, right top, center center, center center, center center;
+  background-repeat: no-repeat;
+}
+
+::selection { background: rgba(229, 72, 77, 0.28); color: var(--text); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--surface-ink); }
+::-webkit-scrollbar-thumb { background: rgba(246, 243, 236, 0.18); border-radius: var(--radius-full); }
+
+h1,
+.h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-display-md);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0;
+}
+
+h2,
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: 1.2;
+  color: var(--text);
+  margin: 0;
+}
+
+h3,
+.h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+  color: var(--text);
+  margin: 0;
+}
+
+p,
+.body { font-family: var(--font-sans); font-size: var(--fs-body); line-height: 1.6; color: var(--text-body); }
+.small  { font-size: var(--fs-small); color: var(--muted); }
+
+.display-xl { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-display-xl); line-height: 1.02; letter-spacing: -0.02em; color: var(--text); }
+.display-lg { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-display-lg); line-height: 1.08; letter-spacing: -0.015em; color: var(--text); }
+
+.mono,
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mono-sm  { font-family: var(--font-mono); font-size: var(--fs-mono-sm); letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); }
+.mono-lg  { font-family: var(--font-mono); font-size: var(--fs-mono-lg); letter-spacing: 0.12em; color: var(--text-body); }
+
+.brand-mark {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+
+.gold-text {
+  background: var(--grad-gold-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-bar {
+  height: 1px;
+  background: var(--grad-gold-bar);
+}
+
+code,
+kbd,
+.code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-lg);
+  color: var(--paper);
+  background: rgba(229, 72, 77, 0.12);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.misn-panel,
+.movaris-panel {
+  background: var(--grad-page-hero);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.misn-card,
+.movaris-card {
+  background: rgba(12, 12, 12, 0.94);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.misn-card--ink,
+.movaris-card--ink { background: rgba(12, 12, 12, 0.96); border-color: rgba(255,255,255,0.06); }
+.misn-card--plum,
+.movaris-card--plum { background: rgba(19, 13, 14, 0.96); border-color: rgba(229,72,77,0.14); }
+.misn-card--forest,
+.movaris-card--forest { background: rgba(17, 17, 17, 0.96); border-color: rgba(246,243,236,0.10); }
+.misn-card--amber,
+.movaris-card--amber { background: rgba(27, 20, 18, 0.96); border-color: rgba(229,72,77,0.12); }
+
+.accent-border-pink    { border-left: 3px solid var(--pink); }
+.accent-border-gold    { border-left: 3px solid var(--gold); }
+.accent-border-emerald { border-left: 3px solid var(--emerald-light); }
+.accent-border-sage    { border-left: 3px solid var(--sage); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-sm);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-soft);
+  color: var(--muted);
+}
+
+.chip--pink    { color: var(--pink); border-color: rgba(229,72,77,0.26); background: rgba(229,72,77,0.10); }
+.chip--gold    { color: var(--gold); border-color: rgba(246,243,236,0.18); background: rgba(246,243,236,0.06); }
+.chip--emerald { color: var(--emerald-light); border-color: rgba(246,243,236,0.18); background: rgba(246,243,236,0.06); }
+.chip--sage    { color: var(--sage); border-color: rgba(168,162,154,0.18); background: rgba(168,162,154,0.06); }

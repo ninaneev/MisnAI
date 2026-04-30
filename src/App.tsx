@@ -10,6 +10,7 @@ import DecisionsPage from './pages/DecisionsPage'
 import TemplatesPage from './pages/TemplatesPage'
 import SettingsPage from './pages/SettingsPage'
 import OnboardingPage from './pages/OnboardingPage'
+import BrandPreviewPage from './pages/BrandPreviewPage'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,6 +19,10 @@ const queryClient = new QueryClient({
 })
 
 const router = createBrowserRouter([
+  {
+    path: '/brand-preview',
+    element: <BrandPreviewPage />,
+  },
   {
     path: '/onboarding',
     element: <OnboardingPage />,

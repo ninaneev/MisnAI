@@ -15,11 +15,11 @@ describe('Badge', () => {
 
   it('applies strategy variant styling', () => {
     render(<Badge label="STRATEGY" variant="strategy" />)
-    expect(screen.getByText('STRATEGY')).toHaveClass('text-coral')
+    expect(screen.getByText('STRATEGY')).toHaveClass('text-text')
   })
 
   it('applies milestone variant styling', () => {
     render(<Badge label="MILESTONE" variant="milestone" />)
-    expect(screen.getByText('MILESTONE')).toHaveClass('text-coral-dim')
+    expect(screen.getByText('MILESTONE')).toHaveClass('text-coral')
   })
 })

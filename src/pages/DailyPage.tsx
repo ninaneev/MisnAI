@@ -27,14 +27,12 @@ const tagVariant: Record<DailyHabitTag, 'daily' | 'strategy' | 'milestone' | 'li
   LIFE: 'life',
 }
 
-// Strategic color assignments — each color carries meaning, not just decoration
-// Pink = energy/action (BODY, LIFE) | Gold = value/precision (BUILD) | Emerald = growth (GROW) | Sage = balance (REST)
 const tagBorderColor: Record<DailyHabitTag, string> = {
-  BODY:  '#FF3AAE',  // pink  — physical energy
-  GROW:  '#16A37A',  // emerald — growth & learning
-  BUILD: '#D4B878',  // beige-gold (warm, not yellow) — building real value
-  REST:  '#8FAF6E',  // sage  — rest & recovery
-  LIFE:  '#FF3AAE',  // pink  — life priorities
+  BODY: '#E5484D',
+  GROW: '#F5F2EB',
+  BUILD: '#B73539',
+  REST: '#9CB26D',
+  LIFE: '#D98284',
 }
 
 function fallbackPlan(habit: DailyHabit): DailyExecutionBlock {
@@ -108,41 +106,43 @@ export default function DailyPage() {
   return (
     <div>
       <section
-  className="mb-8 overflow-hidden rounded-xl"
-  style={{
-    background: 'linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%)',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgba(212,184,120,0.22)',
-  }}
->
+        className="mb-8 overflow-hidden rounded-xl"
+        style={{
+          background: 'linear-gradient(135deg, #111111 0%, #171312 55%, #090909 100%)',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: 'rgba(229,72,77,0.18)',
+        }}
+      >
         <div className="px-6 py-7">
-          <p className="taskoona-brand mb-3 font-mono text-[10px] uppercase tracking-[0.35em]">Daily Blocks</p>
+          <p className="misn-brand mb-3 font-mono text-[10px] uppercase tracking-[0.35em]">
+            Misn AI · Daily Blocks
+          </p>
           <h1 className="font-display text-4xl text-text">Today</h1>
           <p className="mt-1 font-mono text-xs text-muted">{today}</p>
 
           {adaptation && (
-            <p className="mt-3 text-sm leading-relaxed text-muted italic">
+            <p className="mt-3 text-sm italic leading-relaxed text-muted">
               {adaptation.label} · {adaptation.blockDescriptions.morning}
             </p>
           )}
         </div>
 
-        <div className="px-6 pb-5" style={{ borderTop: '1px solid rgba(212,184,120,0.12)' }}>
+        <div className="px-6 pb-5" style={{ borderTop: '1px solid rgba(245,242,235,0.08)' }}>
           <div className="flex items-center justify-between pt-4">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted">Progress</span>
-            <span className="font-mono text-[11px]" style={{ color: allDone ? '#16A37A' : '#FF3AAE' }}>
+            <span className="font-mono text-[11px]" style={{ color: allDone ? '#9CB26D' : '#E5484D' }}>
               {completedToday} / {totalHabits}
             </span>
           </div>
-          <div className="mt-2 h-px overflow-hidden" style={{ background: 'rgba(30,74,46,0.5)' }}>
+          <div className="mt-2 h-px overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
             <div
               className="h-full transition-all duration-500"
               style={{
                 width: `${progressPct}%`,
                 background: allDone
-                  ? 'linear-gradient(90deg, #16A37A, #A7F06D)'
-                  : 'linear-gradient(90deg, #FF3AAE, #CC2E8A)',
+                  ? 'linear-gradient(90deg, #9CB26D, #D3DFB6)'
+                  : 'linear-gradient(90deg, #E5484D, #B73539)',
               }}
             />
           </div>
@@ -169,8 +169,8 @@ export default function DailyPage() {
       )}
 
       {allDone && (
-        <Card className="mb-5 border-green/30 bg-green/5 px-4 py-4">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-green">Today Complete</p>
+        <Card className="mb-5 border-text/15 bg-white/5 px-4 py-4">
+          <p className="text-[11px] uppercase tracking-[0.16em] text-text">Today Complete</p>
           <p className="mt-2 text-sm text-muted">All daily blocks are done. Strong work.</p>
           {queue.bonusTask && (
             <div className="mt-4 rounded-xl border border-coral/20 bg-bg-surface/80 px-4 py-3">
@@ -226,7 +226,7 @@ export default function DailyPage() {
                     key={habit.id}
                     className={`overflow-hidden rounded-2xl border border-border/40 shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition-all duration-200 ${completed ? 'opacity-70' : 'opacity-100'}`}
                     style={{
-                      backgroundColor: '#0D2B1E',
+                      backgroundColor: '#111111',
                       borderLeftColor: tagBorderColor[tag],
                       borderLeftWidth: 4,
                     }}
@@ -338,8 +338,8 @@ export default function DailyPage() {
                           </div>
 
                           <div className="grid gap-3 md:grid-cols-2">
-                            <div className="rounded-xl border border-green/30 bg-green/5 px-4 py-3">
-                              <p className="text-[11px] uppercase tracking-[0.16em] text-green">Done when</p>
+                            <div className="rounded-xl border border-text/15 bg-white/5 px-4 py-3">
+                              <p className="text-[11px] uppercase tracking-[0.16em] text-text">Done when</p>
                               <p className="mt-2 text-sm leading-relaxed text-text">{plan.doneWhen}</p>
                             </div>
                             {plan.ifStuck && (
@@ -385,9 +385,9 @@ function HabitCheckbox({
 }) {
   const accentClasses: Record<DailyHabitTag, string> = {
     BODY: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
-    GROW: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
+    GROW: checked ? 'border-text bg-white/10 text-text' : 'border-border text-text',
     BUILD: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
-    REST: checked ? 'border-green bg-green/20 text-green' : 'border-border text-green',
+    REST: checked ? 'border-text bg-white/10 text-text' : 'border-border text-text',
     LIFE: checked ? 'border-coral bg-coral/20 text-coral' : 'border-border text-coral',
   }
 

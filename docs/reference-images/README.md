@@ -1,4 +1,4 @@
-# Taskoona Visual References
+# Misn AI Visual References
 
 This folder stores local screenshot references copied from:
 

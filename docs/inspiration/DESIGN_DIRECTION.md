@@ -1,4 +1,4 @@
-# Taskoona Design Direction
+# Misn AI Design Direction
 
 ## Aesthetic: Luxury Emerald + Gold Executive OS
 
@@ -20,7 +20,7 @@
 | border    | #1E4A2E   | Structural dividers — visible but not distracting |
 | gold      | #C9A84C   | Primary accent — precious decisions, milestones   |
 | gold-light| #E2C16E   | Gold highlights, progress fills                   |
-| pink      | #FF3AAE   | Brand energy — Taskoona label, active day actions |
+| pink      | #FF3AAE   | Brand energy — Misn AI label, active day actions |
 | sage      | #8FAF6E   | Rest, recovery, life balance                      |
 | emerald   | #16A37A   | Growth, momentum, completion                      |
 | text      | #FDF4E3   | Primary — warm ivory (never pure white)           |
@@ -30,7 +30,7 @@
 Each color carries semantic weight — not decoration:
 
 **Pink `#FF3AAE`** = Energy, action, brand identity
-- Taskoona brand label
+- Misn AI brand label
 - BODY (physical energy blocks) 
 - LIFE (life priority blocks)
 - Active nav item
@@ -71,7 +71,7 @@ Gold bloom at bottom-right — depth and luxury.
 - Section labels: IBM Plex Mono, 10px, uppercase, 0.35em tracking
 - Body: Inter, 14px, warm ivory at 85%
 - Meta/timestamps: IBM Plex Mono, 11px, muted sage
-- Brand "TASKOONA": Mono, 10px, pink, 0.35em tracking
+- Brand "MISN AI": Mono, 10px, pink, 0.35em tracking
 
 ### Card Design
 - Background: #0D2B1E (deep forest)

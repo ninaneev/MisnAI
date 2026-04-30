@@ -1,18 +1,18 @@
-# Taskoona
+# Misn AI
 
 **A local-first execution system for solopreneurs and early companies.**
 
-Taskoona helps people building from zero to first traction decide what to do next, keep priorities visible, and turn strategy into daily action. It combines business context, goals, personality, constraints, milestones, habits, and decision support into a focused operating system for early execution.
+Misn AI helps people building from zero to first traction decide what to do next, keep priorities visible, and turn strategy into daily action. It combines business context, goals, personality, constraints, milestones, habits, and decision support into a focused operating system for early execution.
 
-Taskoona is an open-source app by Flowity AI. It starts as a free local-first core and is designed to grow into its own standalone micro-SaaS product.
+Misn AI is an open-source app by Flowity AI. It starts as a free local-first core and is designed to grow into its own standalone micro-SaaS product.
 
-Initial public URL: `taskoona.flowity.ai`.
+Initial public URL: `misn.ai`.
 
 ## What It Does
 
-Most productivity tools give you a blank list. Taskoona gives you a working system.
+Most productivity tools give you a blank list. Misn AI gives you a working system.
 
-You bring your context: what you are building, your current stage, your goals, your life priorities, your personality, and your constraints. Taskoona uses that context to shape daily execution blocks, strategy phases, milestones, history, and decision matrices. Everything works locally in the browser.
+You bring your context: what you are building, your current stage, your goals, your life priorities, your personality, and your constraints. Misn AI uses that context to shape daily execution blocks, strategy phases, milestones, history, and decision matrices. Everything works locally in the browser.
 
 | Area | Purpose |
 | --- | --- |
@@ -27,7 +27,7 @@ You bring your context: what you are building, your current stage, your goals, y
 
 ## Product Positioning
 
-Taskoona is for:
+Misn AI is for:
 
 - solo founders
 - solopreneurs
@@ -35,15 +35,15 @@ Taskoona is for:
 - independent operators building a real business
 - teams that need structure before they need heavy management software
 
-Taskoona should feel practical, personal, structured, and useful before any advanced AI layer is added.
+Misn AI should feel practical, personal, structured, and useful before any advanced AI layer is added.
 
 The product is built for early execution: business context, daily momentum, strategy sequencing, decisions, and life-aware planning in one local-first workspace.
 
 ## Open-Core Boundary
 
-The public Taskoona repo is the free local-first core. It includes deterministic task generation, templates, decision matrices, import/export backup, and all browser-based execution flows with no hosted AI and no server cost.
+The public Misn AI repo is the free local-first core. It includes deterministic task generation, templates, decision matrices, import/export backup, and all browser-based execution flows with no hosted AI and no server cost.
 
-The private `taskoona-cloud` repo is reserved for future paid infrastructure: hosted AI review, cloud-generated plans, sync, accounts, billing, teams, integrations, hosted backups, private prompts, evals, admin tools, and customer data handling.
+The private `misn-ai-cloud` repo is reserved for future paid infrastructure: hosted AI review, cloud-generated plans, sync, accounts, billing, teams, integrations, hosted backups, private prompts, evals, admin tools, and customer data handling.
 
 See [`docs/OPEN_CORE.md`](docs/OPEN_CORE.md) for the product boundary and [`docs/CPANEL_HOSTING.md`](docs/CPANEL_HOSTING.md) for the first no-cost cPanel deployment path.
 
@@ -53,7 +53,7 @@ See [`docs/OPEN_CORE.md`](docs/OPEN_CORE.md) for the product boundary and [`docs
 
 **Execution and life together.** Business-building and life structure belong in the same system when the user is the operating engine.
 
-**Local-first by default.** Taskoona should remain useful and trustworthy before cloud sync, backend systems, or AI features are connected.
+**Local-first by default.** Misn AI should remain useful and trustworthy before cloud sync, backend systems, or AI features are connected.
 
 **Momentum over perfection.** History is durable, milestones are timestamped, and progress should stay visible.
 
@@ -61,7 +61,7 @@ See [`docs/OPEN_CORE.md`](docs/OPEN_CORE.md) for the product boundary and [`docs
 
 ## Brand
 
-Taskoona uses its own brand system, separate from Flowity AI.
+Misn AI uses its own brand system, separate from Flowity AI.
 
 The selected palette fits the product because it has three clear signals:
 
@@ -104,8 +104,8 @@ The app should avoid generic AI purple/cyan gradients. It can be energetic witho
 
 ```bash
 # Clone
-git clone https://github.com/ninaneev/Taskoona.git
-cd Taskoona
+git clone https://github.com/ninaneev/Misn AI.git
+cd Misn AI
 
 # Install
 npm install

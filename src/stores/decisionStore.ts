@@ -24,7 +24,7 @@ const seedMatrix: DecisionMatrix = {
     },
     {
       id: 'o2',
-      label: 'Ship Taskoona publicly',
+      label: 'Ship Misn AI publicly',
       description: 'Open-source launch + LinkedIn narrative + developer reach.',
       grades: { c1: 5, c2: 5, c3: 8, c4: 7 },
     },

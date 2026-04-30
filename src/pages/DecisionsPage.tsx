@@ -7,19 +7,11 @@ import { OptionsGrader } from '../components/decisions/OptionsGrader'
 import { ResultsPanel } from '../components/decisions/ResultsPanel'
 
 export default function DecisionsPage() {
-  const {
-    matrices,
-    createMatrix,
-    deleteMatrix,
-    updateMatrix,
-    addOption,
-    removeOption,
-    updateOption,
-  } = useDecisions()
+  const { matrices, createMatrix, deleteMatrix, updateMatrix, addOption, removeOption, updateOption } =
+    useDecisions()
 
   const [activeId, setActiveId] = useState<string | null>(matrices[0]?.id ?? null)
 
-  // Keep activeId valid across matrix creation / deletion.
   useEffect(() => {
     if (!activeId || !matrices.some((m) => m.id === activeId)) {
       setActiveId(matrices[0]?.id ?? null)
@@ -41,7 +33,7 @@ export default function DecisionsPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona · Decision Engine</p>
+        <p className="misn-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Misn AI · Decision Engine</p>
         <h1 className="font-display text-3xl text-text">Decisions</h1>
         <p className="mt-1 font-mono text-xs text-muted">
           Weigh criteria, grade options, then argue against the winner before committing.
@@ -49,18 +41,11 @@ export default function DecisionsPage() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-        <MatrixSidebar
-          matrices={matrices}
-          activeId={activeId}
-          onSelect={setActiveId}
-          onCreate={handleCreate}
-        />
+        <MatrixSidebar matrices={matrices} activeId={activeId} onSelect={setActiveId} onCreate={handleCreate} />
 
         {!matrix ? (
           <div className="rounded-2xl border border-border bg-bg-surface px-6 py-10 text-center">
-            <p className="font-mono text-xs text-muted">
-              No matrix selected. Create one to start weighing a decision.
-            </p>
+            <p className="font-mono text-xs text-muted">No matrix selected. Create one to start weighing a decision.</p>
             <button
               type="button"
               onClick={handleCreate}
@@ -71,7 +56,6 @@ export default function DecisionsPage() {
           </div>
         ) : (
           <div className="space-y-5">
-            {/* Matrix Header */}
             <section className="overflow-hidden rounded-2xl border border-border bg-bg-surface">
               <div className="space-y-3 px-5 py-5">
                 <input
@@ -79,7 +63,7 @@ export default function DecisionsPage() {
                   value={matrix.title}
                   onChange={(e) => updateMatrix(matrix.id, { title: e.target.value })}
                   className="w-full bg-transparent font-display text-2xl text-text outline-none"
-                  placeholder="Decision title…"
+                  placeholder="Decision title..."
                 />
                 <textarea
                   value={matrix.description}

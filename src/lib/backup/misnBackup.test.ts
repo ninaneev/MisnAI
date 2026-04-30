@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { STORAGE_KEYS } from '../../utils/constants'
-import { createTaskoonaBackup, parseTaskoonaBackup, restoreTaskoonaBackup } from './taskoonaBackup'
+import { createMisnBackup, parseMisnBackup, restoreMisnBackup } from './misnBackup'
 
 function createMemoryStorage(): Storage {
   const data = new Map<string, string>()
@@ -24,32 +24,32 @@ function createMemoryStorage(): Storage {
     setItem(key, value) {
       data.set(key, value)
     },
-  }
+  } as Storage
 }
 
-describe('Taskoona backup', () => {
-  it('exports only Taskoona storage keys', () => {
+describe('Misn AI backup', () => {
+  it('exports only app storage keys', () => {
     const storage = createMemoryStorage()
     storage.setItem(STORAGE_KEYS.USER_PROFILE, '{"state":{"profile":{"name":"Alex"}}}')
     storage.setItem(STORAGE_KEYS.DAILY_WORK, '{"state":{"notes":{"today:habit:step":"Draft"}}}')
     storage.setItem('unrelated:key', 'ignore me')
 
-    const backup = createTaskoonaBackup(storage)
+    const backup = createMisnBackup(storage)
 
-    expect(backup.app).toBe('taskoona')
+    expect(backup.app).toBe('misn-ai')
     expect(backup.storage[STORAGE_KEYS.USER_PROFILE]).toContain('Alex')
     expect(backup.storage[STORAGE_KEYS.DAILY_WORK]).toContain('Draft')
     expect(backup.storage).not.toHaveProperty('unrelated:key')
   })
 
-  it('rejects non-Taskoona backups', () => {
-    expect(() => parseTaskoonaBackup('{"app":"other","version":1,"storage":{}}')).toThrow(/Taskoona/)
+  it('rejects unrelated backups', () => {
+    expect(() => parseMisnBackup('{"app":"other","version":1,"storage":{}}')).toThrow(/Misn AI/)
   })
 
-  it('restores valid backup data', () => {
+  it('restores valid legacy Misn AI backup data', () => {
     const storage = createMemoryStorage()
     const raw = JSON.stringify({
-      app: 'taskoona',
+      app: 'misn-ai',
       version: 1,
       exportedAt: new Date().toISOString(),
       storage: {
@@ -57,7 +57,7 @@ describe('Taskoona backup', () => {
       },
     })
 
-    restoreTaskoonaBackup(raw, storage)
+    restoreMisnBackup(raw, storage)
 
     expect(storage.getItem(STORAGE_KEYS.USER_PROFILE)).toContain('Nina')
   })

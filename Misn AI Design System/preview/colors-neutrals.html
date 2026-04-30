@@ -1,0 +1,205 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  html, body {
+    background:
+      radial-gradient(ellipse 62% 46% at 50% 0%, rgba(229,72,77,0.12) 0%, transparent 60%),
+      linear-gradient(160deg, #090909 0%, #111111 55%, #090909 100%) !important;
+  }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #A8A29A;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px 2px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(229,72,77,0.24) 0%, transparent 100%);
+  }
+  .surfaces-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .surface-chip {
+    height: 88px;
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+  .surface-chip .name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #F6F3EC;
+  }
+  .surface-chip .hex {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: #A8A29A;
+  }
+  .type-panel {
+    background: linear-gradient(180deg, #0B0B0B 0%, #111111 100%);
+    border: 1px solid rgba(246,243,236,0.14);
+    border-radius: 12px;
+    padding: 20px 22px;
+    position: relative;
+    box-shadow: 0 10px 32px rgba(0,0,0,0.4);
+  }
+  .type-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(229,72,77,0.45), transparent);
+  }
+  .tone-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 9px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.04);
+  }
+  .tone-row:last-child { border-bottom: none; }
+  .tone-row .swatch {
+    width: 22px; height: 22px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    transform: translateY(4px);
+  }
+  .tone-row .sample { flex: 1; }
+  .tone-row .name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #A8A29A;
+    margin-bottom: 2px;
+    display: block;
+  }
+  .tone-row .hex {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: #6F6860;
+    flex-shrink: 0;
+  }
+  .demo-cream {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #F6F3EC;
+    letter-spacing: -0.01em;
+  }
+  .demo-gold-cream {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    background: linear-gradient(135deg, #F6F3EC 0%, #DDD8CF 48%, #E5484D 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.005em;
+  }
+  .demo-body {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    color: #E8E2D8;
+    line-height: 1.5;
+  }
+  .demo-muted {
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    color: #A8A29A;
+    line-height: 1.5;
+  }
+  .demo-dim {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #6F6860;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="section-label">Surfaces - black stack</div>
+  <div class="surfaces-grid" style="margin-bottom: 18px">
+    <div class="surface-chip" style="background:#090909">
+      <span class="name">Ink</span><span class="hex">#090909</span>
+    </div>
+    <div class="surface-chip" style="background:#101010">
+      <span class="name">Carbon</span><span class="hex">#101010</span>
+    </div>
+    <div class="surface-chip" style="background:#1A1A1A">
+      <span class="name">Graphite</span><span class="hex">#1A1A1A</span>
+    </div>
+    <div class="surface-chip" style="background:#130D0E">
+      <span class="name">Deep Red</span><span class="hex">#130D0E</span>
+    </div>
+    <div class="surface-chip" style="background:#DDD8CF;border-color:rgba(255,255,255,0.16)">
+      <span class="name" style="color:#090909">Mist</span><span class="hex" style="color:#090909">#DDD8CF</span>
+    </div>
+  </div>
+
+  <div class="section-label">Text - paper down to dim</div>
+  <div class="type-panel">
+    <div class="tone-row">
+      <span class="swatch" style="background:#F6F3EC"></span>
+      <div class="sample">
+        <span class="name">Paper - headlines</span>
+        <span class="demo-cream">Today, you <em style="font-style:italic">ship</em>.</span>
+      </div>
+      <span class="hex">#F6F3EC</span>
+    </div>
+    <div class="tone-row">
+      <span class="swatch" style="background:linear-gradient(135deg,#F6F3EC,#DDD8CF,#E5484D);border-color:rgba(229,72,77,0.4)"></span>
+      <div class="sample">
+        <span class="name">Paper to red emphasis</span>
+        <span class="demo-gold-cream">active emphasis, used with restraint</span>
+      </div>
+      <span class="hex">#E5484D</span>
+    </div>
+    <div class="tone-row">
+      <span class="swatch" style="background:#E8E2D8"></span>
+      <div class="sample">
+        <span class="name">Body - long-form reading</span>
+        <span class="demo-body">Three execution blocks, one decision checkpoint. Finish the first block before 11:00.</span>
+      </div>
+      <span class="hex">#E8E2D8</span>
+    </div>
+    <div class="tone-row">
+      <span class="swatch" style="background:#A8A29A"></span>
+      <div class="sample">
+        <span class="name">Muted - meta and captions</span>
+        <span class="demo-muted">Closed 11:08 - Pro tier chosen - four-criterion matrix</span>
+      </div>
+      <span class="hex">#A8A29A</span>
+    </div>
+    <div class="tone-row">
+      <span class="swatch" style="background:#6F6860"></span>
+      <div class="sample">
+        <span class="name">Dim - system timestamps</span>
+        <span class="demo-dim">Resets at midnight - 2026-04-20</span>
+      </div>
+      <span class="hex">#6F6860</span>
+    </div>
+  </div>
+</div>
+</body></html>
