@@ -4,29 +4,30 @@
 
 @layer base {
   html {
-    background-color: #071812;
+    background-color: #090909;
   }
 
   body {
-    background-color: #071812;
+    background-color: #090909;
     background-image:
-      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255,58,174,0.08) 0%, transparent 52%),
-      radial-gradient(ellipse 45% 32% at 2% 58%, rgba(15,109,89,0.09) 0%, transparent 52%),
-      url('/leaf-vein-bg.svg'),
-      linear-gradient(160deg, #071812 0%, #0D2B1E 50%, #071812 100%);
-    background-attachment: fixed;
-    background-size: cover, cover, cover, cover;
-    background-position: center top, left center, center center, center center;
-    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    color: #FDF4E3;
+      radial-gradient(circle at 50% 0%, rgba(229, 72, 77, 0.18) 0%, transparent 36%),
+      radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.05) 0%, transparent 18%),
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(160deg, #050505 0%, #0d0d0d 46%, #090909 100%);
+    background-attachment: fixed, fixed, fixed, fixed, fixed;
+    background-size: cover, cover, 72px 72px, 72px 72px, cover;
+    background-position: center top, left top, center center, center center, center center;
+    background-repeat: no-repeat, no-repeat, repeat, repeat, no-repeat;
+    color: #f5f2eb;
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   #root {
-    background: transparent;
     min-height: 100dvh;
+    background: transparent;
   }
 
   * {
@@ -34,8 +35,8 @@
   }
 
   ::selection {
-    background: rgba(212,184,120,0.35);
-    color: #FDF4E3;
+    background: rgba(229, 72, 77, 0.35);
+    color: #f5f2eb;
   }
 
   ::-webkit-scrollbar {
@@ -43,44 +44,44 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #071812;
+    background: #090909;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(212,184,120,0.30);
+    background: rgba(229, 72, 77, 0.28);
     border-radius: 999px;
   }
 }
 
 @layer components {
-  .taskoona-brand {
-    color: #FF3AAE;
+  .misn-brand {
+    color: #e5484d;
     letter-spacing: 0.35em;
   }
 
   .botanical-panel {
     background-image:
-      radial-gradient(circle at 85% 15%, rgba(201,168,76,0.15), transparent 16rem),
-      linear-gradient(135deg, rgba(13,43,30,0.97) 0%, rgba(7,24,18,0.95) 100%);
+      radial-gradient(circle at 82% 14%, rgba(229, 72, 77, 0.18), transparent 14rem),
+      linear-gradient(135deg, rgba(26, 26, 26, 0.97) 0%, rgba(9, 9, 9, 0.95) 100%);
   }
 
   .gold-border {
-    border-color: #C9A84C;
+    border-color: rgba(229, 72, 77, 0.45);
   }
 
   .glass-panel {
-    background: rgba(13,43,30,0.82);
+    background: rgba(17, 17, 17, 0.84);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(212,184,120,0.14);
+    border: 1px solid rgba(229, 72, 77, 0.18);
   }
 
   .gold-line {
-    border-color: rgba(212,184,120,0.22);
+    border-color: rgba(245, 242, 235, 0.08);
   }
 
   .page-hero {
-    background: linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%);
-    border: 1px solid rgba(212,184,120,0.18);
+    background: linear-gradient(135deg, #111111 0%, #171312 55%, #090909 100%);
+    border: 1px solid rgba(229, 72, 77, 0.18);
   }
 }

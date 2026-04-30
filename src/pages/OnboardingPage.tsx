@@ -12,7 +12,7 @@ const BUSINESS_STAGES: { value: BusinessStage; label: string; description: strin
   { value: 'idea', label: 'Idea Stage', description: 'Validating the concept, building the first version' },
   { value: 'launch', label: 'Launch Stage', description: 'First customers, proving the model works' },
   { value: 'growth', label: 'Growth Stage', description: 'Scaling what works, expanding reach and revenue' },
-  { value: 'scale', label: 'Scale Stage', description: 'Systemising, hiring, building for durability' },
+  { value: 'scale', label: 'Scale Stage', description: 'Systemizing, hiring, building for durability' },
 ]
 
 const PRESET_GOALS: VisionGoal[] = [
@@ -131,10 +131,10 @@ export default function OnboardingPage() {
 function StepName({ name, onChange }: { name: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 1</p>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-muted">Step 1</p>
       <h1 className="mb-2 font-display text-3xl text-text">Who are you?</h1>
       <p className="mb-8 text-sm leading-relaxed text-muted">
-        Taskoona builds your daily execution plan around your context. Let's start with your name.
+        Misn AI builds your daily execution plan around your context. Let&apos;s start with your name.
       </p>
       <label className="block">
         <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Your name</span>
@@ -164,10 +164,10 @@ function StepBusiness({
 }) {
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 2</p>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-muted">Step 2</p>
       <h1 className="mb-2 font-display text-3xl text-text">What are you building?</h1>
       <p className="mb-8 text-sm leading-relaxed text-muted">
-        This shapes your daily tasks and strategy blocks. Be specific — Taskoona uses this to tell you exactly what to work on.
+        This shapes your daily tasks and strategy blocks. Be specific: Misn AI uses this to tell you exactly what to work on.
       </p>
 
       <label className="mb-6 block">
@@ -221,10 +221,10 @@ function StepPersonality({ selected, onSelect }: { selected: MBTIType | null; on
 
   return (
     <div>
-      <p className="mb-1 text-xs font-medium uppercase tracking-[0.12em] text-coral-dim">Step 3</p>
+      <p className="mb-1 text-xs font-medium uppercase tracking-[0.12em] text-muted">Step 3</p>
       <h1 className="mb-2 font-display text-3xl text-text">How do you operate?</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted">
-        Select your MBTI type if you know it — Taskoona uses this to frame your day. You can skip this.
+        Select your MBTI type if you know it. Misn AI uses this to frame your day. You can skip this.
       </p>
 
       <div className="mb-4 grid grid-cols-4 gap-2">
@@ -271,10 +271,10 @@ function StepPersonality({ selected, onSelect }: { selected: MBTIType | null; on
 function StepGoals({ selected, onToggle }: { selected: Set<string>; onToggle: (id: string) => void }) {
   return (
     <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Step 4</p>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-muted">Step 4</p>
       <h1 className="mb-2 font-display text-3xl text-text">What are you building toward?</h1>
       <p className="mb-8 text-sm leading-relaxed text-muted">
-        Select the goals that resonate. These shape how Taskoona frames your vision and evening reviews.
+        Select the goals that resonate. These shape how Misn AI frames your vision and evening reviews.
       </p>
 
       <div className="space-y-3">

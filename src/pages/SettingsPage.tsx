@@ -4,7 +4,7 @@ import { ArrowRight, Check, CloudOff, Download, Plus, Scale, Trash2, Upload } fr
 import { useUserStore } from '../stores/userStore'
 import { useDecisions } from '../hooks/useDecisions'
 import { personalityAdaptations } from '../data/personalityMaps'
-import { downloadTaskoonaBackup, restoreTaskoonaBackup } from '../lib/backup/taskoonaBackup'
+import { downloadMisnBackup, restoreMisnBackup } from '../lib/backup/misnBackup'
 import { noopCloudAdapter } from '../lib/cloud'
 import type { BusinessStage } from '../types/user'
 import type { MBTIType } from '../types/personality'
@@ -52,7 +52,7 @@ export default function SettingsPage() {
   }
 
   function exportBackup() {
-    downloadTaskoonaBackup()
+    downloadMisnBackup()
     setBackupStatus('Backup downloaded. Keep it somewhere safe.')
   }
 
@@ -61,8 +61,8 @@ export default function SettingsPage() {
 
     try {
       const raw = await file.text()
-      restoreTaskoonaBackup(raw)
-      setBackupStatus('Backup restored. Reloading Taskoona...')
+      restoreMisnBackup(raw)
+      setBackupStatus('Backup restored. Reloading Misn AI...')
       window.setTimeout(() => window.location.reload(), 700)
     } catch (error) {
       setBackupStatus(error instanceof Error ? error.message : 'Could not restore that backup.')
@@ -74,7 +74,7 @@ export default function SettingsPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="taskoona-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona</p>
+        <p className="misn-brand mb-1 font-mono text-[10px] uppercase tracking-[0.35em]">Misn AI</p>
         <h1 className="font-display text-3xl text-text">Settings</h1>
         <p className="mt-1 font-mono text-xs text-muted">Profile, local data, and preferences</p>
       </div>
@@ -209,7 +209,7 @@ export default function SettingsPage() {
         <SettingsSection title="Decision Matrices">
           <p className="mb-4 text-sm text-muted">
             Weighted matrices for deciding between goals and strategies. Edit criteria, weights, and option grades.
-            Taskoona computes the ranking and prompts you to argue against the winner before committing.
+            Misn AI computes the ranking and prompts you to argue against the winner before committing.
           </p>
 
           <div className="mb-4 divide-y divide-border">
@@ -264,7 +264,7 @@ export default function SettingsPage() {
         <SettingsSection title="Local Data & Cloud Boundary">
           <div className="rounded-xl border border-border bg-bg-surface2 px-4 py-3">
             <div className="flex items-start gap-3">
-              <CloudOff size={16} className="mt-0.5 flex-shrink-0 text-green" />
+              <CloudOff size={16} className="mt-0.5 flex-shrink-0 text-text" />
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-text">{cloudStatus.label}</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted">{cloudStatus.reason}</p>
@@ -274,7 +274,7 @@ export default function SettingsPage() {
 
           <p className="text-sm leading-relaxed text-muted">
             Export a JSON backup before changing devices or clearing browser data. Import replaces the current local
-            Taskoona profile, completions, milestones, and decision matrices.
+            Misn AI profile, completions, milestones, and decision matrices.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -304,7 +304,7 @@ export default function SettingsPage() {
           onClick={save}
           className={`flex w-full items-center justify-center gap-2 rounded-xl border px-6 py-4 font-mono text-xs uppercase tracking-[0.2em] transition-all ${
             saved
-              ? 'border-green/40 bg-green/10 text-green'
+              ? 'border-text/20 bg-white/10 text-text'
               : 'border-coral bg-coral/10 text-coral hover:bg-coral/20'
           }`}
         >
@@ -314,7 +314,7 @@ export default function SettingsPage() {
 
         <SettingsSection title="Danger Zone" accent="danger">
           <p className="mb-4 text-sm text-muted">
-            Clearing all data resets Taskoona completely: profile, completions, strategy, history. Cannot be undone.
+            Clearing all data resets Misn AI completely: profile, completions, strategy, history. Cannot be undone.
           </p>
           {!showReset ? (
             <button

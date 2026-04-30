@@ -1,22 +1,13 @@
-import { getRecommendedTemplates } from '../../data/founderTemplates'
 import type { DailyExecutionBlock, DailyMicroStep, DailyStepWorkspace } from '../../types/daily'
 import type { StrategyTask } from '../../types/strategy'
 import type { BusinessArtifactKey, UserProfile } from '../../types/user'
 
-function truncate(text: string, words = 10): string {
-  const parts = text.trim().split(/\s+/)
-  return parts.length <= words ? text : `${parts.slice(0, words).join(' ')}...`
+interface LocalDailyPlanInput {
+  profile: UserProfile
+  pendingTasks: StrategyTask[]
 }
 
-function hasValue(value: string | undefined): boolean {
-  return Boolean(value && value.trim().length > 16)
-}
-
-function workspace(
-  label: string,
-  placeholder: string,
-  artifactKey?: BusinessArtifactKey
-): DailyStepWorkspace {
+function workspace(label: string, placeholder: string, artifactKey?: BusinessArtifactKey): DailyStepWorkspace {
   return { label, placeholder, artifactKey }
 }
 
@@ -48,332 +39,176 @@ function block(
   return { title, durationMin, beforeStart, steps, doneWhen, ifStuck }
 }
 
-interface LocalDailyPlanInput {
-  profile: UserProfile
-  pendingTasks: StrategyTask[]
-}
-
-function taskBlock(task: StrategyTask | null, profile: UserProfile, fallbackTitle: string): DailyExecutionBlock {
-  if (!task) {
-    return block(
-      fallbackTitle,
-      20,
-      'Use the current priority and create one small result that can be reviewed today.',
-      [
-        step('pick-output', 'Name the output', 'Write the smallest result this block should leave behind.', 3),
-        step('work-slice', 'Produce the slice', 'Create the first usable version, even if it is rough.', 14),
-        step('save-next', 'Save the next move', 'Write the next tiny step that follows from what you made.', 3, workspace('Next action', 'Next I will...', 'nextActionTomorrow')),
-      ],
-      'You have one visible output and one saved next action.',
-      'Shrink the output until it can be finished in 10 minutes.'
-    )
-  }
-
-  const artifacts = profile.businessArtifacts
-  const label = task.label.toLowerCase()
-
-  if (label.includes('one sentence offer')) {
-    const alreadyHasOffer = hasValue(artifacts.oneSentenceOffer) || hasValue(profile.businessDescription)
-    if (alreadyHasOffer) {
-      return block(
-        'Test your offer with one real person',
-        20,
-        'Use the current offer as the starting point. The goal is market signal, not another private rewrite.',
-        [
-          step('pick-person', 'Pick the test recipient', 'Choose one person or company that matches the current ICP.', 3),
-          step('adapt-offer', 'Adapt the sentence', 'Rewrite the current offer in their language, keeping it to one sentence.', 5, workspace('Offer variation', 'For this person: I help...', 'oneSentenceOffer')),
-          step('draft-message', 'Draft the ask', 'Write a short message asking whether this pain/result is relevant right now.', 7, workspace('Outreach draft', 'Short message...', 'outreachDraft')),
-          step('send-or-log', 'Send or log the test', 'Send it, or save exactly where and when it will be sent today.', 3),
-          step('capture-signal', 'Capture the signal to watch', 'Write the reply, objection, or behavior that would count as useful signal.', 2),
-        ],
-        'The offer has been put in front of one real person or queued for a specific send time.',
-        'If you avoid sending, make the ask smaller: ask for relevance, not a sale.'
-      )
-    }
-    return block(
-      'Draft your offer in 15 minutes',
-      15,
-      'Create a usable first offer sentence. Rough and testable beats clever and hidden.',
-      [
-        step('buyer', 'Name the buyer', 'Write the specific buyer in one line. Example: Series A developer-tool product teams.', 3),
-        step('pain', 'Name the pain', 'Write the painful problem in the buyer language, not your internal language.', 3),
-        step('result', 'Name the result', 'Write the result they want after the problem is solved.', 3),
-        step('combine', 'Combine the sentence', 'Use: I help [buyer] get [result] without [pain].', 4, workspace('One-sentence offer', 'I help...', 'oneSentenceOffer')),
-        step('sendable', 'Check sendability', 'Read it once and ask: would I send this to a real person today?', 2),
-      ],
-      'You have one sentence clear enough to send to a real person.',
-      'Use the rough version. Clarity improves through conversations, not private polishing.'
-    )
-  }
-
-  if (label.includes('ideal client')) {
-    if (hasValue(artifacts.idealClientProfile)) {
-      return block(
-        'Turn your ICP into 5 targets',
-        22,
-        'Use the saved ICP to create a concrete target list. This block should produce names, not theory.',
-        [
-          step('extract-criteria', 'Extract 3 criteria', 'Write the three filters that make a company/person fit your ICP.', 4),
-          step('list-five', 'List 5 targets', 'Write five companies or people that match those filters.', 8, workspace('Target list note', '1. ...\n2. ...\n3. ...')),
-          step('rank-two', 'Rank the top 2', 'Choose the two with the clearest pain or easiest access.', 4),
-          step('next-contact', 'Pick the first contact move', 'Write the exact outreach, intro request, or research action for the top target.', 6, workspace('Outreach draft', 'First contact move...', 'outreachDraft')),
-        ],
-        'You have five targets and one specific first contact move.',
-        'If you cannot find five, narrow the ICP around the targets you can actually reach.'
-      )
-    }
-    return block(
-      'Build a first ICP',
-      18,
-      'Use real conversations, leads, or companies you care about. Pick specificity over reach.',
-      [
-        step('segment', 'Choose one segment', 'Name one narrow segment with a painful, urgent problem.', 4),
-        step('trigger', 'Find the trigger', 'Write what makes them feel the problem now, not someday.', 4),
-        step('access', 'Check access', 'Write where you can reach 20 of them this month.', 4),
-        step('save-icp', 'Save the ICP', 'Combine segment, pain, trigger, and access into one working ICP.', 6, workspace('Ideal client profile', 'Best first customer segment...', 'idealClientProfile')),
-      ],
-      'You know who to pursue first and where to find them.',
-      'If the segment feels broad, add company stage, role, or urgent trigger.'
-    )
-  }
-
-  if (label.includes('primary channel')) {
-    if (hasValue(artifacts.primaryChannel)) {
-      return block(
-        'Ship one move on your primary channel',
-        18,
-        'Use the saved channel. The goal is one visible distribution action today.',
-        [
-          step('choose-asset', 'Choose the asset', 'Pick the offer, insight, proof point, or question you will distribute.', 3),
-          step('adapt-channel', 'Adapt for the channel', 'Turn it into the format this channel rewards: post, DM, comment, thread, email, or intro.', 6, workspace('Channel draft', 'Channel move draft...', 'positioningNotes')),
-          step('publish-or-queue', 'Publish or queue', 'Publish it now or schedule the exact send/post time today.', 5),
-          step('log-follow-up', 'Log the follow-up', 'Write who needs follow-up and when you will check for signal.', 4),
-        ],
-        'One channel action is live, queued, or ready with a specific send time.',
-        'If the channel feels vague, convert it into one person, one post, or one message.'
-      )
-    }
-    return block(
-      'Choose one channel for the next 14 days',
-      15,
-      'Do not compare every possible channel. Compare only reach, trust, and repeatability.',
-      [
-        step('list', 'List 3 realistic channels', 'Write channels you can actually use this week.', 3),
-        step('score', 'Score each one', 'Score reach, trust, and consistency from 1-5.', 6),
-        step('choose', 'Choose one', 'Pick the channel with the best consistency, not just the biggest audience.', 3, workspace('Primary channel', 'For the next 14 days, the primary channel is...', 'primaryChannel')),
-        step('cadence', 'Set cadence', 'Write the smallest repeatable cadence for that channel.', 3),
-      ],
-      'You have one channel and one cadence for the next 14 days.',
-      'Choose the channel where you can talk to real buyers fastest.'
-    )
-  }
-
-  if (label.includes('90-day revenue')) {
-    if (hasValue(artifacts.revenueTarget90Day)) {
-      return block(
-        'Create pipeline for the current revenue target',
-        20,
-        'Use the saved 90-day target. Turn it into conversations that can happen this week.',
-        [
-          step('extract-units', 'Extract the sales units', 'Write how many pilots, customers, or deals the target requires.', 4),
-          step('conversation-gap', 'Calculate the gap', 'Write how many qualified conversations are needed this week.', 4),
-          step('name-three', 'Name 3 pipeline moves', 'Write three specific moves that create those conversations.', 6, workspace('Pipeline moves', '1. ...\n2. ...\n3. ...', 'revenueTarget90Day')),
-          step('do-first', 'Do the first move', 'Complete or schedule the first pipeline move before this block ends.', 6),
-        ],
-        'The revenue target has been converted into at least one pipeline action today.',
-        'If the math feels uncertain, use conservative assumptions and update after real replies.'
-      )
-    }
-    return block(
-      'Set a revenue target with real math',
-      20,
-      'Use simple arithmetic, not ambition fog.',
-      [
-        step('target', 'Pick the number', 'Write the 90-day revenue target in one line.', 3),
-        step('units', 'Break it into units', 'Write how many customers, pilots, or sales create that number.', 5),
-        step('pipeline', 'Estimate pipeline', 'Write how many conversations are needed to create those sales.', 5),
-        step('save-target', 'Save the target', 'Save the target, unit count, and conversation count.', 5, workspace('90-day revenue target', 'Target / units / conversations...', 'revenueTarget90Day')),
-        step('first-action', 'Choose first action', 'Write the first action that creates pipeline today.', 2),
-      ],
-      'You can see the number, the units, and the first pipeline action.',
-      'Use conservative numbers. You can revise after real signal.'
-    )
-  }
-
-  return block(
-    `Move: ${task.label}`,
-    25,
-    `Advance "${task.label}" by producing one result that can be seen, sent, or reviewed.`,
-    [
-      step('define-output', 'Name the next result', `Turn this into one output: ${task.description}`, 4),
-      step('make-output', 'Produce the first slice', 'Create, edit, send, or decide the smallest slice that moves the task forward.', 16),
-      step('record-learning', 'Record what changed', 'Write what became clearer and what the next action is.', 5, workspace('Next action', 'What changed / next action...', 'nextActionTomorrow')),
-    ],
-    'The strategy task has one visible output or one logged next action.',
-    'If the task feels too big, choose a 10-minute slice and stop there.'
+function flowityContext(profile: UserProfile): string {
+  return (
+    profile.businessDescription ||
+    'Flowity AI helps product teams interpret fragmented customer, community, support, and product signals.'
   )
 }
 
 /**
- * Deterministic local planning. This is intentionally not hosted AI:
- * it combines user context, strategy state, personality-ready profile fields,
- * and public templates without API calls or operating cost.
+ * Deterministic local planning for the current Flowity client sprint.
+ * This intentionally points every block at client acquisition: prospects,
+ * Sense audits, Interpret calls, pipeline updates, and next follow-ups.
  */
-export function generateLocalDailySteps({
-  profile,
-  pendingTasks,
-}: LocalDailyPlanInput): Record<string, DailyExecutionBlock> {
-  const task1 = pendingTasks[0] ?? null
-  const task2 = pendingTasks[1] ?? null
-  const task3 = pendingTasks[2] ?? null
-  const template = getRecommendedTemplates(profile.businessStage)[0] ?? null
-  const topGoal = profile.visionGoals[0] ?? null
-  const businessHint = profile.businessDescription ? truncate(profile.businessDescription, 10) : null
-  const topBusinessGoal = profile.businessGoals ? truncate(profile.businessGoals, 12) : null
+export function generateLocalDailySteps({ profile }: LocalDailyPlanInput): Record<string, DailyExecutionBlock> {
+  const context = flowityContext(profile)
 
   return {
     'morning-review': block(
-      'Plan the first clean move',
-      12,
-      'Start from the highest-leverage move already in front of you. The goal is a clear first action, not a new plan.',
+      'Pick today’s 10 Flowity prospects',
+      30,
+      'Do not open code, dashboards, or broad planning. Open only sources that can reveal buyer accounts and people.',
       [
-        step('scan', 'Scan today', 'Read the next strategy task and your top goal once. Do not edit yet.', 2),
-        step('choose-one', 'Choose one outcome', 'Write the one outcome that would make today useful.', 4, workspace('Daily review note', 'Today is useful if...', 'dailyReviewNote')),
-        step('block-time', 'Protect the block', 'Choose when the first deep-work block starts and what gets ignored until it is done.', 3),
-        step('start-line', 'Write the first move', 'Write the first action: send, edit, list, publish, review, or decide.', 3),
+        step(
+          'open-sources',
+          'Open the prospect sources',
+          'Open LinkedIn search, your warm network, GitHub trending/issues, Product Hunt, SaaS communities, company changelogs, and any saved Flowity leads. Keep one pipeline document open beside them.',
+          5
+        ),
+        step(
+          'select-accounts',
+          'Select 10 accounts',
+          'Choose 10 Series A devtools, AI SaaS, or product-led SaaS companies with public signs of customer/community/product signal. Prioritize teams where product leaders likely feel signal overload.',
+          10,
+          workspace('Prospect list', 'Company / buyer / signal / source link / why now...', 'dailyReviewNote')
+        ),
+        step(
+          'write-reason',
+          'Write the reason for each account',
+          `For each account, write one specific reason Flowity is relevant. Use this context: ${context}`,
+          10
+        ),
+        step(
+          'choose-first-three',
+          'Choose the first 3 to contact',
+          'Mark the three accounts with the clearest trigger and easiest path to a buyer. These become the first work block.',
+          5
+        ),
       ],
-      'You know the first outcome, start time, and first action.',
-      'If everything feels urgent, choose the action closest to revenue or proof.'
+      'You have 10 named accounts, each with a reason, and 3 starred people/accounts to contact first.',
+      'If you cannot find perfect ICP matches, pick companies with visible product feedback loops and move forward.'
     ),
 
-    'deep-work-1': taskBlock(task1, profile, 'Create the next useful output'),
+    'deep-work-1': block(
+      'Research 3 accounts deeply',
+      75,
+      'Research only enough to make outreach credible. Stop before research becomes avoidance.',
+      [
+        step(
+          'account-one',
+          'Research account 1',
+          'Find one concrete signal: a customer complaint, GitHub issue, launch reaction, onboarding friction, roadmap debate, pricing objection, community thread, support pattern, or product review. Save the exact quote and link.',
+          18
+        ),
+        step(
+          'account-two',
+          'Research account 2',
+          'Repeat the same signal capture. Look for what a Head of Product, VP Product, CTO, or founder would care about now.',
+          18
+        ),
+        step(
+          'account-three',
+          'Research account 3',
+          'Repeat the same signal capture. Do not summarize vaguely; save a source and the suspected decision implication.',
+          18
+        ),
+        step(
+          'buyer-angle',
+          'Write the buyer angle',
+          'For each account, write: “I noticed [specific signal]. This may point to [risk/opportunity]. Is your team looking at this?”',
+          15,
+          workspace('Account signal notes', '1. Company / signal / source / buyer angle...', 'positioningNotes')
+        ),
+        step('pick-recipient', 'Pick the recipient', 'Choose one named buyer for each account and open their contact channel.', 6),
+      ],
+      'Three accounts have a concrete signal, a named buyer, and a ready outreach angle.',
+      'If you keep researching, stop after one useful signal per account. The next task is contact.'
+    ),
 
     'content-creation': block(
-      'Write one useful public idea',
-      20,
-      'Use one insight from actual work, a customer signal, or a positioning lesson. Avoid generic advice.',
+      'Publish one signal-intelligence post',
+      35,
+      'This post exists to support outbound and make Flowity’s POV visible to product leaders.',
       [
-        step('reader', 'Name the reader', 'Write who this is for in one line.', 3),
-        step('problem', 'Name the problem', businessHint ? `Use the business context around "${businessHint}" and write the problem plainly.` : 'Write the problem your reader is struggling with.', 4),
-        step('point', 'Write the point', 'Write the main point in one direct sentence.', 4),
-        step('draft', 'Draft the post', 'Write 5-8 rough lines. No polishing yet.', 7, workspace('Positioning or content note', 'Draft the idea here...', 'positioningNotes')),
-        step('publishable', 'Make it publishable', 'Remove one vague phrase and add one concrete example.', 2),
+        step('pick-pattern', 'Pick one pattern', 'Use one anonymized pattern from the morning research: fragmented feedback, roadmap noise, repeated support pain, onboarding friction, or leadership missing weak signals.', 5),
+        step('draft-post', 'Draft 5-8 lines', 'Structure: product teams have more signals than clarity; example pattern; why dashboards miss it; what a leader should ask; Flowity Sense CTA.', 15, workspace('LinkedIn post draft', 'Draft post...', 'positioningNotes')),
+        step('add-cta', 'Add the Sense CTA', 'End with: “I’m doing a few Flowity Sense audits for teams with this problem; DM me if useful.”', 5),
+        step('publish', 'Publish and save URL', 'Publish on LinkedIn. Save the URL so it can be referenced in follow-ups.', 10),
       ],
-      'You have a rough post or positioning note that can be published or reused.',
-      'Write it as a field note from building, not as marketing.'
+      'One useful public post is live and can support today’s outreach.',
+      'If writing feels slow, publish the clear version. This is a field note, not a brand campaign.'
     ),
 
     outreach: block(
-      'Create one real conversation',
-      18,
-      'Use one target or existing thread. The goal is a relevant conversation, not message volume.',
+      'Send 5 Sense audit messages',
+      60,
+      'Send messages before improving the offer. The offer improves through replies.',
       [
-        step('pick-person', 'Pick one person', 'Choose one person or company with a reason to care now.', 3),
-        step('reason', 'Write the reason', 'Write why this person is relevant in one sentence.', 3),
-        step('message', 'Draft the message', 'Write a short message that starts from their context, not your pitch.', 8, workspace('Outreach draft', 'Hey..., noticed..., thought this might be useful...', 'outreachDraft')),
-        step('send-or-schedule', 'Send or schedule', 'Send it, or schedule exactly when you will send it today.', 4),
+        step('message-one', 'Write message 1', 'Mention the exact signal you found and ask if it is relevant. Do not pitch AI generally.', 8, workspace('Outreach draft', 'Hi [Name] — noticed [specific signal]...', 'outreachDraft')),
+        step('repeat-four', 'Write 4 more messages', 'Personalize the same structure for four more people: signal, possible implication, Sense audit offer, relevance question.', 24),
+        step('send-five', 'Send the 5 messages', 'Send via the best available channel: LinkedIn, email, warm intro, or existing thread. Do not leave drafts unsent.', 18),
+        step('log-sends', 'Log sends and follow-ups', 'Record person, company, channel, message angle, send time, and follow-up date in the pipeline.', 10, workspace('Pipeline updates', 'Company / person / status / next action...')),
       ],
-      'One relevant conversation has been started or scheduled.',
-      'If stuck, reply to an existing thread before starting a new one.'
+      '5 specific people have received a Sense audit message and every send has a logged next follow-up.',
+      'If stuck, shrink the ask to a relevance check: “Is this a signal your product team is trying to understand right now?”'
     ),
 
     'midday-check': block(
-      'Reset the afternoon',
-      10,
-      'Step away for one minute, then come back and review the morning without judgment.',
+      'Reply and follow up on warm threads',
+      25,
+      'Use this block only for live client momentum: replies, warm intros, and follow-ups.',
       [
-        step('fact', 'Name the fact', 'Write what actually moved this morning.', 3, workspace('Daily review note', 'This morning actually moved...', 'dailyReviewNote')),
-        step('drop', 'Drop one thing', 'Choose one task, tab, or idea to ignore for the afternoon.', 2),
-        step('afternoon', 'Pick afternoon target', task2 ? `Make "${task2.label}" the afternoon target.` : 'Choose one afternoon output.', 3),
-        step('restart', 'Write restart action', 'Write the first physical action: open, send, edit, review, or call.', 2),
+        step('check-inboxes', 'Check buyer channels', 'Check LinkedIn, email, WhatsApp, and existing founder/product conversations. Ignore anything that is not client acquisition.', 5),
+        step('reply-warm', 'Reply to warm threads', 'For each warm reply, answer directly and move toward a Sense audit, diagnosis question, or call.', 10),
+        step('send-followups', 'Send 2 follow-ups', 'Follow up with two relevant older leads using a concrete trigger or useful post, not “just checking in.”', 7),
+        step('choose-afternoon', 'Choose afternoon conversion target', 'Pick the warmest lead or reply to move toward an Interpret call in the next block.', 3),
       ],
-      'The afternoon has one target and one starting action.',
-      'If the morning went badly, make the next block smaller, not harsher.'
+      'Warm conversations have clear next steps and one lead is chosen for Interpret conversion.',
+      'If there are no replies, follow up with two existing contacts who match the ICP.'
     ),
 
-    'deep-work-2': taskBlock(task2 ?? task1, profile, 'Finish a second useful slice'),
-
-    learning: block(
-      'Learn only what unblocks execution',
-      15,
-      'Choose one bottleneck from the work you are doing today. Do not open an endless course or feed.',
+    'deep-work-2': block(
+      'Convert warm replies into Interpret calls',
+      60,
+      'Interpret is sold only when the prospect shows real signal pain or decision urgency.',
       [
-        step('bottleneck', 'Name the bottleneck', 'Write the exact thing you need to understand or improve.', 3),
-        step('source', 'Pick one source', 'Open one article, doc, video, or example. One source only.', 2),
-        step('extract', 'Extract one move', 'Write one actionable note you can apply this week.', 7, workspace('Learning note', 'The move I can use is...')),
-        step('apply', 'Apply or schedule', 'Apply it now or save the exact place it will be used.', 3),
+        step('classify-replies', 'Classify replies', 'Mark each active lead: curious, problem-aware, budget-aware, call-ready, not now, or no fit.', 10),
+        step('choose-call-leads', 'Choose call-ready leads', 'Pick any lead with a real pain: fragmented feedback, unclear roadmap priority, community/support overload, churn/onboarding confusion, or executive reporting gaps.', 8),
+        step('ask-call', 'Ask for a 20-minute call', 'Send: “If useful, I can do a quick read of where signal is fragmenting and what an Interpret brief would clarify. Open to a 20-minute call this week?”', 20, workspace('Interpret call ask', 'Message / time options...', 'outreachDraft')),
+        step('send-times', 'Send concrete times', 'Offer two exact time windows. If they cannot meet, ask what signal source is most painful right now.', 12),
+        step('prepare-agenda', 'Write the call agenda', 'Agenda: signal sources, current decision bottleneck, what leadership cannot see, whether Sense or Interpret is the right next step.', 10),
       ],
-      'You captured one usable move, not a pile of information.',
-      'If you keep browsing, stop and write what you already learned.'
+      'Every warm lead either has a call ask, a concrete next question, or a logged not-now status.',
+      'If no one is warm yet, use this block to send 5 additional Sense messages instead.'
     ),
 
     admin: block(
-      'Batch the maintenance work',
-      20,
-      'Open inbox, calendar, and payments only. Keep strategy work closed.',
+      'Update the client pipeline',
+      25,
+      'Make tomorrow easy by turning all activity into a clean client pipeline.',
       [
-        step('triage', 'Triage once', 'For each item: respond, archive, delegate, or schedule.', 8),
-        step('blocker', 'Remove one blocker', 'Handle the one admin item blocking tomorrow or revenue.', 6),
-        step('capture', 'Capture loose loops', 'Write remaining loops into one list instead of keeping them in your head.', 4),
-        step('close', 'Close the tools', 'Close the inbox and calendar when the batch ends.', 2),
+        step('update-rows', 'Update every account row', 'For each account touched today, update status, last action, next action, next follow-up date, and current objection or signal.', 10),
+        step('tag-status', 'Use clear statuses', 'Use: target, researched, contacted, replied, call proposed, call booked, Sense audit sent, Interpret opportunity, not now.', 5),
+        step('pick-tomorrow', 'Pick tomorrow’s first 3 moves', 'Choose the three actions most likely to create a client conversation tomorrow morning.', 5, workspace('Tomorrow first moves', '1. ...\n2. ...\n3. ...', 'nextActionTomorrow')),
+        step('close-tabs', 'Close non-client loops', 'Close unrelated tabs and leave only the pipeline and tomorrow’s first move visible.', 5),
       ],
-      'Maintenance is contained and tomorrow has fewer open loops.',
-      'If it takes longer than 20 minutes, schedule the rest instead of drifting.'
+      'Pipeline is updated and tomorrow has three client-first actions ready.',
+      'If the pipeline feels messy, only fill company, person, status, and next action. Perfect CRM can wait.'
     ),
 
     'evening-review': block(
-      'Close the day cleanly',
-      14,
-      'Turn today into memory and tomorrow into a first move. No new planning rabbit holes.',
+      'Extract client lessons and tomorrow’s first move',
+      20,
+      'Review only what helps tomorrow create more buyer conversations.',
       [
-        step('win', 'Capture the win', 'Write the one thing that moved, even if it is small.', 3, workspace('Daily review note', 'Today moved because...', 'dailyReviewNote')),
-        step('lesson', 'Capture the lesson', 'Write what you would repeat or avoid tomorrow.', 4),
-        step('tomorrow', 'Set tomorrow first move', 'Write the exact first action for tomorrow morning.', 4, workspace('Tomorrow first move', 'Tomorrow I start by...', 'nextActionTomorrow')),
-        step('shutdown', 'Choose shutdown boundary', 'Write what will not be checked again tonight.', 3),
+        step('count-output', 'Count client outputs', 'Write the numbers: prospects found, messages sent, replies, calls proposed, calls booked, Sense samples promised.', 4),
+        step('what-worked', 'Write what worked', 'Name which signal, role, message, or channel created the most movement.', 5, workspace('Daily review note', 'What worked...', 'dailyReviewNote')),
+        step('what-didnt', 'Write what did not work', 'Name where you avoided, over-researched, got vague, or lost momentum.', 5),
+        step('first-move', 'Save tomorrow’s first client move', 'Write the exact first action for tomorrow, including person/company if possible.', 6, workspace('Tomorrow first move', 'Tomorrow I start by...', 'nextActionTomorrow')),
       ],
-      'The day has a win, a lesson, and tomorrow has a first move.',
-      'If the day felt messy, capture the truth. Do not rewrite history.'
-    ),
-
-    'strategy-time': block(
-      'Make one strategic choice smaller',
-      25,
-      'Open only the strategy, offer, or positioning material. This block is for decisions, not busywork.',
-      [
-        step('question', 'Write the question', task3 ? `Use this question: what is the next concrete move for "${task3.label}"?` : template ? `Use this question: ${template.decisionPrompts[0]}` : 'Write one strategic question.', 4),
-        step('options', 'List options', 'Write 2-3 realistic options. No more.', 6),
-        step('choose', 'Choose the next move', 'Pick the option with the clearest evidence or fastest learning.', 6),
-        step('save-choice', 'Save the choice', topBusinessGoal ? `Tie it back to: ${topBusinessGoal}` : 'Write the reason this choice matters now.', 6, workspace('Positioning or strategy note', 'Decision / reason / next move...', 'positioningNotes')),
-        step('convert', 'Convert to action', 'Write the next action that can be done in under 25 minutes.', 3),
-      ],
-      'A strategic question became one small next action.',
-      'If you cannot choose, choose the option that creates the fastest market signal.'
-    ),
-
-    'wind-down': block(
-      'End work on purpose',
-      8,
-      'Stand up, close work tabs, and let the workday have an actual ending.',
-      [
-        step('close-tabs', 'Close open loops', 'Close or save every open work tab.', 2),
-        step('prep', 'Prep tomorrow', 'Put tomorrow first move somewhere visible.', 3),
-        step('transition', 'Create the transition', 'Choose the first non-work action: shower, walk, food, reading, or training.', 3),
-      ],
-      'Work is closed and the next non-work action has started.',
-      'If you want to check one more thing, write it for tomorrow instead.'
-    ),
-
-    gratitude: block(
-      'Reconnect to why this matters',
-      8,
-      'Do this away from your main work screen if possible.',
-      [
-        step('three', 'Name three working things', 'Write three things that are working in life or business.', 3),
-        step('vision', 'Read the vision', topGoal ? `Read: ${topGoal.label}. Write one reason it still matters.` : 'Read one vision goal and write why it matters.', 3),
-        step('enough', 'End with enough', 'Write one sentence that makes the day feel complete enough.', 2),
-      ],
-      'The day ends with perspective, not scarcity.',
-      'If gratitude feels fake, write one neutral fact that is still true.'
+      'The day has clear client-acquisition numbers, one lesson, and tomorrow’s first move.',
+      'If the day felt weak, extract one useful signal and make tomorrow’s first action smaller.'
     ),
   }
 }

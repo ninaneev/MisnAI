@@ -22,7 +22,7 @@ export function MilestoneItem({ milestone, completed, completedAt, onComplete }:
     <div className={`flex items-start gap-4 py-4 border-b border-border last:border-0 ${completed ? 'opacity-60' : ''}`}>
       <div
         className={`w-3 h-3 rounded-full mt-1 flex-shrink-0 ${
-          completed ? 'bg-green' : 'bg-dim border border-border'
+          completed ? 'bg-text' : 'bg-dim border border-border'
         }`}
       />
       <div className="flex-1 min-w-0">
@@ -41,7 +41,7 @@ export function MilestoneItem({ milestone, completed, completedAt, onComplete }:
               </span>
             )}
             {completed && completedAt && (
-              <span className="font-mono text-xs text-green mt-1 block">
+              <span className="font-mono text-xs text-text mt-1 block">
                 Achieved {formatDate(completedAt)}
               </span>
             )}

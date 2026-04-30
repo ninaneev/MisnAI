@@ -54,7 +54,7 @@ export function ResultsPanel({ matrix, scores, winner, onCounterArgumentChange }
                   </div>
                   <div className="h-1.5 overflow-hidden rounded-full bg-dim">
                     <div
-                      className={`h-full rounded-full ${isWinner ? 'bg-coral' : 'bg-coral-dim'}`}
+                      className={`h-full rounded-full ${isWinner ? 'bg-coral' : 'bg-white/15'}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>

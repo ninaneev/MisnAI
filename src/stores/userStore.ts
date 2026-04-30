@@ -3,24 +3,22 @@ import { persist } from 'zustand/middleware'
 import type { UserProfile, VisionGoal, ContextAnswer } from '../types/user'
 import { STORAGE_KEYS } from '../utils/constants'
 
-// Pre-loaded with the founder's context. New fields added to UserProfile are
-// always merged over any existing saved profile so no localStorage wipe is needed.
 const defaultProfile: UserProfile = {
   name: 'Founder',
   mbti: 'INFJ',
   businessStage: 'launch',
 
   businessDescription:
-    'Flowity AI — executive intelligence company building signal interpretation and decision support for B2B SaaS leadership teams. Products: Flowity Brain (intelligence engine), Executive Hub (client-facing dashboard), and Taskoona (open-source founder execution OS). ***REMOVED*** research track running in parallel with the commercial GTM.',
+    'Flowity AI - executive intelligence company building signal interpretation and decision support for B2B SaaS leadership teams. Products: Flowity Brain (intelligence engine), Executive Hub (client-facing dashboard), and Misn AI (open-source founder mission operating system). ***REMOVED*** research track runs in parallel with the commercial GTM.',
 
   businessGoals:
-    'Close first 3 paying Flowity Brain clients at EUR 1,199/month. Complete ***REMOVED*** Phase 1 submission. Launch Taskoona publicly as open-source. Reach EUR 10k MRR before relocating to Europe. Own the executive intelligence category on LinkedIn.',
+    'Close first 3 paying Flowity Brain clients at EUR 1,199/month. Complete ***REMOVED*** Phase 1 submission. Launch Misn AI publicly as open-source. Reach EUR 10k MRR before relocating to Europe. Own the executive intelligence category on LinkedIn.',
 
   lifeGoals:
     'Relocate abroad: France first (European base, cultural grounding), then Switzerland (long-term stability, proximity to international ecosystem). Build a fully location-independent operation before the move. Complete ***REMOVED*** milestones without sacrificing commercial GTM.',
 
   sportsAndExercise:
-    'Daily morning physical practice — strength training and running. Consistency over intensity. Exercise is a cognitive performance lever, not optional.',
+    'Daily morning physical practice - strength training and running. Consistency over intensity. Exercise is a cognitive performance lever, not optional.',
 
   customContext:
     'Currently in Brazil. The European move sets the urgency horizon for the business. ***REMOVED*** provides research validation and credibility that strengthens the commercial narrative. Dual track (research + commercial) requires sequencing: commercial proof points reinforce the PIPE application; PIPE outcomes reinforce the intelligence service positioning.',
@@ -29,13 +27,13 @@ const defaultProfile: UserProfile = {
     oneSentenceOffer:
       'Flowity AI helps Series A developer-focused SaaS product teams convert customer and business signals into better product decisions.',
     idealClientProfile:
-      'Series A developer-focused SaaS companies around EUR3M-EUR8M ARR with active community feedback, fast product iteration, and product leaders who need clearer prioritisation.',
+      'Series A developer-focused SaaS companies around EUR3M-EUR8M ARR with active community feedback, fast product iteration, and product leaders who need clearer prioritization.',
     primaryChannel:
       'Founder-led LinkedIn content, direct outreach, warm introductions, and low-friction signal audits.',
     revenueTarget90Day:
       'Close the first 3 paid Interpret pilots at ***REMOVED***/month while building proof for the full Brain service.',
     positioningNotes:
-      'Decision intelligence for product teams. Focus on signal interpretation, prioritisation, and executive product decisions.',
+      'Decision intelligence for product teams. Focus on signal interpretation, prioritization, and executive product decisions.',
     outreachDraft: '',
     dailyReviewNote: '',
     nextActionTomorrow: '',
@@ -53,7 +51,7 @@ const defaultProfile: UserProfile = {
     {
       id: 'v2',
       category: 'freedom',
-      label: 'Location Independence → Europe',
+      label: 'Location Independence to Europe',
       description: 'Relocate to France, then Switzerland. Run the business from anywhere.',
     },
     {
@@ -65,7 +63,7 @@ const defaultProfile: UserProfile = {
     {
       id: 'v4',
       category: 'lifestyle',
-      label: 'Research & Commercial in Parallel',
+      label: 'Research and Commercial in Parallel',
       description: 'Sustain ***REMOVED*** without sacrificing GTM momentum. Both tracks reinforce each other.',
     },
   ],
@@ -116,9 +114,7 @@ export const useUserStore = create<UserState>()(
             profile: {
               ...s.profile,
               contextAnswers: s.profile.contextAnswers.map((a) =>
-                a.question === question
-                  ? { ...a, answer, answeredAt: new Date().toISOString() }
-                  : a
+                a.question === question ? { ...a, answer, answeredAt: new Date().toISOString() } : a
               ),
             },
           }))
@@ -137,8 +133,6 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: STORAGE_KEYS.USER_PROFILE,
-      // Merge saved profile over defaults so new fields always have fallback values.
-      // This means adding a new field to UserProfile never requires clearing localStorage.
       merge: (persisted, current) => {
         const p = persisted as Partial<UserState>
         const savedProfile = (p.profile ?? {}) as Partial<UserProfile>

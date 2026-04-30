@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { ClipboardList } from 'lucide-react'
 import { Badge } from '../components/ui/Badge'
 import { founderTemplates } from '../data/founderTemplates'
@@ -9,10 +10,10 @@ export default function TemplatesPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral-dim">Free Core</p>
+        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-muted">Free Core</p>
         <h1 className="font-display text-3xl text-text">Templates</h1>
         <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted">
-          Local playbooks for early execution. Taskoona uses these patterns to sharpen daily blocks without hosted AI,
+          Local playbooks for early execution. Misn AI uses these patterns to sharpen daily blocks without hosted AI,
           accounts, billing, or server cost.
         </p>
       </div>
@@ -78,10 +79,10 @@ export default function TemplatesPage() {
   )
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="mt-4">
-      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-coral-dim">{title}</p>
+      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted">{title}</p>
       {children}
     </div>
   )

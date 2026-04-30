@@ -23,10 +23,10 @@ const categoryLabel = {
 } as const
 
 const categorySurface = {
-  revenue: 'bg-coral/25',
-  audience: 'bg-coral/20',
-  product: 'bg-coral/25',
-  personal: 'bg-coral-dim/25',
+  revenue: 'bg-white/5',
+  audience: 'bg-coral/10',
+  product: 'bg-coral/15',
+  personal: 'bg-white/5',
 } as const
 
 export default function MilestonesPage() {
@@ -43,16 +43,16 @@ export default function MilestonesPage() {
   return (
     <div>
       <section
-  className="mb-6 overflow-hidden rounded-3xl shadow-[0_18px_52px_rgba(0,0,0,0.40)]"
-  style={{
-    background: 'linear-gradient(135deg, #071A12 0%, #0D2B1E 60%, #071812 100%)',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgba(22,163,122,0.35)',
-  }}
->
-        <div className="border-b border-coral/40 px-5 py-6">
-          <p className="taskoona-brand mb-2 font-mono text-[10px] uppercase tracking-[0.35em]" style={{ color: '#16A37A' }}>Taskoona · Milestone Map</p>
+        className="mb-6 overflow-hidden rounded-3xl shadow-[0_18px_52px_rgba(0,0,0,0.40)]"
+        style={{
+          background: 'linear-gradient(135deg, #111111 0%, #171312 60%, #090909 100%)',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: 'rgba(229,72,77,0.18)',
+        }}
+      >
+        <div className="border-b border-coral/25 px-5 py-6">
+          <p className="misn-brand mb-2 font-mono text-[10px] uppercase tracking-[0.35em]">Misn AI · Milestone Map</p>
           <h1 className="font-display text-3xl text-text">Milestones</h1>
           <p className="mt-1 font-mono text-xs text-muted">
             {completedCount} of {milestones.length} achieved
@@ -68,8 +68,8 @@ export default function MilestonesPage() {
               {nextMilestone.nextStep && <p className="mt-3 text-sm text-muted">Once hit: {nextMilestone.nextStep}</p>}
             </div>
           ) : (
-            <div className="rounded-xl border border-green/30 bg-green/5 px-4 py-4">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">All Milestones Reached</p>
+            <div className="rounded-xl border border-text/15 bg-white/5 px-4 py-4">
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-text">All Milestones Reached</p>
               <p className="mt-2 text-sm leading-relaxed text-text/85">You have cleared every current milestone in the map.</p>
             </div>
           )}
@@ -107,7 +107,7 @@ export default function MilestonesPage() {
                   onClick={() => complete(milestone.id)}
                   className={`flex h-8 w-8 items-center justify-center rounded-full border text-xs font-mono transition-colors duration-150 ${
                     completed
-                      ? 'border-green bg-green/20 text-green'
+                      ? 'border-text bg-white/10 text-text'
                       : isNext
                         ? 'border-coral bg-coral/10 text-coral'
                         : 'border-border text-muted'
@@ -143,7 +143,7 @@ export default function MilestonesPage() {
                     <p className="mt-2 text-sm leading-relaxed text-text/85">{milestone.description}</p>
 
                     {completed && completedAt ? (
-                      <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-green">
+                      <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-text">
                         Achieved {formatDate(completedAt)} · {formatTime(completedAt)}
                       </p>
                     ) : null}

@@ -1,4 +1,4 @@
-# AGENTS.md - Flowity AI / Taskoona Context
+# AGENTS.md - Flowity AI / Misn AI Context
 
 ## What Flowity AI Is
 
@@ -30,19 +30,19 @@ Flowity AI currently spans separate products and apps:
    - The client-facing interface for the intelligence service.
    - Used for dashboards, briefs, chat, and organization-level visibility.
 
-3. Taskoona
+3. Misn AI
    - The local-first external-brain app in this repository.
    - Designed as a practical execution operating system for solopreneurs, founder-operators, and early companies with no or little revenue.
    - Lets each user bring their own business context, personality, goals, and objectives into the system.
    - Focuses on daily execution, strategic sequencing, milestone tracking, and identity-aware planning.
 
 Important:
-Taskoona is built by Flowity AI, but it is not the execution layer of Flowity AI and it is not where Flowity AI intelligence becomes action.
-Taskoona is a separate app that may become its own micro-SaaS product.
+Misn AI is built by Flowity AI, but it is not the execution layer of Flowity AI and it is not where Flowity AI intelligence becomes action.
+Misn AI is a separate app that may become its own micro-SaaS product.
 Flowity Brain is a separate commercial decision-intelligence service.
 
 Open-core boundary:
-Taskoona's public repo contains the free, local-first core. The private `taskoona-cloud` repo is reserved for hosted AI, sync, accounts, billing, teams, integrations, hosted backups, private prompts, evals, admin tools, and customer data handling.
+Misn AI's public repo contains the free, local-first core. The private `misn-ai-cloud` repo is reserved for hosted AI, sync, accounts, billing, teams, integrations, hosted backups, private prompts, evals, admin tools, and customer data handling.
 
 ## Company Thesis
 
@@ -79,9 +79,9 @@ Avoid default framing like:
 - note summariser
 - productivity app
 
-### Taskoona Positioning
+### Misn AI Positioning
 
-Taskoona is not a basic to-do app.
+Misn AI is not a basic to-do app.
 It is a local-first execution engine for solopreneurs and founders.
 It should help users run their business and their life in one system.
 It combines:
@@ -145,9 +145,9 @@ Fastest-fit verticals:
 - AI SaaS tools, such as companies similar to Jasper and Runway
 - Product-led SaaS, such as companies similar to Notion and Linear
 
-### Taskoona ICP
+### Misn AI ICP
 
-Taskoona serves a different user:
+Misn AI serves a different user:
 
 - solo founder
 - solopreneur
@@ -155,7 +155,7 @@ Taskoona serves a different user:
 - creator building a real business, not a hobby
 - early company with no or little revenue that needs sequencing and accountability more than inspiration
 
-Taskoona is especially aligned with users who:
+Misn AI is especially aligned with users who:
 
 - struggle with prioritisation across growth and execution
 - want a system that merges life structure and business structure
@@ -317,9 +317,9 @@ At the company level, the architecture is:
 Privacy rule:
 Never send raw sensitive customer text to external LLMs when summarised or anonymised alternatives are sufficient.
 
-## Taskoona Repo Context
+## Misn AI Repo Context
 
-This repository is the Taskoona product.
+This repository is the Misn AI product.
 It is currently a React application focused on external-brain execution scaffolding for solopreneurs, founder workflows, and early companies with no or little revenue.
 
 ### Current Stack
@@ -355,11 +355,11 @@ Storage keys indicate the operational model:
 - history log
 - user profile
 
-Supabase remains a planned next layer, not the current runtime dependency for core Taskoona flows.
+Supabase remains a planned next layer, not the current runtime dependency for core Misn AI flows.
 
 ### Product Input Model
 
-Taskoona should ultimately accept structured user context such as:
+Misn AI should ultimately accept structured user context such as:
 
 - business description
 - business model
@@ -381,9 +381,9 @@ That context should drive generated outputs such as:
 The app should think in terms of an integrated founder operating system:
 business execution and life structure are coordinated, not treated as separate worlds.
 
-## Taskoona Business Rules
+## Misn AI Business Rules
 
-These rules are core to Taskoona and should not be casually changed:
+These rules are core to Misn AI and should not be casually changed:
 
 1. Daily completions reset by local day.
 2. Strategic progress persists until explicitly changed.
@@ -396,7 +396,7 @@ These rules are core to Taskoona and should not be casually changed:
 9. User-supplied business context, goals, and life priorities should shape recommendations.
 10. Local-first usage is a core product value, not a temporary implementation detail.
 11. The public app must not require paid APIs, hosted AI, accounts, billing, or cloud services.
-12. Paid/private infrastructure belongs in `taskoona-cloud`, not the public core.
+12. Paid/private infrastructure belongs in `misn-ai-cloud`, not the public core.
 
 ## Operating Goals
 
@@ -407,7 +407,7 @@ These rules are core to Taskoona and should not be casually changed:
 - Create a defensible link between signal interpretation and better product decisions.
 - Develop research credibility without collapsing the commercial narrative into academic language.
 
-### Taskoona Goals
+### Misn AI Goals
 
 - Become a genuinely useful, open-source founder operating system, not a decorative planner.
 - Help users sustain daily action while moving through staged strategic progression.
@@ -416,7 +416,7 @@ These rules are core to Taskoona and should not be casually changed:
 - Preserve psychological momentum through visible progress and milestone history.
 - Keep the product separate from Flowity AI's commercial decision-intelligence service while sharing company ownership.
 
-### Near-Term Taskoona Product Goal
+### Near-Term Misn AI Product Goal
 
 Deliver a strong core execution experience with:
 
@@ -434,9 +434,9 @@ Deliver a strong core execution experience with:
 
 before adding heavier backend or AI complexity.
 
-## Design Direction for Taskoona
+## Design Direction for Misn AI
 
-Use the Taskoona visual language rather than Flowity AI's purple/cyan brand or generic startup UI.
+Use the Misn AI visual language rather than Flowity AI's purple/cyan brand or generic startup UI.
 
 Design tokens:
 
@@ -475,7 +475,7 @@ The experience should feel clear, energetic, and founder-grade. Coral is for act
 
 ## What Not To Do
 
-- Do not turn Taskoona into a generic task list app.
+- Do not turn Misn AI into a generic task list app.
 - Do not describe Flowity AI as only a productivity brand.
 - Do not mix ***REMOVED*** academic language into commercial product copy.
 - Do not invent exact TAM numbers without a real source.

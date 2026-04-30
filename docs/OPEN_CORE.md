@@ -1,6 +1,6 @@
-# Taskoona Open-Core Boundary
+# Misn AI Open-Core Boundary
 
-Taskoona core is the public, local-first app. It must remain useful without paid APIs, accounts, cloud services, or hosted AI.
+Misn AI core is the public, local-first app. It must remain useful without paid APIs, accounts, cloud services, or hosted AI.
 
 ## Public Core
 
@@ -21,7 +21,7 @@ The public app must work with no server and no operating cost.
 
 ## Private Cloud
 
-Use a private repository named `taskoona-cloud` for:
+Use a private repository named `misn-ai-cloud` for:
 
 - hosted AI review
 - cloud-generated plans

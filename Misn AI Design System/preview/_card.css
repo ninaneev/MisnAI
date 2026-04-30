@@ -1,0 +1,84 @@
+@import url('../colors_and_type.css');
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 700px;
+  min-height: 100%;
+  background:
+    radial-gradient(ellipse 76% 48% at 50% 0%, rgba(229, 72, 77, 0.14) 0%, transparent 56%),
+    radial-gradient(ellipse 42% 30% at 92% 18%, rgba(229, 72, 77, 0.08) 0%, transparent 48%),
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(160deg, #090909 0%, #111111 55%, #090909 100%);
+  background-size: cover, cover, 28px 28px, 28px 28px, cover;
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.card {
+  padding: 28px 32px;
+  box-sizing: border-box;
+  width: 700px;
+}
+
+.card h2.card-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin: 0 0 4px;
+  font-weight: 500;
+}
+
+.row { display: flex; gap: 12px; align-items: stretch; }
+.row > * { flex: 1; }
+
+.swatch {
+  height: 96px;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: var(--shadow-card);
+  box-sizing: border-box;
+}
+
+.swatch .name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.swatch .hex {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.78);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.swatch.on-light .name,
+.swatch.on-light .hex {
+  color: rgba(15,20,15,0.85);
+  text-shadow: none;
+}
+
+.token-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.token-row:last-child { border-bottom: none; }
+.token-row .k { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--muted); }
+.token-row .v { font-family: var(--font-mono); font-size: 11px; color: var(--text); }

@@ -7,10 +7,10 @@ import { useUserStore } from '../stores/userStore'
 import type { StrategyTask } from '../types/strategy'
 
 const phaseColors = [
-  { label: '#FF3AAE', border: '#FF3AAE', bg: 'rgba(255,58,174,0.12)' },  // Foundation — pink energy
-  { label: '#D4B878', border: '#D4B878', bg: 'rgba(212,184,120,0.07)' },  // Traction — beige-gold value
-  { label: '#16A37A', border: '#16A37A', bg: 'rgba(22,163,122,0.12)' },  // Leverage — emerald growth
-  { label: '#8FAF6E', border: '#8FAF6E', bg: 'rgba(143,175,110,0.12)' }, // Scale — sage mastery
+  { label: '#E5484D', border: '#E5484D', bg: 'rgba(229,72,77,0.10)' },
+  { label: '#F5F2EB', border: 'rgba(245,242,235,0.22)', bg: 'rgba(245,242,235,0.05)' },
+  { label: '#9CB26D', border: '#9CB26D', bg: 'rgba(156,178,109,0.09)' },
+  { label: '#C4B8A8', border: '#C4B8A8', bg: 'rgba(196,184,168,0.08)' },
 ]
 
 export default function StrategyPage() {
@@ -44,16 +44,18 @@ export default function StrategyPage() {
   return (
     <div>
       <section
-  className="mb-8 overflow-hidden rounded-xl"
-  style={{
-    background: 'linear-gradient(135deg, #0A2418 0%, #0D2B1E 65%, #071812 100%)',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgba(212,184,120,0.22)',
-  }}
->
-        <div className="px-6 py-7" style={{ borderBottom: '1px solid rgba(212,184,120,0.12)' }}>
-          <p className="taskoona-brand mb-3 font-mono text-[10px] uppercase tracking-[0.35em]">Strategic Engine</p>
+        className="mb-8 overflow-hidden rounded-xl"
+        style={{
+          background: 'linear-gradient(135deg, #111111 0%, #171312 55%, #090909 100%)',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: 'rgba(229,72,77,0.18)',
+        }}
+      >
+        <div className="px-6 py-7" style={{ borderBottom: '1px solid rgba(245,242,235,0.08)' }}>
+          <p className="misn-brand mb-3 font-mono text-[10px] uppercase tracking-[0.35em]">
+            Misn AI · Strategic Engine
+          </p>
           <h1 className="font-display text-4xl text-text">Strategy</h1>
           <p className="mt-1 font-mono text-xs text-muted">Phase-gated execution with visible next moves.</p>
         </div>
@@ -61,26 +63,38 @@ export default function StrategyPage() {
         <div className="grid gap-3 px-5 py-4 sm:grid-cols-2 xl:grid-cols-4">
           {summary.map(({ phase, progress, unlocked, doneCount }, index) => {
             const pct = Math.round(progress * 100)
+            const color = phaseColors[index] ?? phaseColors[0]
 
             return (
-              <div key={phase.id} className="rounded-2xl px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.14)]" style={{ backgroundColor: phaseColors[index]?.bg ?? 'rgba(255,58,174,0.12)', borderWidth: 1, borderStyle: 'solid', borderColor: phaseColors[index]?.border ?? '#FF3AAE' }}>
+              <div
+                key={phase.id}
+                className="rounded-2xl px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.14)]"
+                style={{ backgroundColor: color.bg, borderWidth: 1, borderStyle: 'solid', borderColor: color.border }}
+              >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm" style={{ color: phaseColors[index]?.label ?? '#FF3AAE' }}>{String(phase.number).padStart(2, '0')}</span>
+                  <span className="font-mono text-sm" style={{ color: color.label }}>
+                    {String(phase.number).padStart(2, '0')}
+                  </span>
                   {!unlocked && <Lock size={14} className="text-muted" />}
                 </div>
                 <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-text">{phase.title}</p>
                 <p className="mt-1 text-xs leading-relaxed text-muted">{phase.period ?? phase.subtitle}</p>
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-dim">
-                  <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: pct === 100 ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE') }} />
+                  <div
+                    className="h-full rounded-full"
+                    style={{ width: `${pct}%`, backgroundColor: pct === 100 ? '#9CB26D' : color.label }}
+                  />
                 </div>
-                <p className="mt-2 font-mono text-[11px] text-muted">{doneCount}/{phase.tasks.length} done</p>
+                <p className="mt-2 font-mono text-[11px] text-muted">
+                  {doneCount}/{phase.tasks.length} done
+                </p>
               </div>
             )
           })}
         </div>
       </section>
 
-      <Card className="mb-5 border-coral/60 bg-coral/20 px-4 py-4">
+      <Card className="mb-5 border-coral/50 bg-coral/10 px-4 py-4">
         <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-coral">The Current Aim</p>
         <p className="mt-2 text-lg leading-relaxed text-text">
           Build a business that is clear enough to sell, useful enough to keep, and calm enough to sustain.
@@ -88,24 +102,28 @@ export default function StrategyPage() {
         {activePhase?.target && <p className="mt-3 text-sm text-muted">Active target: {activePhase.target}</p>}
       </Card>
 
-      {/* Strategic Context — stored and used by daily task generation */}
-      <div className="mb-5 overflow-hidden rounded-2xl border border-coral/35 bg-coral-dim/15">
-        <div className="flex items-center justify-between border-b border-coral/30 px-5 py-4">
+      <div className="mb-5 overflow-hidden rounded-2xl border border-coral/25 bg-bg-surface/80">
+        <div className="flex items-center justify-between border-b border-coral/20 px-5 py-4">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-text">Strategic Context</p>
-            <p className="mt-0.5 font-mono text-[10px] text-muted">Taskoona reads this to sharpen your daily tasks</p>
+            <p className="mt-0.5 font-mono text-[10px] text-muted">Misn AI reads this to sharpen your daily tasks</p>
           </div>
           {!editingContext && (
             <button
               type="button"
-              onClick={() => { setContextDraft(profile.customContext); setEditingContext(true) }}
+              onClick={() => {
+                setContextDraft(profile.customContext)
+                setEditingContext(true)
+              }}
               className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-coral"
             >
               {contextSaved ? (
-                <span className="flex items-center gap-1 text-green">
+                <span className="flex items-center gap-1 text-text">
                   <Check size={10} /> Saved
                 </span>
-              ) : 'Edit'}
+              ) : (
+                'Edit'
+              )}
             </button>
           )}
         </div>
@@ -118,7 +136,7 @@ export default function StrategyPage() {
                 onChange={(e) => setContextDraft(e.target.value)}
                 rows={5}
                 autoFocus
-                placeholder="Add anything Taskoona should know to give you better daily tasks: current priorities, blockers, strategic bets, context on your market or stage…"
+                placeholder="Add anything Misn AI should know to give you better daily tasks: current priorities, blockers, strategic bets, context on your market or stage..."
                 className="w-full resize-none rounded-xl border border-coral bg-bg-surface2 px-4 py-3 text-sm text-text placeholder-muted outline-none"
               />
               <div className="mt-3 flex items-center gap-3">
@@ -141,9 +159,12 @@ export default function StrategyPage() {
           ) : (
             <p
               className={`cursor-pointer text-sm leading-relaxed ${profile.customContext ? 'text-text/85' : 'italic text-muted'}`}
-              onClick={() => { setContextDraft(profile.customContext); setEditingContext(true) }}
+              onClick={() => {
+                setContextDraft(profile.customContext)
+                setEditingContext(true)
+              }}
             >
-              {profile.customContext || 'No context added yet — click to add strategic notes.'}
+              {profile.customContext || 'No context added yet. Click to add strategic notes.'}
             </p>
           )}
         </div>
@@ -154,18 +175,19 @@ export default function StrategyPage() {
           const complete = progress === 1
           const isOpen = openPhaseId === phase.id
           const groupedTasks = groupTasksByCategory(phase.tasks)
+          const color = phaseColors[index] ?? phaseColors[0]
 
           return (
             <article
               key={phase.id}
               className="overflow-hidden rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.16)] transition-all duration-200"
               style={{
-                backgroundColor: phaseColors[index]?.bg ?? 'rgba(255,58,174,0.08)',
+                backgroundColor: color.bg,
                 borderWidth: 1,
                 borderStyle: 'solid',
                 borderLeftWidth: 4,
-                borderColor: complete ? 'rgba(22,163,122,0.40)' : (phaseColors[index]?.border ?? '#FF3AAE') + '55',
-                borderLeftColor: complete ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE'),
+                borderColor: complete ? 'rgba(156,178,109,0.40)' : `${color.border}55`,
+                borderLeftColor: complete ? '#9CB26D' : color.label,
                 opacity: !unlocked ? 0.75 : 1,
               }}
             >
@@ -176,7 +198,7 @@ export default function StrategyPage() {
               >
                 <div className="min-w-0">
                   <div className="mb-2 flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-sm" style={{ color: complete ? '#16A37A' : (phaseColors[index]?.label ?? '#FF3AAE') }}>
+                    <span className="font-mono text-sm" style={{ color: complete ? '#9CB26D' : color.label }}>
                       {complete ? '✓' : String(phase.number).padStart(2, '0')}
                     </span>
                     {!unlocked && <Badge label="Locked" variant="muted" />}
@@ -192,7 +214,9 @@ export default function StrategyPage() {
                 </div>
 
                 <div className="flex flex-col items-end gap-3">
-                  <span className="font-mono text-xs" style={{ color: complete ? '#16A37A' : (phaseColors[index]?.label ?? '#FF3AAE') }}>{Math.round(progress * 100)}%</span>
+                  <span className="font-mono text-xs" style={{ color: complete ? '#9CB26D' : color.label }}>
+                    {Math.round(progress * 100)}%
+                  </span>
                   <ChevronDown size={18} className={`text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                 </div>
               </button>
@@ -201,7 +225,7 @@ export default function StrategyPage() {
                 <div className="h-1.5 overflow-hidden rounded-full bg-dim">
                   <div
                     className="h-full rounded-full"
-                    style={{ width: `${Math.round(progress * 100)}%`, backgroundColor: complete ? '#16A37A' : (phaseColors[index]?.border ?? '#FF3AAE') }}
+                    style={{ width: `${Math.round(progress * 100)}%`, backgroundColor: complete ? '#9CB26D' : color.label }}
                   />
                 </div>
               </div>
@@ -212,7 +236,9 @@ export default function StrategyPage() {
                     <div className="space-y-5">
                       {groupedTasks.map(([category, tasks]) => (
                         <div key={category}>
-                          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.24em]" style={{ color: phaseColors[index]?.label ?? '#FF3AAE' }}>{category}</p>
+                          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.24em]" style={{ color: color.label }}>
+                            {category}
+                          </p>
                           <div className="space-y-3">
                             {tasks.map((task) => {
                               const completed = isComplete(task.id)
@@ -235,8 +261,8 @@ export default function StrategyPage() {
                     </div>
 
                     {complete && phase.number < phases.length && (
-                      <div className="mt-5 rounded-xl border border-green/30 bg-green/5 px-4 py-3">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-green">Phase Complete — Next Up</p>
+                      <div className="mt-5 rounded-xl border border-text/15 bg-white/5 px-4 py-3">
+                        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-text">Phase Complete · Next Up</p>
                         <p className="mt-2 text-sm leading-relaxed text-text/85">
                           Move into phase {phase.number + 1} once you are ready to trade stability for the next level of leverage.
                         </p>
@@ -278,4 +304,3 @@ function TaskCheckbox({ checked, onToggle }: { checked: boolean; onToggle: () =>
     </button>
   )
 }
-

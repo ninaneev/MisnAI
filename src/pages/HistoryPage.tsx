@@ -13,8 +13,8 @@ const typeLabels: Record<HistoryEventType, string> = {
 
 const typeClasses: Record<HistoryEventType, string> = {
   daily: 'border-coral/30 bg-coral/5 text-coral',
-  strategy: 'border-coral/30 bg-coral/5 text-coral',
-  milestone: 'border-green/30 bg-green/5 text-green',
+  strategy: 'border-text/20 bg-white/5 text-text',
+  milestone: 'border-text/15 bg-white/5 text-text',
 }
 
 export default function HistoryPage() {
@@ -45,16 +45,16 @@ export default function HistoryPage() {
   return (
     <div>
       <section
-  className="mb-6 overflow-hidden rounded-3xl shadow-[0_18px_52px_rgba(0,0,0,0.40)]"
-  style={{
-    background: 'linear-gradient(135deg, #071812 0%, #0A1E14 60%, #071812 100%)',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgba(143,186,159,0.20)',
-  }}
->
-        <div className="border-b border-coral/40 px-5 py-6">
-          <p className="taskoona-brand mb-2 font-mono text-[10px] uppercase tracking-[0.35em]">Taskoona · Progress Memory</p>
+        className="mb-6 overflow-hidden rounded-3xl shadow-[0_18px_52px_rgba(0,0,0,0.40)]"
+        style={{
+          background: 'linear-gradient(135deg, #111111 0%, #151211 60%, #090909 100%)',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: 'rgba(245,242,235,0.10)',
+        }}
+      >
+        <div className="border-b border-coral/25 px-5 py-6">
+          <p className="misn-brand mb-2 font-mono text-[10px] uppercase tracking-[0.35em]">Misn AI · Progress Memory</p>
           <h1 className="font-display text-3xl text-text">History</h1>
           <p className="mt-1 font-mono text-xs text-muted">{totalEvents} recorded events</p>
         </div>

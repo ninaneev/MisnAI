@@ -47,7 +47,7 @@ export function CriteriaEditor({ matrix }: Props) {
                 step={1}
                 value={c.weight}
                 onChange={(e) => updateCriterion(matrix.id, c.id, { weight: Number(e.target.value) })}
-                className="w-28 accent-[#FF3AAE]"
+                className="w-28 accent-[#E5484D]"
                 aria-label={`${c.label} weight`}
               />
               <span className="w-6 text-right font-mono text-[11px] text-coral">{c.weight}</span>
