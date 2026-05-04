@@ -29,12 +29,17 @@ const stageLabel = {
 // Context questions Misn AI generates to deepen your profile.
 // Answers feed into daily task generation via useDailyContext.
 const CONTEXT_QUESTIONS = [
-  'What is your single biggest current business bottleneck?',
-  'What does a successful next 30 days look like for your business?',
-  'What time of day do you do your best creative work?',
+  'Is Flowity AI still the highest-priority project, and what percentage of the week should it receive?',
+  'Which secondary projects should stay active with lower emphasis instead of disappearing from daily tasks?',
+  'What is your single biggest current Flowity AI bottleneck?',
+  'What does a successful next 30 days look like for first paid Flowity Brain clients?',
+  'What morning exercise routine should be protected before work?',
+  'Where should the dog walk and lunch/personal reset sit in your day?',
+  'What time of day do you do your best creative, research, and outreach work?',
+  'How much emphasis should Misn AI content/TikTok receive while Flowity AI is the priority?',
+  'What Google Calendar commitments usually reduce your deep-work capacity?',
+  'Which local LLM or CLI agent setup should Misn AI assume for this user?',
   'What is one high-leverage task you keep avoiding?',
-  'What does your ideal week look like after relocating to Europe?',
-  'Who are your top 3 most important outreach targets right now?',
   'What is the one thing that, if resolved, would unlock the most momentum?',
 ]
 

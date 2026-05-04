@@ -125,7 +125,7 @@ body {
 }
 
 body.misn-canvas,
-body.movaris-canvas {
+body.misn-canvas {
   background-image:
     radial-gradient(ellipse 70% 44% at 50% 0%, rgba(229, 72, 77, 0.18) 0%, transparent 56%),
     radial-gradient(ellipse 44% 32% at 92% 18%, rgba(229, 72, 77, 0.08) 0%, transparent 48%),
@@ -227,7 +227,7 @@ kbd,
 }
 
 .misn-panel,
-.movaris-panel {
+.misn-panel {
   background: var(--grad-page-hero);
   border: 1px solid var(--border-gold);
   border-radius: var(--radius-xl);
@@ -235,7 +235,7 @@ kbd,
 }
 
 .misn-card,
-.movaris-card {
+.misn-card {
   background: rgba(12, 12, 12, 0.94);
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
@@ -243,13 +243,13 @@ kbd,
 }
 
 .misn-card--ink,
-.movaris-card--ink { background: rgba(12, 12, 12, 0.96); border-color: rgba(255,255,255,0.06); }
+.misn-card--ink { background: rgba(12, 12, 12, 0.96); border-color: rgba(255,255,255,0.06); }
 .misn-card--plum,
-.movaris-card--plum { background: rgba(19, 13, 14, 0.96); border-color: rgba(229,72,77,0.14); }
+.misn-card--plum { background: rgba(19, 13, 14, 0.96); border-color: rgba(229,72,77,0.14); }
 .misn-card--forest,
-.movaris-card--forest { background: rgba(17, 17, 17, 0.96); border-color: rgba(246,243,236,0.10); }
+.misn-card--forest { background: rgba(17, 17, 17, 0.96); border-color: rgba(246,243,236,0.10); }
 .misn-card--amber,
-.movaris-card--amber { background: rgba(27, 20, 18, 0.96); border-color: rgba(229,72,77,0.12); }
+.misn-card--amber { background: rgba(27, 20, 18, 0.96); border-color: rgba(229,72,77,0.12); }
 
 .accent-border-pink    { border-left: 3px solid var(--pink); }
 .accent-border-gold    { border-left: 3px solid var(--gold); }

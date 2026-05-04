@@ -39,7 +39,23 @@ const defaultProfile: UserProfile = {
     nextActionTomorrow: '',
   },
 
-  contextAnswers: [],
+  contextAnswers: [
+    {
+      question: 'Is Flowity AI still the highest-priority project, and what percentage of the week should it receive?',
+      answer: 'Yes. Flowity AI / Flowity Brain is the primary priority until the first paying client. Secondary projects should remain visible, but with less emphasis.',
+      answeredAt: '2026-04-30T00:00:00.000Z',
+    },
+    {
+      question: 'Which secondary projects should stay active with lower emphasis instead of disappearing from daily tasks?',
+      answer: 'Misn AI product work, content/TikTok for Misn AI, ***REMOVED***, study/research, exercise, dog walk, and life maintenance should continue at lower emphasis.',
+      answeredAt: '2026-04-30T00:00:00.000Z',
+    },
+    {
+      question: 'Which local LLM or CLI agent setup should Misn AI assume for this user?',
+      answer: 'Assume a local/operator workflow like Hermes orchestrating memory/state, Claude Code for thinking and judgment, and Codex/GPT for building and execution. The app should stay editable for users with different local LLM setups.',
+      answeredAt: '2026-04-30T00:00:00.000Z',
+    },
+  ],
 
   visionGoals: [
     {

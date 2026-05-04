@@ -73,4 +73,4 @@ Examples:
 
 ## Compatibility note
 
-Some preview and UI-kit files still keep older class names such as `movaris-card` for compatibility. The visible brand and active token system are now `Misn AI`.
+Some preview and UI-kit files still keep older class names such as `misn-card` for compatibility. The visible brand and active token system are now `Misn AI`.

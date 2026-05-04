@@ -1,7 +1,7 @@
 import type { BusinessArtifactKey } from './user'
 
 export type TimeBlock = 'morning' | 'midday' | 'evening'
-export type DailyHabitTag = 'BODY' | 'GROW' | 'BUILD' | 'REST' | 'LIFE'
+export type DailyHabitTag = string
 
 export interface DailyHabit {
   id: string
@@ -13,6 +13,8 @@ export interface DailyHabit {
   tag?: DailyHabitTag
   steps?: string[]
   why?: string
+  previewDayOffset?: number
+  previewSourceId?: string
 }
 
 export interface DailyCompletion {
