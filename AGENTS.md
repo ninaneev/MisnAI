@@ -195,12 +195,10 @@ Commercial ladder:
 2. Interpret
    - Main early monetisation tier
    - Core recurring intelligence offer
-   - Current monthly anchor: ***REMOVED***
 
 3. Brain
    - Higher-touch, deeper intelligence layer
    - More executive interpretation and broader signal coverage
-   - Current monthly anchor: ***REMOVED***
 
 The GTM logic is:
 
@@ -265,29 +263,6 @@ Practical SOM framing for early planning:
 - first design partners
 - first 10 paying companies
 - first 25-100 organizations in the founder-led motion before broader scale channels
-
-## Pricing Context
-
-Current recurring anchors across Flowity AI context:
-
-- Sense: free / entry tier
-- Interpret: ***REMOVED*** per month
-- Brain: ***REMOVED*** per month
-
-Use caution with annual pricing in copy:
-different Flowity workspaces contain ***REMOVED***.
-If annual pricing needs to appear in customer-facing copy, verify the active commercial source of truth first.
-
-## Research Context
-
-Flowity AI also has a research track through the ***REMOVED*** framing.
-When working on research documents:
-
-- use academic framing, not sales language
-- emphasise signal processing, interpretability, taxonomy, and methodology
-- keep commercial claims separate from scientific claims
-
-Do not mix product marketing copy with the formal research proposal voice.
 
 ## High-Level Technical Architecture Across Flowity AI
 
@@ -405,7 +380,6 @@ These rules are core to Misn AI and should not be casually changed:
 - Build a credible executive intelligence category around Flowity AI.
 - Convert insight quality into paid recurring relationships.
 - Create a defensible link between signal interpretation and better product decisions.
-- Develop research credibility without collapsing the commercial narrative into academic language.
 
 ### Misn AI Goals
 
@@ -477,7 +451,6 @@ The experience should feel clear, energetic, and founder-grade. Coral is for act
 
 - Do not turn Misn AI into a generic task list app.
 - Do not describe Flowity AI as only a productivity brand.
-- Do not mix ***REMOVED*** academic language into commercial product copy.
 - Do not invent exact TAM numbers without a real source.
 - Do not change pricing language casually across repos without checking source-of-truth context.
 - Do not weaken privacy rules around customer data sent to external models.

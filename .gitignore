@@ -14,3 +14,6 @@ life-os/
 # Local user data — keep private; track only placeholder
 user-data/*
 !user-data/.gitkeep
+
+# Private context files — never commit
+*.local.md
