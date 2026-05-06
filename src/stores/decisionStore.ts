@@ -3,42 +3,6 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import type { Criterion, DecisionMatrix, DecisionOption } from '../types/decision'
 import { STORAGE_KEYS } from '../utils/constants'
 
-// Seed with a single example matrix so the feature is self-explanatory on
-// first open. The user can edit, delete, or add more in Settings.
-const seedMatrix: DecisionMatrix = {
-  id: 'seed-1',
-  title: 'Where to focus next 30 days',
-  description: 'Compare strategic directions against what actually matters right now.',
-  criteria: [
-    { id: 'c1', label: 'Revenue impact',       weight: 9 },
-    { id: 'c2', label: 'Time to result',       weight: 7 },
-    { id: 'c3', label: 'Strategic fit',        weight: 8 },
-    { id: 'c4', label: 'Energy cost',          weight: 5 },
-  ],
-  options: [
-    {
-      id: 'o1',
-      label: 'Close first 3 Brain clients',
-      description: 'Direct outbound to qualified B2B SaaS leadership teams.',
-      grades: { c1: 9, c2: 6, c3: 9, c4: 6 },
-    },
-    {
-      id: 'o2',
-      label: 'Ship Misn AI publicly',
-      description: 'Open-source launch + LinkedIn narrative + developer reach.',
-      grades: { c1: 5, c2: 5, c3: 8, c4: 7 },
-    },
-    {
-      id: 'o3',
-      label: 'Complete ***REMOVED*** submission',
-      description: 'Research credibility and non-dilutive funding path.',
-      grades: { c1: 4, c2: 3, c3: 7, c4: 4 },
-    },
-  ],
-  counterArgument: '',
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
-}
 
 function now(): string {
   return new Date().toISOString()
@@ -117,7 +81,7 @@ if (typeof window !== 'undefined') {
 export const useDecisionStore = create<DecisionState>()(
   persist(
     (set) => ({
-      matrices: [seedMatrix],
+      matrices: [],
 
       createMatrix(title, description = '') {
         const id = uid('m')

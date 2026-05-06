@@ -100,12 +100,41 @@ The app should avoid generic AI purple/cyan gradients. It can be energetic witho
 | Testing | Vitest, React Testing Library |
 | Planned backend path | Supabase |
 
+## Your Personal Context: life-os
+
+When you clone Misn AI, the `life-os/` folder is where you put your own context. The app uses this to shape your daily execution, decisions, and strategy — instead of generic defaults.
+
+```text
+life-os/
+  areas/
+    personal/     # Life goals, personal priorities, tasks (life.md)
+    business/     # Business context and active projects
+    health/       # Exercise, body, energy management
+    research/     # Learning tracks or research projects
+  memory/         # Notes the app or AI layer should remember about you
+  projects/       # Active project briefs
+  prompts/        # Custom prompts for your local AI setup
+```
+
+**How to populate it:**
+
+1. Open `life-os/areas/personal/life.md` and write your personal goals and current priorities in plain markdown.
+2. Open `life-os/areas/business/` and create a file per active business (e.g. `flowity.md`, `misn.md`) describing what you are building, your current focus, and your next actions.
+3. Open `life-os/areas/health/` and describe your exercise and body priorities.
+4. Add anything you want the system to remember about you to `life-os/memory/`.
+
+**How it connects to the app:**
+
+Your `life-os/` files are the source of truth for your context. On first run, load your context into the app via **Settings → Edit Profile** — paste your business description, goals, life goals, and custom context from your `life-os/` files into the corresponding fields. The app stores this locally in your browser and uses it to generate your daily tasks, decision matrices, and strategy framing.
+
+Direct file-watching (auto-sync from `life-os/` into the app on save) is on the roadmap. For now, Settings is the bridge.
+
 ## Getting Started
 
 ```bash
 # Clone
-git clone https://github.com/ninaneev/Misn AI.git
-cd Misn AI
+git clone https://github.com/ninaneev/misn-ai.git
+cd misn-ai
 
 # Install
 npm install
@@ -113,6 +142,11 @@ npm install
 # Run locally
 npm run dev
 ```
+
+1. Open the app in your browser.
+2. Go through Onboarding to enter your business context, goals, and personality.
+3. Populate your `life-os/` folder with your personal and business context files.
+4. Sync your `life-os/` context into **Settings → Edit Profile** to keep the app aligned with your actual priorities.
 
 The app runs in the browser and stores user state locally.
 
@@ -129,18 +163,28 @@ npm run format   # Format src with Prettier
 ## Project Structure
 
 ```text
+life-os/              # Your personal context layer (not committed to public repo)
+  areas/
+    personal/         # Life goals and personal priorities
+    business/         # Active business context files
+    health/           # Exercise and body priorities
+    research/         # Learning and research tracks
+  memory/             # Notes and memory for the AI layer
+  projects/           # Active project briefs
+  prompts/            # Custom prompts for local AI setups
+
 src/
   components/
-    decisions/      # Decision matrix components
-    layout/         # App shell and navigation
-    onboarding/     # Onboarding form pieces
-    ui/             # Design primitives
-  data/             # Seeded habits, strategy, milestones, personality mappings
-  hooks/            # Execution logic and derived state
-  pages/            # Main product surfaces
-  stores/           # Zustand stores
-  types/            # Shared TypeScript types
-  utils/            # Constants and helpers
+    decisions/        # Decision matrix components
+    layout/           # App shell and navigation
+    onboarding/       # Onboarding form pieces
+    ui/               # Design primitives
+  data/               # Seeded habits, strategy, milestones, personality mappings
+  hooks/              # Execution logic and derived state
+  pages/              # Main product surfaces
+  stores/             # Zustand stores (reads life-os context via Settings sync)
+  types/              # Shared TypeScript types
+  utils/              # Constants and helpers
 ```
 
 ## Core Rules

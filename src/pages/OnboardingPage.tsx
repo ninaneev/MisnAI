@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Check } from 'lucide-react'
+import { Check, FolderOpen, FileText, ChevronRight } from 'lucide-react'
 import { useUserStore } from '../stores/userStore'
 import { personalityAdaptations } from '../data/personalityMaps'
 import type { BusinessStage, VisionGoal } from '../types/user'
@@ -27,6 +27,7 @@ export default function OnboardingPage() {
   const { updateProfile } = useUserStore()
 
   const [step, setStep] = useState(1)
+  const [showLifeOsTutorial, setShowLifeOsTutorial] = useState(false)
   const [name, setName] = useState('')
   const [businessDescription, setBusinessDescription] = useState('')
   const [businessStage, setBusinessStage] = useState<BusinessStage>('idea')
@@ -60,7 +61,11 @@ export default function OnboardingPage() {
       visionGoals: goals.length > 0 ? goals : [PRESET_GOALS[0]],
       onboardingComplete: true,
     })
-    navigate('/')
+    setShowLifeOsTutorial(true)
+  }
+
+  if (showLifeOsTutorial) {
+    return <LifeOsTutorial onDone={() => navigate('/')} />
   }
 
   return (
@@ -305,6 +310,96 @@ function StepGoals({ selected, onToggle }: { selected: Set<string>; onToggle: (i
             </button>
           )
         })}
+      </div>
+    </div>
+  )
+}
+
+const LIFE_OS_STEPS = [
+  {
+    folder: 'life-os/areas/personal/',
+    file: 'life.md',
+    label: 'Personal',
+    description: 'Your life goals, personal priorities, and next personal actions.',
+  },
+  {
+    folder: 'life-os/areas/business/',
+    file: 'yourbusiness.md',
+    label: 'Business',
+    description: 'What you are building, your current focus, goals, and next actions. One file per project.',
+  },
+  {
+    folder: 'life-os/areas/health/',
+    file: 'body.md',
+    label: 'Health',
+    description: 'Exercise habits, energy priorities, physical goals.',
+  },
+  {
+    folder: 'life-os/memory/',
+    file: '',
+    label: 'Memory',
+    description: 'Anything you want Misn AI to remember about you across sessions.',
+  },
+]
+
+function LifeOsTutorial({ onDone }: { onDone: () => void }) {
+  return (
+    <div className="flex min-h-dvh flex-col bg-transparent px-5 pb-12 pt-10">
+      <div className="mb-8">
+        <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.35em] text-coral">Your context layer</p>
+        <h1 className="mb-2 font-display text-3xl text-text">Set up life-os/</h1>
+        <p className="text-sm leading-relaxed text-muted">
+          Misn AI generates your tasks and decisions from context you define. That context lives in the{' '}
+          <code className="rounded bg-bg-surface px-1.5 py-0.5 font-mono text-xs text-coral">life-os/</code> folder
+          inside the app directory.
+        </p>
+      </div>
+
+      <div className="mb-6 space-y-3">
+        {LIFE_OS_STEPS.map((item) => (
+          <div key={item.label} className="rounded-xl border border-border bg-bg-surface px-4 py-3">
+            <div className="mb-1 flex items-center gap-2">
+              <FolderOpen size={13} className="text-coral" />
+              <span className="font-mono text-[11px] text-muted">{item.folder}</span>
+              {item.file && (
+                <>
+                  <ChevronRight size={11} className="text-dim" />
+                  <span className="flex items-center gap-1 font-mono text-[11px] text-text">
+                    <FileText size={11} className="text-lime" />
+                    {item.file}
+                  </span>
+                </>
+              )}
+            </div>
+            <p className="pl-5 text-xs leading-relaxed text-muted">{item.description}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="rounded-xl border border-border bg-bg-surface2 px-4 py-3 mb-8">
+        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted mb-1">How it connects</p>
+        <p className="text-xs leading-relaxed text-muted">
+          Fill your <code className="font-mono text-coral">life-os/</code> files in plain markdown, then sync your context into{' '}
+          <strong className="text-text">Settings → Edit Profile</strong>. Misn AI uses that context to generate your daily tasks,
+          strategy phases, and decision matrices.
+        </p>
+      </div>
+
+      <div className="mt-auto flex items-center justify-between">
+        <button
+          type="button"
+          onClick={onDone}
+          className="font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-text"
+        >
+          Skip for now
+        </button>
+        <button
+          type="button"
+          onClick={onDone}
+          className="rounded-xl border border-coral bg-coral px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-bg-base transition-colors hover:bg-coral/90"
+        >
+          Got it, let's go
+        </button>
       </div>
     </div>
   )

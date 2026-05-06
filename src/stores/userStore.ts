@@ -4,87 +4,27 @@ import type { UserProfile, VisionGoal, ContextAnswer } from '../types/user'
 import { STORAGE_KEYS } from '../utils/constants'
 
 const defaultProfile: UserProfile = {
-  name: 'Founder',
-  mbti: 'INFJ',
-  businessStage: 'launch',
-
-  businessDescription:
-    'Flowity AI - executive intelligence company building signal interpretation and decision support for B2B SaaS leadership teams. Products: Flowity Brain (intelligence engine), Executive Hub (client-facing dashboard), and Misn AI (open-source founder mission operating system). ***REMOVED*** research track runs in parallel with the commercial GTM.',
-
-  businessGoals:
-    'Close first 3 paying Flowity Brain clients at EUR 1,199/month. Complete ***REMOVED*** Phase 1 submission. Launch Misn AI publicly as open-source. Reach EUR 10k MRR before relocating to Europe. Own the executive intelligence category on LinkedIn.',
-
-  lifeGoals:
-    'Relocate abroad: France first (European base, cultural grounding), then Switzerland (long-term stability, proximity to international ecosystem). Build a fully location-independent operation before the move. Complete ***REMOVED*** milestones without sacrificing commercial GTM.',
-
-  sportsAndExercise:
-    'Daily morning physical practice - strength training and running. Consistency over intensity. Exercise is a cognitive performance lever, not optional.',
-
-  customContext:
-    'Currently in Brazil. The European move sets the urgency horizon for the business. ***REMOVED*** provides research validation and credibility that strengthens the commercial narrative. Dual track (research + commercial) requires sequencing: commercial proof points reinforce the PIPE application; PIPE outcomes reinforce the intelligence service positioning.',
-
+  name: '',
+  mbti: null,
+  businessStage: 'idea',
+  businessDescription: '',
+  businessGoals: '',
+  lifeGoals: '',
+  sportsAndExercise: '',
+  customContext: '',
   businessArtifacts: {
-    oneSentenceOffer:
-      'Flowity AI helps Series A developer-focused SaaS product teams convert customer and business signals into better product decisions.',
-    idealClientProfile:
-      'Series A developer-focused SaaS companies around EUR3M-EUR8M ARR with active community feedback, fast product iteration, and product leaders who need clearer prioritization.',
-    primaryChannel:
-      'Founder-led LinkedIn content, direct outreach, warm introductions, and low-friction signal audits.',
-    revenueTarget90Day:
-      'Close the first 3 paid Interpret pilots at ***REMOVED***/month while building proof for the full Brain service.',
-    positioningNotes:
-      'Decision intelligence for product teams. Focus on signal interpretation, prioritization, and executive product decisions.',
+    oneSentenceOffer: '',
+    idealClientProfile: '',
+    primaryChannel: '',
+    revenueTarget90Day: '',
+    positioningNotes: '',
     outreachDraft: '',
     dailyReviewNote: '',
     nextActionTomorrow: '',
   },
-
-  contextAnswers: [
-    {
-      question: 'Is Flowity AI still the highest-priority project, and what percentage of the week should it receive?',
-      answer: 'Yes. Flowity AI / Flowity Brain is the primary priority until the first paying client. Secondary projects should remain visible, but with less emphasis.',
-      answeredAt: '2026-04-30T00:00:00.000Z',
-    },
-    {
-      question: 'Which secondary projects should stay active with lower emphasis instead of disappearing from daily tasks?',
-      answer: 'Misn AI product work, content/TikTok for Misn AI, ***REMOVED***, study/research, exercise, dog walk, and life maintenance should continue at lower emphasis.',
-      answeredAt: '2026-04-30T00:00:00.000Z',
-    },
-    {
-      question: 'Which local LLM or CLI agent setup should Misn AI assume for this user?',
-      answer: 'Assume a local/operator workflow like Hermes orchestrating memory/state, Claude Code for thinking and judgment, and Codex/GPT for building and execution. The app should stay editable for users with different local LLM setups.',
-      answeredAt: '2026-04-30T00:00:00.000Z',
-    },
-  ],
-
-  visionGoals: [
-    {
-      id: 'v1',
-      category: 'income',
-      label: 'Financial Freedom',
-      description: 'Generate enough through Flowity AI to cover all living expenses and fund the European relocation.',
-    },
-    {
-      id: 'v2',
-      category: 'freedom',
-      label: 'Location Independence to Europe',
-      description: 'Relocate to France, then Switzerland. Run the business from anywhere.',
-    },
-    {
-      id: 'v3',
-      category: 'impact',
-      label: 'Meaningful Intelligence Work',
-      description: 'Build something that genuinely helps leadership teams make better decisions with signals they already have.',
-    },
-    {
-      id: 'v4',
-      category: 'lifestyle',
-      label: 'Research and Commercial in Parallel',
-      description: 'Sustain ***REMOVED*** without sacrificing GTM momentum. Both tracks reinforce each other.',
-    },
-  ],
-
-  onboardingComplete: true,
+  contextAnswers: [],
+  visionGoals: [],
+  onboardingComplete: false,
 }
 
 interface UserState {
